@@ -1,32 +1,30 @@
-<!-- <!-- <div id="home" class="container">
-  <mat-toolbar color="primary">
-    welcome to the maxmail application
-    <button mat-button>
-      <mat-icon> login </mat-icon>
-      Login
-    </button>
-  </mat-toolbar>
-</div> -->
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div id="home" class="container">
-      <mat-toolbar color="primary">
-        welcome to the maxmail application
-        <button mat-button>
-          <mat-icon> login </mat-icon>
-          Login
-        </button>
-      </mat-toolbar>
-    </div>
-    <div class="home-background">Max Mail project</div>
-  </body>
-</html> -->
--->
+<div class="global-container">
+  <div class="form-container mat-elevation-z5">
+    <h1>Login</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+      <mat-form-field>
+        <input matInput placeholder="Email address" formControlName="email" />
+        <mat-error *ngIf="email?.errors?.['required']">
+          Email address is required
+        </mat-error>
+        <mat-error *ngIf="email?.errors?.['email']">
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <mat-error *ngIf="password?.errors?.['required']">
+          Password is required
+        </mat-error>
+      </mat-form-field>
+      <div class="center margin-top">
+        <button type="submit" mat-raised-button color="primary">Login</button>
+      </div>
+    </form>
+  </div>
+</div>

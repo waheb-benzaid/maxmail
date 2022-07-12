@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div id="home" class="container">
-      <mat-toolbar color="primary">
-        welcome to the maxmail application
-        <button mat-button>
-          <mat-icon> login </mat-icon>
-          Login
-        </button>
-      </mat-toolbar>
-    </div>
-  </body>
-</html>
+<div id="home" class="container">
+  <mat-toolbar color="primary">
+    welcome to the maxmail application
+    <button mat-button routerLink="login">
+      <mat-icon> login </mat-icon>
+      Login
+    </button>
+  </mat-toolbar>
+</div>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>
