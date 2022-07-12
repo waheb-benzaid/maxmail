@@ -42,11 +42,12 @@ body {
 .form-container {
   display: block;
   max-width: 300px;
-  margin: auto;
-
+  width: 50%;
   background: #11bfeb25;
   padding: 48px;
   border-radius: 16px;
+  margin-top: 20%;
+  margin: auto;
 
   mat-form-field {
     width: 100%;
@@ -67,5 +68,6 @@ body {
 }
 
 .global-container {
-  margin-top: 10%;
+  margin-top: 20px;
+  padding: 15%;
 }
