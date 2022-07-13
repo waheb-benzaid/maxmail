@@ -14,9 +14,28 @@ import { MatButtonModule } from '@angular/material/button';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { HomeComponent } from './components/home/home.component';
+import { CompaignComponent } from './components/mail-compaign/compaign/compaign.component';
+import { UserRegisterComponent } from './components/user-register/user-register.component';
+import { DropComponent } from './components/compaign-drop/drop/drop.component';
+import { ZipcodesLookupComponent } from './components/zipcodes-lookup/zipcodes-lookup.component';
+import { DropsCalendarComponent } from './components/drops-calendar/drops-calendar.component';
+import { CompaignsComponent } from './components/mail-compaign/compaigns/compaigns.component';
+import { DropsComponent } from './components/compaign-drop/drops/drops.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    CompaignComponent,
+    UserRegisterComponent,
+    DropComponent,
+    ZipcodesLookupComponent,
+    DropsCalendarComponent,
+    CompaignsComponent,
+    DropsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
