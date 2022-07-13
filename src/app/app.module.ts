@@ -22,6 +22,7 @@ import { ZipcodesLookupComponent } from './components/zipcodes-lookup/zipcodes-l
 import { DropsCalendarComponent } from './components/drops-calendar/drops-calendar.component';
 import { CompaignsComponent } from './components/mail-compaign/compaigns/compaigns.component';
 import { DropsComponent } from './components/compaign-drop/drops/drops.component';
+import { HotToastModule } from '@ngneat/hot-toast';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { DropsComponent } from './components/compaign-drop/drops/drops.component
     MatButtonModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
+    HotToastModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
