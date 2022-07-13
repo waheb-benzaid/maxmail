@@ -3,12 +3,25 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import {
+  canActivate,
+  redirectLoggedInTo,
+  redirectUnauthorizedTo,
+} from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
 
 const routes: Routes = [
   {
+    path: 'login',
+    component: LoginComponent,
+    ...canActivate(redirectLoggedInToHome),
+  },
+  {
     path: 'home',
-    pathMatch: 'full',
     component: HomeComponent,
+    ...canActivate(redirectUnauthorizedToLogin),
   },
 ];
 
@@ -17,3 +30,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
+//[routerLink]="[{ outlets: { popup: ['compose'] } }]
