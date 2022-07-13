@@ -1,9 +1,4 @@
-html,
 body {
-  height: 100%;
-}
-body {
-  margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -29,7 +24,7 @@ body {
 }
 
 .margin-top {
-  margin-top: 16px !important;
+  /* margin-top: 16px !important; */
   display: flex;
   justify-content: right;
 }
@@ -41,4 +36,10 @@ body {
 .global-container {
   padding: 15%;
   opacity: 80%;
+}
+
+body {
+  background-image: url("../../../assets/images/us-mail.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
