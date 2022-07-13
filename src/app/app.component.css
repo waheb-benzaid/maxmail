@@ -1,22 +1,10 @@
-/* mat-toolbar {
-  justify-content: space-between;
-} */
-
 html,
 body {
-  background-image: url("../assets/images/Direct-mail-marketing.png");
+  background-image: url("../assets/images/us-mail.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 content {
   padding: 50px;
-}
-
-/* app-login {
-  margin-top: 20%;
-} */
-
-.wrapper {
-  margin-top: 20%;
 }
