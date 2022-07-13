@@ -23,6 +23,7 @@ import { DropsCalendarComponent } from './components/drops-calendar/drops-calend
 import { CompaignsComponent } from './components/mail-compaign/compaigns/compaigns.component';
 import { DropsComponent } from './components/compaign-drop/drops/drops.component';
 import { HotToastModule } from '@ngneat/hot-toast';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { HotToastModule } from '@ngneat/hot-toast';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
+    RouterModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     HotToastModule.forRoot(),
