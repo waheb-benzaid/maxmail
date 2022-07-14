@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,7 +15,7 @@ import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { HomeComponent } from './components/home/home.component';
 import { CompaignComponent } from './components/mail-compaign/compaign/compaign.component';
-import { UserRegisterComponent } from './components/user-register/user-register.component';
+import { UserRegisterComponent } from './components/users/user-register/user-register.component';
 import { DropComponent } from './components/compaign-drop/drop/drop.component';
 import { ZipcodesLookupComponent } from './components/zipcodes-lookup/zipcodes-lookup.component';
 import { DropsCalendarComponent } from './components/drops-calendar/drops-calendar.component';
@@ -27,6 +26,7 @@ import { RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { UsersComponent } from './components/users/users/users/users.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     DropsCalendarComponent,
     CompaignsComponent,
     DropsComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,

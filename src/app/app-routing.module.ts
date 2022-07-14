@@ -22,6 +22,11 @@ const routes: Routes = [
     component: HomeComponent,
     ...canActivate(redirectUnauthorizedToLogin),
   },
+  // {
+  //   path: 'users',
+  //   component: ,
+  //   ...canActivate(redirectUnauthorizedToLogin),
+  // },
 ];
 
 @NgModule({
