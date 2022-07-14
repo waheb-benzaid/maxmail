@@ -26,7 +26,9 @@ import { RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { UsersComponent } from './components/users/users/users/users.component';
+import { UsersListComponent } from './components/users/users-list/users-list.component';
+import { NavBarComponent } from './components/design/nav-bar/nav-bar.component';
+import { RecordsTableComponent } from './components/design/records-table/records-table.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { UsersComponent } from './components/users/users/users/users.component';
     DropsCalendarComponent,
     CompaignsComponent,
     DropsComponent,
-    UsersComponent,
+    UsersListComponent,
+    NavBarComponent,
+    RecordsTableComponent,
   ],
   imports: [
     BrowserModule,

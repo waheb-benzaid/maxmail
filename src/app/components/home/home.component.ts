@@ -9,16 +9,19 @@ import { AuthenticationService } from 'src/app/services/auth/authentication.serv
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor(
-    private authService: AuthenticationService,
-    private router: Router
-  ) {}
+  constructor() // private authService: AuthenticationService,
+  // private router: Router
+  {}
 
   ngOnInit(): void {}
 
-  logout() {
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['']);
-    });
-  }
+  // logout() {
+  //   this.authService.logout().subscribe(() => {
+  //     this.router.navigate(['']);
+  //   });
+  // }
+
+  // redirecttoUsersList() {
+  //   this.router.navigate(['/users']);
+  // }
 }
