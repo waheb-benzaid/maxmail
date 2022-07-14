@@ -24,6 +24,9 @@ import { CompaignsComponent } from './components/mail-compaign/compaigns/compaig
 import { DropsComponent } from './components/compaign-drop/drops/drops.component';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { RouterModule } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -54,6 +57,11 @@ import { RouterModule } from '@angular/router';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     HotToastModule.forRoot(),
+    MatMenuModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

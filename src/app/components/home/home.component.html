@@ -1,1 +1,18 @@
-<p>home works!</p>
+<div class="container">
+  <p>
+    <mat-toolbar>
+      <button mat-button>MaxMail</button>
+      <span class="example-spacer"></span>
+      <div>
+        <button mat-button>Compaigns</button>
+        <button mat-button>Drops</button>
+        <button mat-button>Contacts</button>
+        <button mat-button>Companies</button>
+        <button mat-button>Users</button>
+        <button mat-button>Profile</button>
+        <button mat-button (click)="logout()">Logout</button>
+      </div>
+    </mat-toolbar>
+  </p>
+  <app-drops-calendar></app-drops-calendar>
+</div>
