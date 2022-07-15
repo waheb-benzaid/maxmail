@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
 import { UserRegisterComponent } from '../user-register/user-register.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { User } from 'src/app/models/User.model';
 
 @Component({
   selector: 'app-users-list',
@@ -7,20 +12,25 @@ import { UserRegisterComponent } from '../user-register/user-register.component'
   styleUrls: ['./users-list.component.css'],
 })
 export class UsersListComponent implements OnInit {
-  dialog: any;
-
-  constructor() {}
-
   ngOnInit(): void {}
-  openDialog(): void {
-    const dialogRef = this.dialog.open(UserRegisterComponent, {
-      width: '250px',
-      //data: {name: this.name, animal: this.animal},
-    });
+  displayedColumns: string[] = ['id', 'full Name', 'Email', 'Is Admin ?'];
+  dataSource: MatTableDataSource<User>;
 
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   console.log('The dialog was closed');
-    //  // this.animal = result;
-    // });
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(public dialog: MatDialog) {
+    const user: User[] = [];
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(user);
+  }
+
+  openDialog() {
+    this.dialog.open(UserRegisterComponent, {
+      height: '400px',
+      width: '400px',
+      panelClass: 'borderless-dialog',
+    });
   }
 }

@@ -77,13 +77,6 @@ export class RecordsTableComponent implements OnInit {
     }
   }
 
-  // openDialog(): void {
-  //   const dialogRef = this.dialog.open(UserRegisterComponent, {
-  //     width: '300px',
-  //   });
-  //   console.log('open dialog');
-  // }
-
   openDialog() {
     this.dialog.open(UserRegisterComponent, {
       height: '400px',
