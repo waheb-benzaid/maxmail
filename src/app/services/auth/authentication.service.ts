@@ -1,13 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { from } from 'rxjs';
+import { Router } from '@angular/router';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  UserCredential,
+} from 'firebase/auth';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
+  userData: any;
   constructor(private auth: Auth) {}
+
   currentUser$ = authState(this.auth);
 
   login(email: any, password: any) {

@@ -29,6 +29,10 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { UsersListComponent } from './components/users/users-list/users-list.component';
 import { NavBarComponent } from './components/design/nav-bar/nav-bar.component';
 import { RecordsTableComponent } from './components/design/records-table/records-table.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,7 @@ import { RecordsTableComponent } from './components/design/records-table/records
     MatInputModule,
     MatButtonModule,
     RouterModule,
+    MatPaginatorModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     HotToastModule.forRoot(),
@@ -67,6 +72,9 @@ import { RecordsTableComponent } from './components/design/records-table/records
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    MatTableModule,
+    MatDialogModule,
+    MatCheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

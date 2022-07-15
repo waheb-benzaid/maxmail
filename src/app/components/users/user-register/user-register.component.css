@@ -1,0 +1,39 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-container {
+  display: block;
+  /* background: #04ecd9d8; */
+  background-color: whitesmoke;
+  padding: 20px;
+  border-radius: 16px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.margin-top {
+  margin-top: 18px !important;
+  display: flex;
+  justify-content: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.wrapper {
+  width: 400px;
+  height: 400px;
+}
+
+.margin-left {
+  margin-left: 20px;
+}
