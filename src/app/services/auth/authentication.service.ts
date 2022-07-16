@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
   UserCredential,
 } from 'firebase/auth';
-import { from, Observable } from 'rxjs';
+import { from, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -22,5 +23,19 @@ export class AuthenticationService {
 
   logout() {
     return from(this.auth.signOut());
+  }
+
+  saveUser(
+    firstName: any,
+    lastName: any,
+    email: any,
+    password: any
+    // isAdmin: boolean
+  ) {
+    return from(
+      createUserWithEmailAndPassword(this.auth, email, password)
+    ).pipe(
+      switchMap(({ user }) => updateProfile(user, { displayName: firstName }))
+    );
   }
 }

@@ -46,7 +46,11 @@ export class UserRegisterComponent implements OnInit {
     { validators: passwordsMatchValidator() }
   );
 
-  constructor() {}
+  constructor(
+    private authService: AuthenticationService,
+    private toast: HotToastService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -78,5 +82,19 @@ export class UserRegisterComponent implements OnInit {
     if (!this.registerUserForm.valid) {
       return;
     }
+    const { firstName, lastName, email, password } =
+      this.registerUserForm.value;
+    this.authService
+      .saveUser(firstName, lastName, email, password)
+      .pipe(
+        this.toast.observe({
+          success: 'a new user has been added',
+          loading: 'saving ...',
+          error: ({ message }) => `${message}`,
+        })
+      )
+      .subscribe(() => {
+        this.router.navigate(['/home']);
+      });
   }
 }
