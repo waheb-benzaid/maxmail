@@ -6,8 +6,16 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   UserCredential,
+  getAdditionalUserInfo,
+  UserInfo,
+  AdditionalUserInfo,
 } from 'firebase/auth';
-import { from, Observable, switchMap } from 'rxjs';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
+
+import { concatMap, from, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -29,13 +37,22 @@ export class AuthenticationService {
     firstName: any,
     lastName: any,
     email: any,
-    password: any
-    // isAdmin: boolean
+    password: any,
+    isAdmin: boolean
   ) {
+    console.log(this.auth.currentUser);
     return from(
-      createUserWithEmailAndPassword(this.auth, email, password)
-    ).pipe(
-      switchMap(({ user }) => updateProfile(user, { displayName: firstName }))
+      createUserWithEmailAndPassword(this.auth, email, password).then(
+        (result) => {
+          console.log(result.user.uid);
+          switchMap(({ user }) =>
+            updateProfile(user, { displayName: firstName })
+          );
+        }
+      )
     );
+    // ).pipe(
+    //   switchMap(({ user }) => updateProfile(user, { displayName: firstName }))
+    // );
   }
 }
