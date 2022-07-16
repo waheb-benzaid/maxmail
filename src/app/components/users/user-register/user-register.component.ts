@@ -84,17 +84,12 @@ export class UserRegisterComponent implements OnInit {
     }
     const { firstName, lastName, email, password } =
       this.registerUserForm.value;
-    this.authService
-      .saveUser(firstName, lastName, email, password)
-      .pipe(
-        this.toast.observe({
-          success: 'a new user has been added',
-          loading: 'saving ...',
-          error: ({ message }) => `${message}`,
-        })
-      )
-      .subscribe(() => {
-        this.router.navigate(['/home']);
-      });
+    this.authService.saveUser(firstName, lastName, email, password).pipe(
+      this.toast.observe({
+        success: 'a new user has been added',
+        loading: 'saving ...',
+        error: ({ message }) => `${message}`,
+      })
+    );
   }
 }
