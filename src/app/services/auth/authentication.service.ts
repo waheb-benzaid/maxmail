@@ -12,7 +12,6 @@ import { from, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  userData: any;
   constructor(private auth: Auth) {}
 
   currentUser$ = authState(this.auth);

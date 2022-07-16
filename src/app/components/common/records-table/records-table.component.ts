@@ -79,8 +79,8 @@ export class RecordsTableComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(UserRegisterComponent, {
-      height: '400px',
-      width: '400px',
+      height: ' 460px',
+      width: ' 500px',
       panelClass: 'borderless-dialog',
     });
     console.log('hello');

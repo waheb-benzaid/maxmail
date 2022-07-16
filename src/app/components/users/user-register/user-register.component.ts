@@ -36,10 +36,12 @@ export function passwordsMatchValidator(): ValidatorFn {
 export class UserRegisterComponent implements OnInit {
   registerUserForm = new FormGroup(
     {
-      name: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),
       confirmPassword: new FormControl('', Validators.required),
+      isAdmin: new FormControl(),
     },
     { validators: passwordsMatchValidator() }
   );
@@ -47,6 +49,14 @@ export class UserRegisterComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  get firstName() {
+    return this.registerUserForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.registerUserForm.get('lastName');
+  }
 
   get email() {
     return this.registerUserForm.get('email');
@@ -60,8 +70,8 @@ export class UserRegisterComponent implements OnInit {
     return this.registerUserForm.get('confirmPassword');
   }
 
-  get name() {
-    return this.registerUserForm.get('name');
+  get isAdmin() {
+    return this.registerUserForm.get('isAdmin');
   }
 
   submit() {
