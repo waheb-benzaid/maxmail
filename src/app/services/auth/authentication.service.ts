@@ -33,26 +33,11 @@ export class AuthenticationService {
     return from(this.auth.signOut());
   }
 
-  saveUser(
-    firstName: any,
-    lastName: any,
-    email: any,
-    password: any,
-    isAdmin: boolean
-  ) {
-    console.log(this.auth.currentUser);
+  saveUser(firstName: any, lastName: any, email: any, password: any) {
     return from(
-      createUserWithEmailAndPassword(this.auth, email, password).then(
-        (result) => {
-          console.log(result.user.uid);
-          switchMap(({ user }) =>
-            updateProfile(user, { displayName: firstName })
-          );
-        }
-      )
+      createUserWithEmailAndPassword(this.auth, email, password)
+    ).pipe(
+      switchMap(({ user }) => updateProfile(user, { displayName: firstName }))
     );
-    // ).pipe(
-    //   switchMap(({ user }) => updateProfile(user, { displayName: firstName }))
-    // );
   }
 }

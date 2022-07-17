@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { User } from 'src/app/models/User.model';
+import { UserModel } from 'src/app/models/User.model';
 
 @Component({
   selector: 'app-users-list',
@@ -14,14 +14,14 @@ import { User } from 'src/app/models/User.model';
 export class UsersListComponent implements OnInit {
   ngOnInit(): void {}
   displayedColumns: string[] = ['id', 'full Name', 'Email', 'Is Admin ?'];
-  dataSource: MatTableDataSource<User>;
+  dataSource: MatTableDataSource<UserModel>;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(public dialog: MatDialog) {
-    const user: User[] = [];
+    const user: UserModel[] = [];
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(user);
   }

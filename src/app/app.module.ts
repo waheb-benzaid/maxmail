@@ -33,6 +33,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatTableModule,
     MatDialogModule,
     MatCheckboxModule,
+    FirestoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { first, switchMap, tap } from 'rxjs';
-import { User } from 'src/app/models/User.model';
+import { UserModel } from 'src/app/models/User.model';
 import { ImageUploadService } from 'src/app/services/image-upload/image-upload.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -82,14 +82,19 @@ export class UserRegisterComponent implements OnInit {
     if (!this.registerUserForm.valid) {
       return;
     }
-    const { firstName, lastName, email, password } =
+    const { firstName, lastName, email, password, isAdmin } =
       this.registerUserForm.value;
-    this.authService.saveUser(firstName, lastName, email, password).pipe(
-      this.toast.observe({
-        success: 'a new user has been added',
-        loading: 'saving ...',
-        error: ({ message }) => `${message}`,
-      })
-    );
+    this.authService
+      .saveUser(firstName, lastName, email, password)
+      .pipe(
+        this.toast.observe({
+          success: 'a new user has been added',
+          loading: 'saving ...',
+          error: ({ message }) => `${message}`,
+        })
+      )
+      .subscribe(() => {
+        this.router.navigate(['/users']);
+      });
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from, Observable, of, switchMap } from 'rxjs';
-import { User } from 'src/app/models/User.model';
+import { UserModel } from 'src/app/models/User.model';
 import {
   collection,
   doc,
@@ -21,7 +21,7 @@ export class UserService {
     private authService: AuthenticationService
   ) {}
 
-  get currentUserProfile$(): Observable<User | null> {
+  get currentUserProfile$(): Observable<UserModel | null> {
     return this.authService.currentUser$.pipe(
       switchMap((user) => {
         if (!user?.uid) {
@@ -29,17 +29,17 @@ export class UserService {
         }
 
         const ref = doc(this.firestore, 'users', user?.uid);
-        return docData(ref) as Observable<User>;
+        return docData(ref) as Observable<UserModel>;
       })
     );
   }
 
-  addUser(user: User): Observable<void> {
+  addUser(user: UserModel): Observable<void> {
     const ref = doc(this.firestore, 'users', user.uid);
     return from(setDoc(ref, user));
   }
 
-  updateUser(user: User): Observable<void> {
+  updateUser(user: UserModel): Observable<void> {
     const ref = doc(this.firestore, 'users', user.uid);
     return from(updateDoc(ref, { ...user }));
   }
