@@ -10,6 +10,9 @@ import {
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
+import { Auth } from 'firebase/auth';
+import {} from 'firebase/functions';
+
 import { AuthenticationService } from '../auth/authentication.service';
 
 @Injectable({
@@ -43,4 +46,6 @@ export class UserService {
     const ref = doc(this.firestore, 'users', user.uid);
     return from(updateDoc(ref, { ...user }));
   }
+
+  getAllUsers() {}
 }

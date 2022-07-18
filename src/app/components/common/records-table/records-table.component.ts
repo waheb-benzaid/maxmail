@@ -83,6 +83,5 @@ export class RecordsTableComponent implements OnInit {
       width: ' 500px',
       panelClass: 'borderless-dialog',
     });
-    console.log('hello');
   }
 }

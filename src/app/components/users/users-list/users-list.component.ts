@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserModel } from 'src/app/models/User.model';
+import { RecordsTableService } from 'src/app/services/common/records-table/records-table.service';
 
 @Component({
   selector: 'app-users-list',
@@ -20,7 +21,10 @@ export class UsersListComponent implements OnInit {
   paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public dialog: MatDialog) {
+  constructor(
+    public dialog: MatDialog,
+    recordsTableService: RecordsTableService
+  ) {
     const user: UserModel[] = [];
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(user);

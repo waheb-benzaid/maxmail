@@ -77,6 +77,7 @@ import { FirestoreModule } from '@angular/fire/firestore';
     MatDialogModule,
     MatCheckboxModule,
     FirestoreModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -9,9 +9,16 @@
         <button mat-button>Contacts</button>
         <button mat-button>Companies</button>
         <button mat-button (click)="redirecttoUsersList()">Users</button>
-        <button mat-button>Profile</button>
-        <button mat-button (click)="logout()">Logout</button>
+        <button mat-button [matMenuTriggerFor]="userMenu">
+          <mat-icon>account_circle </mat-icon>
+          <span *ngIf="user$ | async as user">{{ user.email }}</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
       </div>
     </mat-toolbar>
   </p>
 </div>
+<mat-menu #userMenu="matMenu">
+  <button mat-menu-item>Profile</button>
+  <button mat-menu-item (click)="logout()">Log out</button>
+</mat-menu>

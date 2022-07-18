@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Auth, authState } from '@angular/fire/auth';
+import { authInstance$, authState, user, Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import {
   createUserWithEmailAndPassword,
@@ -9,6 +9,8 @@ import {
   getAdditionalUserInfo,
   UserInfo,
   AdditionalUserInfo,
+  getAuth,
+  UserProfile,
 } from 'firebase/auth';
 import {
   AngularFirestore,
@@ -23,7 +25,7 @@ import { concatMap, from, Observable, switchMap } from 'rxjs';
 export class AuthenticationService {
   constructor(private auth: Auth) {}
 
-  currentUser$ = authState(this.auth);
+  public currentUser$ = authState(this.auth);
 
   login(email: any, password: any) {
     return from(signInWithEmailAndPassword(this.auth, email, password));
