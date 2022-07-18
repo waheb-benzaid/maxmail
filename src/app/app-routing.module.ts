@@ -11,7 +11,7 @@ import {
 import { UsersListComponent } from './components/users/users-list/users-list.component';
 import { UserRegisterComponent } from './components/users/user-register/user-register.component';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
 
 const routes: Routes = [

@@ -17,13 +17,24 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 
-import { concatMap, from, Observable, switchMap } from 'rxjs';
+import { initializeApp, firebaseApp$, FirebaseApp } from '@angular/fire/app';
+
+import {
+  concatMap,
+  config,
+  from,
+  Observable,
+  ObservableInput,
+  switchMap,
+} from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { loggedIn } from '@angular/fire/auth-guard';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  constructor(private auth: Auth) {}
+  constructor(private auth: Auth, private firebase: FirebaseApp) {}
 
   public currentUser$ = authState(this.auth);
 
@@ -36,8 +47,15 @@ export class AuthenticationService {
   }
 
   saveUser(firstName: any, lastName: any, email: any, password: any) {
+    let signUpApp = this.auth.app.name + '_signUp';
+    console.log(`this is the signUpApp ${signUpApp}`);
+
+    let secondaryApp = initializeApp(this.auth.app.options, signUpApp);
+    let secondaryAppAuth = getAuth(secondaryApp);
+    console.log(`this is the SecondaryAuth ${secondaryAppAuth}`);
+
     return from(
-      createUserWithEmailAndPassword(this.auth, email, password)
+      createUserWithEmailAndPassword(secondaryAppAuth, email, password)
     ).pipe(
       switchMap(({ user }) => updateProfile(user, { displayName: firstName }))
     );
