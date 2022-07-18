@@ -34,6 +34,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FirestoreModule } from '@angular/fire/firestore';
+import { provideStorage } from '@angular/fire/storage';
+import { getStorage } from 'firebase/storage';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +53,7 @@ import { FirestoreModule } from '@angular/fire/firestore';
     UsersListComponent,
     NavBarComponent,
     RecordsTableComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +71,7 @@ import { FirestoreModule } from '@angular/fire/firestore';
     MatPaginatorModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
+    provideStorage(() => getStorage()),
     HotToastModule.forRoot(),
     MatMenuModule,
     CalendarModule.forRoot({
