@@ -31,6 +31,10 @@ export class NavBarComponent implements OnInit {
     this.router.navigate(['/users']);
   }
 
+  redirectToProfilePage() {
+    this.router.navigate(['/profile']);
+  }
+
   currentUserProfile() {
     return this.authService.currentUser$;
   }

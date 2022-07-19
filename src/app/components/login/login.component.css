@@ -6,16 +6,15 @@ body {
   display: block;
   max-width: 300px;
   width: 50%;
-  /* background: #04ecd9d8; */
   background-color: whitesmoke;
   padding: 48px;
   border-radius: 16px;
   margin-top: 20%;
   margin: auto;
 
-  mat-form-field {
+  /* mat-form-field {
     width: 100%;
-  }
+  } */
 }
 
 .center {
