@@ -35,6 +35,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { CampaignComponent } from './components/campaign/new-campaign/campaign.component';
 import { CampaignListComponent } from './components/campaign/campaign-list/campaign-list.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MaxmailDatePickerComponent } from './components/common/maxmail-date-picker/maxmail-date-picker.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ProfileComponent,
     CampaignComponent,
     CampaignListComponent,
+    MaxmailDatePickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +67,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatButtonModule,
     RouterModule,
     MatPaginatorModule,
+    MatNativeDateModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideStorage(() => getStorage()),
