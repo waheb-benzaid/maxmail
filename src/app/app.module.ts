@@ -32,6 +32,8 @@ import { FirestoreModule } from '@angular/fire/firestore';
 import { provideStorage } from '@angular/fire/storage';
 import { getStorage } from 'firebase/storage';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CampaignComponent } from './components/campaign/new-campaign/campaign.component';
+import { CampaignListComponent } from './components/campaign/campaign-list/campaign-list.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     NavBarComponent,
     RecordsTableComponent,
     ProfileComponent,
+    CampaignComponent,
+    CampaignListComponent,
   ],
   imports: [
     BrowserModule,
