@@ -35,6 +35,10 @@ export class NavBarComponent implements OnInit {
     this.router.navigate(['/profile']);
   }
 
+  redirectToCampaignsPage() {
+    this.router.navigate(['/campaigns']);
+  }
+
   currentUserProfile() {
     return this.authService.currentUser$;
   }

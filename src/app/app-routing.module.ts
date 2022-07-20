@@ -11,6 +11,7 @@ import {
 import { UsersListComponent } from './components/users/users-list/users-list.component';
 import { UserRegisterComponent } from './components/users/user-register/user-register.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CampaignListComponent } from './components/campaign/campaign-list/campaign-list.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
@@ -39,6 +40,11 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    ...canActivate(redirectUnauthorizedToLogin),
+  },
+  {
+    path: 'campaigns',
+    component: CampaignListComponent,
     ...canActivate(redirectUnauthorizedToLogin),
   },
 ];

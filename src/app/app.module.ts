@@ -34,6 +34,7 @@ import { getStorage } from 'firebase/storage';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CampaignComponent } from './components/campaign/new-campaign/campaign.component';
 import { CampaignListComponent } from './components/campaign/campaign-list/campaign-list.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { CampaignListComponent } from './components/campaign/campaign-list/campa
     MatCheckboxModule,
     FirestoreModule,
     MatMenuModule,
+    MatDatepickerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
