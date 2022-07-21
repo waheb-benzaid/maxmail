@@ -131,8 +131,20 @@
   </form>
 </div>
 <div mat-dialog-actions align="end">
-  <button mat-raised-button color="warm" mat-dialog-close>Close</button>
-  <button mat-raised-button color="primary" (click)="addCampaign()">
+  <button
+    mat-raised-button
+    color="warm"
+    mat-dialog-close
+    style="background-color: coral"
+  >
+    Close
+  </button>
+  <button
+    style="margin-left: 8px"
+    mat-raised-button
+    color="primary"
+    (click)="addCampaign()"
+  >
     Save
   </button>
 </div>
