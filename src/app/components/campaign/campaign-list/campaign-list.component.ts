@@ -51,9 +51,8 @@ export class CampaignListComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(CampaignComponent, {
-      height: '800px',
-      width: '500px',
-      panelClass: 'borderless-dialog',
+      width: '20%',
+      panelClass: 'custom-modalbox',
     });
   }
 

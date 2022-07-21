@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { addDoc, Firestore, collection } from '@angular/fire/firestore';
 import { getDocs } from 'firebase/firestore';
+import { from } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
 
 @Injectable({
@@ -11,9 +12,11 @@ export class CampaignService {
 
   save(campaignFields: Campaign) {
     const db = collection(this.firestoreDB, 'mail_campaign');
-    addDoc(db, campaignFields)
-      .then(() => console.log('data saved'))
-      .catch((error) => console.log(error.message));
+    return from(
+      addDoc(db, campaignFields)
+        .then(() => console.log('data saved'))
+        .catch((error) => console.log(error.message))
+    );
   }
 
   getAllCampaign() {

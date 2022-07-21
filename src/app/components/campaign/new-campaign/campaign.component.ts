@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
+import { HotToastService } from '@ngneat/hot-toast';
+import { Router } from '@angular/router';
 
 interface selectFields {
   value: string;
@@ -21,7 +23,11 @@ interface selectFields {
   styleUrls: ['./campaign.component.css'],
 })
 export class CampaignComponent implements OnInit {
-  constructor(private campaignService: CampaignService) {
+  constructor(
+    private campaignService: CampaignService,
+    private router: Router,
+    private toast: HotToastService
+  ) {
     campaignService.getAllCampaign();
   }
   campaignStatusValue = '';
@@ -154,6 +160,12 @@ export class CampaignComponent implements OnInit {
       contactName,
       attachments,
     };
-    this.campaignService.save(campaignCreationObject);
+    this.campaignService.save(campaignCreationObject).pipe(
+      this.toast.observe({
+        success: 'Campaign saved successfuly',
+        loading: 'Saving ...',
+        error: 'There was a error',
+      })
+    );
   }
 }
