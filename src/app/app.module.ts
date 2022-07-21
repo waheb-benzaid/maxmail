@@ -28,7 +28,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FirestoreModule } from '@angular/fire/firestore';
+import {
+  FirestoreModule,
+  provideFirestore,
+  getFirestore,
+} from '@angular/fire/firestore';
 import { provideStorage } from '@angular/fire/storage';
 import { getStorage } from 'firebase/storage';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -37,6 +41,15 @@ import { CampaignListComponent } from './components/campaign/campaign-list/campa
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MaxmailDatePickerComponent } from './components/common/maxmail-date-picker/maxmail-date-picker.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import {
+  provideAnalytics,
+  getAnalytics,
+  ScreenTrackingService,
+  UserTrackingService,
+} from '@angular/fire/analytics';
+import { provideFunctions, getFunctions } from '@angular/fire/functions';
+import { provideMessaging, getMessaging } from '@angular/fire/messaging';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -68,23 +81,28 @@ import { MatNativeDateModule } from '@angular/material/core';
     RouterModule,
     MatPaginatorModule,
     MatNativeDateModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideStorage(() => getStorage()),
-    HotToastModule.forRoot(),
     MatMenuModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
     MatTableModule,
     MatDialogModule,
     MatCheckboxModule,
     FirestoreModule,
     MatMenuModule,
     MatDatepickerModule,
+    MatSelectModule,
+    HotToastModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideStorage(() => getStorage()),
+    provideAnalytics(() => getAnalytics()),
+    provideFirestore(() => getFirestore()),
+    provideFunctions(() => getFunctions()),
+    provideMessaging(() => getMessaging()),
   ],
-  providers: [],
+  providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "npi-maxmail": {
+      "hosting": {
+        "maxmail-project": [
+          "npi-maxmail"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "npi-maxmail"
+  }
+}

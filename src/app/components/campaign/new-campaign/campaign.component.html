@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="margin-left">
     <div mat-dialog-content style="margin-top: 20px">
-      <form [formGroup]="campaignForm" (ngSubmit)="save()">
+      <form [formGroup]="campaignForm" (ngSubmit)="addCampaign()">
         <mat-form-field style="width: 300px">
           <mat-label>Choose a date</mat-label>
           <input
@@ -18,18 +18,26 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field style="width: 300px">
-          <input
-            matInput
-            placeholder="Campaign Status"
-            formControlName="campaignStatus"
-          />
+          <mat-label>Campaign Status</mat-label>
+          <mat-select [(value)]="campaignStatusValue">
+            <mat-option
+              *ngFor="let status of campaignStatusFields"
+              [value]="status.value"
+            >
+              {{ status.viewValue }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field style="width: 300px">
-          <input
-            matInput
-            placeholder="Campaign Type"
-            formControlName="campaignType"
-          />
+          <mat-label>Campaign Type</mat-label>
+          <mat-select [(value)]="campaignTypeValue">
+            <mat-option
+              *ngFor="let type of campaignTypeFields"
+              [value]="type.value"
+            >
+              {{ type.viewValue }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field style="width: 300px">
           <input
@@ -48,9 +56,20 @@
         <mat-form-field style="width: 300px">
           <input
             matInput
-            placeholder="Mailer Size"
-            formControlName="mailerSize"
+            placeholder="Total Campaign Volume"
+            formControlName="totalCampaignVolume"
           />
+        </mat-form-field>
+        <mat-form-field style="width: 300px">
+          <mat-label>Mailer Size</mat-label>
+          <mat-select [(value)]="mailerSizeValue">
+            <mat-option
+              *ngFor="let size of mailerSizeFields"
+              [value]="size.value"
+            >
+              {{ size.viewValue }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field style="width: 300px">
           <input

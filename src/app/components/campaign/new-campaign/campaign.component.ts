@@ -8,6 +8,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { CampaignService } from 'src/app/services/campaign/campaign.service';
+
+interface selectFields {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-campaign',
@@ -15,9 +21,12 @@ import { MatDatepicker } from '@angular/material/datepicker';
   styleUrls: ['./campaign.component.css'],
 })
 export class CampaignComponent implements OnInit {
-  constructor() {}
+  constructor(private campaignService: CampaignService) {}
+  campaignStatusValue = '';
+  mailerSizeValue = '';
+  campaignTypeValue = '';
   campaignForm = new FormGroup({
-    firstDropDate: new FormControl('', Validators.required),
+    firstDropDate: new FormControl(Date, Validators.required),
     campaignStatus: new FormControl('', Validators.required),
     campaignType: new FormControl('', [Validators.required, Validators.email]),
     firstDropVolume: new FormControl('', Validators.required),
@@ -33,7 +42,116 @@ export class CampaignComponent implements OnInit {
     attachments: new FormControl('', Validators.required),
   });
 
+  campaignStatusFields: selectFields[] = [
+    { value: 'active', viewValue: 'Active' },
+    { value: 'suspended', viewValue: 'Suspended' },
+    { value: 'cancelled', viewValue: 'Cancelled' },
+    { value: 'completed', viewValue: 'Completed' },
+  ];
+
+  campaignTypeFields: selectFields[] = [
+    { value: 'mailer', viewValue: 'Mailer' },
+    { value: 'postcard', viewValue: 'Postcard' },
+    { value: 'magazine', viewValue: 'Magazine' },
+  ];
+
+  mailerSizeFields: selectFields[] = [
+    { value: '8.5 x 17', viewValue: '8.5 x 17' },
+    { value: '10 x 18', viewValue: '10 x 18' },
+    { value: '5.5 x 8.5', viewValue: '5.5 x 8.5' },
+    { value: '6 x 11', viewValue: '6 x 11' },
+    { value: '8.5 x 14', viewValue: '8.5 x 14' },
+    { value: '8.5 x 11', viewValue: '8.5 x 11' },
+  ];
+
   ngOnInit(): void {}
 
-  save() {}
+  // get firstDropDate() {
+  //   return this.campaignForm.get('firstDropDate');
+  // }
+
+  // get campaignStatus() {
+  //   return this.campaignStatusValue;
+  // }
+
+  // get campaignType() {
+  //   return this.campaignTypeValue;
+  // }
+
+  // get totalCampaignVolume() {
+  //   return this.campaignForm.get('totalCampaignVolume');
+  // }
+
+  // get firstDropVolume() {
+  //   return this.campaignForm.get('firstDropVolume');
+  // }
+
+  // get totalDropsNumber() {
+  //   return this.campaignForm.get('totalDropsNumber');
+  // }
+
+  // get mailerSize() {
+  //   return this.mailerSizeValue;
+  // }
+
+  // get totalHouseholds() {
+  //   return this.campaignForm.get('totalHouseholds');
+  // }
+
+  // get totalcontractAmount() {
+  //   return this.campaignForm.get('totalcontractAmount');
+  // }
+
+  // get printOrderID() {
+  //   return this.campaignForm.get('printOrderID');
+  // }
+
+  // get accountName() {
+  //   return this.campaignForm.get('accountName');
+  // }
+
+  // get ownerName() {
+  //   return this.campaignForm.get('ownerName');
+  // }
+
+  // get contactName() {
+  //   return this.campaignForm.get('contactName');
+  // }
+
+  // get attachments() {
+  //   return this.campaignForm.get('attachments');
+  // }
+
+  addCampaign() {
+    const {
+      firstDropDate,
+      totalCampaignVolume,
+      firstDropVolume,
+      totalDropsNumber,
+      totalHouseholds,
+      totalcontractAmount,
+      printOrderID,
+      accountName,
+      ownerName,
+      contactName,
+      attachments,
+    } = this.campaignForm.value;
+    const campaignCreationObject = {
+      firstDropDate,
+      campaignStatus: this.campaignStatusValue,
+      campaignType: this.campaignTypeValue,
+      firstDropVolume,
+      totalCampaignVolume,
+      totalDropsNumber,
+      mailerSize: this.mailerSizeValue,
+      totalHouseholds,
+      totalcontractAmount,
+      printOrderID,
+      accountName,
+      ownerName,
+      contactName,
+      attachments,
+    };
+    this.campaignService.save(campaignCreationObject);
+  }
 }
