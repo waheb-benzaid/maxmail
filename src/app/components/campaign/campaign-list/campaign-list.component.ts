@@ -3,15 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { HotToastService } from '@ngneat/hot-toast';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { CampaignComponent } from '../new-campaign/campaign.component';
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  fruit: string;
-}
 
 @Component({
   selector: 'app-campaign-list',
@@ -20,20 +16,27 @@ export interface UserData {
 })
 export class CampaignListComponent implements OnInit {
   ngOnInit(): void {}
-  displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
-  dataSource: MatTableDataSource<Campaign>;
-
+  displayedColumns: string[] = [
+    'id',
+    'accountName',
+    'campaignStatus',
+    'campaignType',
+    // 'actions',
+  ];
+  dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     public dialog: MatDialog,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private router: Router,
+    private toast: HotToastService
   ) {
-    const campaign: Campaign[] = [];
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(campaign);
+    this.dataSource = new MatTableDataSource();
+    this.getAllCampaigns();
   }
 
   ngAfterViewInit() {
@@ -57,6 +60,13 @@ export class CampaignListComponent implements OnInit {
   }
 
   getAllCampaigns() {
-    this.campaignService.getAllCampaign();
+    let campaign: any[] = [];
+    this.campaignService.getAllCampaign().subscribe((res) => {
+      console.log(res[0]);
+
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 }

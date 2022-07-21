@@ -11,6 +11,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
 
 interface selectFields {
   value: string;
@@ -26,7 +27,8 @@ export class CampaignComponent implements OnInit {
   constructor(
     private campaignService: CampaignService,
     private router: Router,
-    private toast: HotToastService
+    private toast: HotToastService,
+    private dialogRef: MatDialogRef<CampaignComponent>
   ) {
     campaignService.getAllCampaign();
   }
@@ -160,12 +162,18 @@ export class CampaignComponent implements OnInit {
       contactName,
       attachments,
     };
-    this.campaignService.save(campaignCreationObject).pipe(
-      this.toast.observe({
-        success: 'Campaign saved successfuly',
-        loading: 'Saving ...',
-        error: 'There was a error',
-      })
-    );
+    this.campaignService
+      .save(campaignCreationObject)
+      .pipe(
+        this.toast.observe({
+          success: 'Campaign saved successfuly',
+          loading: 'Saving ...',
+          error: 'There was a error',
+        })
+      )
+      .subscribe(() => {
+        this.campaignForm.reset();
+        this.dialogRef.close();
+      });
   }
 }
