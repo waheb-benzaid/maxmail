@@ -174,6 +174,7 @@ export class CampaignComponent implements OnInit {
       .subscribe(() => {
         this.campaignForm.reset();
         this.dialogRef.close();
+        window.location.reload();
       });
   }
 }

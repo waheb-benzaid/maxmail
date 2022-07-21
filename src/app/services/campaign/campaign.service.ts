@@ -30,7 +30,6 @@ export class CampaignService {
     const db = collection(this.firestoreDB, 'mail_campaign');
     return from(
       getDocs(db).then((response) => {
-        // return response.docs;
         return response.docs.map((item) => {
           return { ...item.data(), id: item.id };
         });
