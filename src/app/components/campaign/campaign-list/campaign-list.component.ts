@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Campaign } from 'src/app/models/Campaign.model';
+import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { CampaignComponent } from '../new-campaign/campaign.component';
 export interface UserData {
   id: string;
@@ -10,39 +12,6 @@ export interface UserData {
   progress: string;
   fruit: string;
 }
-
-/** Constants used to fill up our data base. */
-const FRUITS: string[] = [
-  'blueberry',
-  'lychee',
-  'kiwi',
-  'mango',
-  'peach',
-  'lime',
-  'pomegranate',
-  'pineapple',
-];
-const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
-];
 
 @Component({
   selector: 'app-campaign-list',
@@ -52,16 +21,19 @@ const NAMES: string[] = [
 export class CampaignListComponent implements OnInit {
   ngOnInit(): void {}
   displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
-  dataSource: MatTableDataSource<UserData>;
+  dataSource: MatTableDataSource<Campaign>;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public dialog: MatDialog) {
-    const user: UserData[] = [];
+  constructor(
+    public dialog: MatDialog,
+    private campaignService: CampaignService
+  ) {
+    const campaign: Campaign[] = [];
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(user);
+    this.dataSource = new MatTableDataSource(campaign);
   }
 
   ngAfterViewInit() {
@@ -79,9 +51,13 @@ export class CampaignListComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(CampaignComponent, {
-      height: '720px',
+      height: '800px',
       width: '500px',
       panelClass: 'borderless-dialog',
     });
+  }
+
+  getAllCampaigns() {
+    this.campaignService.getAllCampaign();
   }
 }

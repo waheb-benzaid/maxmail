@@ -21,14 +21,16 @@ interface selectFields {
   styleUrls: ['./campaign.component.css'],
 })
 export class CampaignComponent implements OnInit {
-  constructor(private campaignService: CampaignService) {}
+  constructor(private campaignService: CampaignService) {
+    campaignService.getAllCampaign();
+  }
   campaignStatusValue = '';
   mailerSizeValue = '';
   campaignTypeValue = '';
   campaignForm = new FormGroup({
     firstDropDate: new FormControl(Date, Validators.required),
     campaignStatus: new FormControl('', Validators.required),
-    campaignType: new FormControl('', [Validators.required, Validators.email]),
+    campaignType: new FormControl('', Validators.required),
     firstDropVolume: new FormControl('', Validators.required),
     totalCampaignVolume: new FormControl('', Validators.required),
     totalDropsNumber: new FormControl('', Validators.required),
