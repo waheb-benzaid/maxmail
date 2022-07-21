@@ -66,61 +66,61 @@ export class CampaignComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // get firstDropDate() {
-  //   return this.campaignForm.get('firstDropDate');
-  // }
+  get firstDropDate() {
+    return this.campaignForm.get('firstDropDate');
+  }
 
-  // get campaignStatus() {
-  //   return this.campaignStatusValue;
-  // }
+  get campaignStatus() {
+    return this.campaignStatusValue;
+  }
 
-  // get campaignType() {
-  //   return this.campaignTypeValue;
-  // }
+  get campaignType() {
+    return this.campaignTypeValue;
+  }
 
-  // get totalCampaignVolume() {
-  //   return this.campaignForm.get('totalCampaignVolume');
-  // }
+  get totalCampaignVolume() {
+    return this.campaignForm.get('totalCampaignVolume');
+  }
 
-  // get firstDropVolume() {
-  //   return this.campaignForm.get('firstDropVolume');
-  // }
+  get firstDropVolume() {
+    return this.campaignForm.get('firstDropVolume');
+  }
 
-  // get totalDropsNumber() {
-  //   return this.campaignForm.get('totalDropsNumber');
-  // }
+  get totalDropsNumber() {
+    return this.campaignForm.get('totalDropsNumber');
+  }
 
-  // get mailerSize() {
-  //   return this.mailerSizeValue;
-  // }
+  get mailerSize() {
+    return this.mailerSizeValue;
+  }
 
-  // get totalHouseholds() {
-  //   return this.campaignForm.get('totalHouseholds');
-  // }
+  get totalHouseholds() {
+    return this.campaignForm.get('totalHouseholds');
+  }
 
-  // get totalcontractAmount() {
-  //   return this.campaignForm.get('totalcontractAmount');
-  // }
+  get totalcontractAmount() {
+    return this.campaignForm.get('totalcontractAmount');
+  }
 
-  // get printOrderID() {
-  //   return this.campaignForm.get('printOrderID');
-  // }
+  get printOrderID() {
+    return this.campaignForm.get('printOrderID');
+  }
 
-  // get accountName() {
-  //   return this.campaignForm.get('accountName');
-  // }
+  get accountName() {
+    return this.campaignForm.get('accountName');
+  }
 
-  // get ownerName() {
-  //   return this.campaignForm.get('ownerName');
-  // }
+  get ownerName() {
+    return this.campaignForm.get('ownerName');
+  }
 
-  // get contactName() {
-  //   return this.campaignForm.get('contactName');
-  // }
+  get contactName() {
+    return this.campaignForm.get('contactName');
+  }
 
-  // get attachments() {
-  //   return this.campaignForm.get('attachments');
-  // }
+  get attachments() {
+    return this.campaignForm.get('attachments');
+  }
 
   addCampaign() {
     const {
