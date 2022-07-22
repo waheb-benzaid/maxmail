@@ -12,6 +12,7 @@ import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateFormatterParams } from 'angular-calendar';
+import { Campaign } from 'src/app/models/Campaign.model';
 
 @Component({
   selector: 'app-campaign',
@@ -29,6 +30,7 @@ export class CampaignComponent implements OnInit {
   ) {
     campaignService.getAllCampaign();
   }
+  actionButton: string = 'Save';
   campaignForm = new FormGroup({
     firstDropDate: new FormControl('', Validators.required),
     campaignStatus: new FormControl('', Validators.required),
@@ -48,6 +50,7 @@ export class CampaignComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.editData) {
+      this.actionButton = 'Edit';
       this.campaignForm.controls['firstDropDate'].setValue(
         this.editData.firstDropDate
       );
@@ -147,7 +150,7 @@ export class CampaignComponent implements OnInit {
     return this.campaignForm.get('attachments');
   }
 
-  addCampaign() {
+  getCampaignObject(): Campaign {
     const {
       firstDropDate,
       campaignStatus,
@@ -164,7 +167,7 @@ export class CampaignComponent implements OnInit {
       contactName,
       attachments,
     } = this.campaignForm.value;
-    const campaignCreationObject = {
+    const campaignObject = {
       firstDropDate: this.formatDate(firstDropDate),
       campaignStatus,
       campaignType,
@@ -180,8 +183,12 @@ export class CampaignComponent implements OnInit {
       contactName,
       attachments,
     };
+    return campaignObject;
+  }
+
+  addCampaign() {
     this.campaignService
-      .save(campaignCreationObject)
+      .save(this.getCampaignObject())
       .pipe(
         this.toast.observe({
           success: 'Campaign saved successfuly',
@@ -194,6 +201,10 @@ export class CampaignComponent implements OnInit {
         this.dialogRef.close();
         window.location.reload();
       });
+  }
+
+  updateCampaign(id: string) {
+    this.campaignService.updateCampaign(id, this.getCampaignObject());
   }
 
   formatDate(date: any) {

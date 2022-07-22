@@ -3,10 +3,8 @@ import {
   addDoc,
   Firestore,
   collection,
-  FirestoreModule,
   doc,
-  getDoc,
-  collectionData,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { getDocs } from 'firebase/firestore';
 import { from, Observable } from 'rxjs';
@@ -35,5 +33,16 @@ export class CampaignService {
         });
       })
     );
+  }
+
+  updateCampaign(id: string, dataToUpdate: any) {
+    const campaignToUpdate = doc(this.firestoreDB, 'mail_campaign');
+    updateDoc(campaignToUpdate, dataToUpdate)
+      .then(() => {
+        console.log('Data updated');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }
