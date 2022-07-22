@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -7,16 +7,10 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { HotToastService } from '@ngneat/hot-toast';
-import { Router } from '@angular/router';
-import { MatDialogRef } from '@angular/material/dialog';
-
-interface selectFields {
-  value: string;
-  viewValue: string;
-}
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DateFormatterParams } from 'angular-calendar';
 
 @Component({
   selector: 'app-campaign',
@@ -26,17 +20,17 @@ interface selectFields {
 export class CampaignComponent implements OnInit {
   constructor(
     private campaignService: CampaignService,
-    private router: Router,
     private toast: HotToastService,
-    private dialogRef: MatDialogRef<CampaignComponent>
+    private dialogRef: MatDialogRef<CampaignComponent>,
+    @Inject(MAT_DIALOG_DATA) public editData: any
   ) {
     campaignService.getAllCampaign();
   }
-  campaignStatusValue = '';
-  mailerSizeValue = '';
-  campaignTypeValue = '';
   campaignForm = new FormGroup({
-    firstDropDate: new FormControl(Date, Validators.required),
+    firstDropDate: new FormControl(
+      new Date().toISOString(),
+      Validators.required
+    ),
     campaignStatus: new FormControl('', Validators.required),
     campaignType: new FormControl('', Validators.required),
     firstDropVolume: new FormControl('', Validators.required),
@@ -52,40 +46,61 @@ export class CampaignComponent implements OnInit {
     attachments: new FormControl('', Validators.required),
   });
 
-  campaignStatusFields: selectFields[] = [
-    { value: 'active', viewValue: 'Active' },
-    { value: 'suspended', viewValue: 'Suspended' },
-    { value: 'cancelled', viewValue: 'Cancelled' },
-    { value: 'completed', viewValue: 'Completed' },
-  ];
-
-  campaignTypeFields: selectFields[] = [
-    { value: 'mailer', viewValue: 'Mailer' },
-    { value: 'postcard', viewValue: 'Postcard' },
-    { value: 'magazine', viewValue: 'Magazine' },
-  ];
-
-  mailerSizeFields: selectFields[] = [
-    { value: '8.5 x 17', viewValue: '8.5 x 17' },
-    { value: '10 x 18', viewValue: '10 x 18' },
-    { value: '5.5 x 8.5', viewValue: '5.5 x 8.5' },
-    { value: '6 x 11', viewValue: '6 x 11' },
-    { value: '8.5 x 14', viewValue: '8.5 x 14' },
-    { value: '8.5 x 11', viewValue: '8.5 x 11' },
-  ];
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.editData) {
+      this.campaignForm.controls['firstDropDate'].setValue(
+        this.editData.firstDropDate
+      );
+      this.campaignForm.controls['campaignStatus'].setValue(
+        this.editData.campaignStatus
+      );
+      this.campaignForm.controls['campaignType'].setValue(
+        this.editData.campaignType
+      );
+      this.campaignForm.controls['firstDropVolume'].setValue(
+        this.editData.firstDropVolume
+      );
+      this.campaignForm.controls['totalCampaignVolume'].setValue(
+        this.editData.totalCampaignVolume
+      );
+      this.campaignForm.controls['totalDropsNumber'].setValue(
+        this.editData.totalDropsNumber
+      );
+      this.campaignForm.controls['mailerSize'].setValue(
+        this.editData.mailerSize
+      );
+      this.campaignForm.controls['totalHouseholds'].setValue(
+        this.editData.totalHouseholds
+      );
+      this.campaignForm.controls['totalcontractAmount'].setValue(
+        this.editData.totalcontractAmount
+      );
+      this.campaignForm.controls['printOrderID'].setValue(
+        this.editData.printOrderID
+      );
+      this.campaignForm.controls['accountName'].setValue(
+        this.editData.accountName
+      );
+      this.campaignForm.controls['ownerName'].setValue(this.editData.ownerName);
+      this.campaignForm.controls['contactName'].setValue(
+        this.editData.contactName
+      );
+      this.campaignForm.controls['attachments'].setValue(
+        this.editData.attachments
+      );
+    }
+  }
 
   get firstDropDate() {
     return this.campaignForm.get('firstDropDate');
   }
 
   get campaignStatus() {
-    return this.campaignStatusValue;
+    return this.campaignForm.get('campaignStatus');
   }
 
   get campaignType() {
-    return this.campaignTypeValue;
+    return this.campaignForm.get('campaignType');
   }
 
   get totalCampaignVolume() {
@@ -101,7 +116,7 @@ export class CampaignComponent implements OnInit {
   }
 
   get mailerSize() {
-    return this.mailerSizeValue;
+    return this.campaignForm.get('mailerSize');
   }
 
   get totalHouseholds() {
@@ -135,9 +150,12 @@ export class CampaignComponent implements OnInit {
   addCampaign() {
     const {
       firstDropDate,
+      campaignStatus,
+      campaignType,
       totalCampaignVolume,
       firstDropVolume,
       totalDropsNumber,
+      mailerSize,
       totalHouseholds,
       totalcontractAmount,
       printOrderID,
@@ -148,12 +166,12 @@ export class CampaignComponent implements OnInit {
     } = this.campaignForm.value;
     const campaignCreationObject = {
       firstDropDate,
-      campaignStatus: this.campaignStatusValue,
-      campaignType: this.campaignTypeValue,
+      campaignStatus,
+      campaignType,
       firstDropVolume,
       totalCampaignVolume,
       totalDropsNumber,
-      mailerSize: this.mailerSizeValue,
+      mailerSize,
       totalHouseholds,
       totalcontractAmount,
       printOrderID,

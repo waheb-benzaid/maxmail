@@ -15,24 +15,19 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Campaign Status</mat-label>
-      <mat-select [(value)]="campaignStatusValue">
-        <mat-option
-          *ngFor="let status of campaignStatusFields"
-          [value]="status.value"
-        >
-          {{ status.viewValue }}
-        </mat-option>
+      <mat-select formControlName="campaignStatus">
+        <mat-option value="active">Active</mat-option>
+        <mat-option value="suspended">suspended</mat-option>
+        <mat-option value="cancelled">cancelled</mat-option>
+        <mat-option value="completed">completed</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Campaign Type</mat-label>
-      <mat-select [(value)]="campaignTypeValue">
-        <mat-option
-          *ngFor="let type of campaignTypeFields"
-          [value]="type.value"
-        >
-          {{ type.viewValue }}
-        </mat-option>
+      <mat-select formControlName="campaignType">
+        <mat-option value="mailer">Mailer</mat-option>
+        <mat-option value="postcard">Postcard</mat-option>
+        <mat-option value="magazine">Magazine</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
@@ -45,7 +40,6 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Total number of Drops</mat-label>
-
       <input
         matInput
         placeholder="Total number of Drops"
@@ -54,7 +48,6 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Total Campaign Volume</mat-label>
-
       <input
         matInput
         placeholder="Total Campaign Volume"
@@ -63,10 +56,13 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Mailer Size</mat-label>
-      <mat-select [(value)]="mailerSizeValue">
-        <mat-option *ngFor="let size of mailerSizeFields" [value]="size.value">
-          {{ size.viewValue }}
-        </mat-option>
+      <mat-select formControlName="mailerSize">
+        <mat-option value="8.5 x 17">8.5 x 17</mat-option>
+        <mat-option value="10 x 18">10 x 18</mat-option>
+        <mat-option value="5.5 x 8.5">5.5 x 8.5</mat-option>
+        <mat-option value="6 x 11">6 x 11</mat-option>
+        <mat-option value="8.5 x 14">8.5 x 14</mat-option>
+        <mat-option value="8.5 x 11">8.5 x 11</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">

@@ -10,7 +10,7 @@ table {
 
 td,
 th {
-  width: 25%;
+  width: 23%;
 }
 
 .demo-button + .demo-button {
@@ -22,4 +22,9 @@ th {
   text-align: right;
   margin-right: 20px;
   margin-top: 20px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
 }

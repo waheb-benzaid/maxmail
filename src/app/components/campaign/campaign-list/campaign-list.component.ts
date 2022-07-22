@@ -21,7 +21,7 @@ export class CampaignListComponent implements OnInit {
     'accountName',
     'campaignStatus',
     'campaignType',
-    // 'actions',
+    'action',
   ];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator)
@@ -52,21 +52,25 @@ export class CampaignListComponent implements OnInit {
     }
   }
 
-  openDialog() {
+  openDialog(data?: string) {
     this.dialog.open(CampaignComponent, {
-      width: '20%',
+      width: '30%',
       panelClass: 'custom-modalbox',
+      data: data,
     });
   }
 
   getAllCampaigns() {
     let campaign: any[] = [];
     this.campaignService.getAllCampaign().subscribe((res) => {
-      console.log(res[0]);
-
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+  }
+
+  editCampaign(row: any) {
+    console.log('hello');
+    this.openDialog(row);
   }
 }

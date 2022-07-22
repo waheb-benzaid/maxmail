@@ -40,7 +40,7 @@ import { CampaignComponent } from './components/campaign/new-campaign/campaign.c
 import { CampaignListComponent } from './components/campaign/campaign-list/campaign-list.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MaxmailDatePickerComponent } from './components/common/maxmail-date-picker/maxmail-date-picker.component';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {
   provideAnalytics,
   getAnalytics,
@@ -50,6 +50,7 @@ import {
 import { provideFunctions, getFunctions } from '@angular/fire/functions';
 import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 import { MatSelectModule } from '@angular/material/select';
+import { MY_DATE_FORMATS } from './date-formats';
 
 @NgModule({
   declarations: [
