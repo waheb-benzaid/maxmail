@@ -165,7 +165,7 @@ export class CampaignComponent implements OnInit {
       attachments,
     } = this.campaignForm.value;
     const campaignCreationObject = {
-      firstDropDate: this.FormatDate(firstDropDate),
+      firstDropDate: this.formatDate(firstDropDate),
       campaignStatus,
       campaignType,
       firstDropVolume,
@@ -196,9 +196,8 @@ export class CampaignComponent implements OnInit {
       });
   }
 
-  FormatDate(date: any) {
+  formatDate(date: any) {
     let formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
     return formattedDate;
-    //return this.datePipe.transform(date, 'yyyy-MM-DD');
   }
 }
