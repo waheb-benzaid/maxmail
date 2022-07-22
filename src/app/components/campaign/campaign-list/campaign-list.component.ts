@@ -43,6 +43,7 @@ export class CampaignListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -52,7 +53,7 @@ export class CampaignListComponent implements OnInit {
     }
   }
 
-  openDialog(data?: string) {
+  openAddCompaignDialog(data?: string) {
     this.dialog.open(CampaignComponent, {
       width: '30%',
       panelClass: 'borderless-dialog',
@@ -62,7 +63,6 @@ export class CampaignListComponent implements OnInit {
   }
 
   getAllCampaigns() {
-    let campaign: any[] = [];
     this.campaignService.getAllCampaign().subscribe((res) => {
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
@@ -72,6 +72,6 @@ export class CampaignListComponent implements OnInit {
 
   editCampaign(row: any) {
     console.log('hello');
-    this.openDialog(row);
+    this.openAddCompaignDialog(row);
   }
 }
