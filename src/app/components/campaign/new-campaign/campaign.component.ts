@@ -1,4 +1,5 @@
 import { Component, Inject, inject, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import {
   AbstractControl,
   FormControl,
@@ -16,21 +17,20 @@ import { DateFormatterParams } from 'angular-calendar';
   selector: 'app-campaign',
   templateUrl: './campaign.component.html',
   styleUrls: ['./campaign.component.css'],
+  providers: [DatePipe],
 })
 export class CampaignComponent implements OnInit {
   constructor(
     private campaignService: CampaignService,
     private toast: HotToastService,
     private dialogRef: MatDialogRef<CampaignComponent>,
-    @Inject(MAT_DIALOG_DATA) public editData: any
+    @Inject(MAT_DIALOG_DATA) public editData: any,
+    private datePipe: DatePipe
   ) {
     campaignService.getAllCampaign();
   }
   campaignForm = new FormGroup({
-    firstDropDate: new FormControl(
-      new Date().toISOString(),
-      Validators.required
-    ),
+    firstDropDate: new FormControl('', Validators.required),
     campaignStatus: new FormControl('', Validators.required),
     campaignType: new FormControl('', Validators.required),
     firstDropVolume: new FormControl('', Validators.required),
@@ -165,7 +165,7 @@ export class CampaignComponent implements OnInit {
       attachments,
     } = this.campaignForm.value;
     const campaignCreationObject = {
-      firstDropDate,
+      firstDropDate: this.FormatDate(firstDropDate),
       campaignStatus,
       campaignType,
       firstDropVolume,
@@ -194,5 +194,11 @@ export class CampaignComponent implements OnInit {
         this.dialogRef.close();
         window.location.reload();
       });
+  }
+
+  FormatDate(date: any) {
+    let formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
+    return formattedDate;
+    //return this.datePipe.transform(date, 'yyyy-MM-DD');
   }
 }

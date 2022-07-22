@@ -51,6 +51,7 @@ import { provideFunctions, getFunctions } from '@angular/fire/functions';
 import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 import { MatSelectModule } from '@angular/material/select';
 import { MY_DATE_FORMATS } from './date-formats';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,7 @@ import { MY_DATE_FORMATS } from './date-formats';
     provideFunctions(() => getFunctions()),
     provideMessaging(() => getMessaging()),
   ],
-  providers: [ScreenTrackingService, UserTrackingService],
+  providers: [ScreenTrackingService, UserTrackingService, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
