@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
-import { Campaign } from 'src/app/models/Campaign.model';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { CampaignComponent } from '../new-campaign/campaign.component';
 

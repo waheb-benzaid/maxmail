@@ -6,7 +6,7 @@ import {
   doc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { getDocs } from 'firebase/firestore';
+import { deleteDoc, getDocs } from 'firebase/firestore';
 import { from, Observable } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
 
@@ -36,13 +36,24 @@ export class CampaignService {
   }
 
   updateCampaign(id: string, dataToUpdate: any) {
-    const campaignToUpdate = doc(this.firestoreDB, 'mail_campaign');
-    updateDoc(campaignToUpdate, dataToUpdate)
-      .then(() => {
-        console.log('Data updated');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const campaignToUpdate = doc(this.firestoreDB, 'mail_campaign', id);
+    return from(
+      updateDoc(campaignToUpdate, dataToUpdate)
+        .then(() => {
+          console.log('Data updated');
+        })
+        .catch((err) => {
+          console.log(err.message);
+        })
+    );
+  }
+
+  deleteCampaign(id: string) {
+    const campaignToDelete = doc(this.firestoreDB, 'mail_campaign', id);
+    return from(
+      deleteDoc(campaignToDelete)
+        .then(() => console.log('Campaign deleted '))
+        .catch((err) => console.log(err.message))
+    );
   }
 }

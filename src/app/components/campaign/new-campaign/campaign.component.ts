@@ -187,12 +187,33 @@ export class CampaignComponent implements OnInit {
   }
 
   addCampaign() {
+    if (!this.editData) {
+      this.campaignService
+        .save(this.getCampaignObject())
+        .pipe(
+          this.toast.observe({
+            success: 'Campaign saved successfuly',
+            loading: 'Saving ...',
+            error: 'There was a error',
+          })
+        )
+        .subscribe(() => {
+          this.campaignForm.reset();
+          this.dialogRef.close();
+          window.location.reload();
+        });
+      return;
+    }
+    this.updateCampaign(this.editData.id);
+  }
+
+  updateCampaign(id: string) {
     this.campaignService
-      .save(this.getCampaignObject())
+      .updateCampaign(id, this.getCampaignObject())
       .pipe(
         this.toast.observe({
-          success: 'Campaign saved successfuly',
-          loading: 'Saving ...',
+          success: 'Campaign edited successfuly',
+          loading: 'Editing ...',
           error: 'There was a error',
         })
       )
@@ -203,8 +224,19 @@ export class CampaignComponent implements OnInit {
       });
   }
 
-  updateCampaign(id: string) {
-    this.campaignService.updateCampaign(id, this.getCampaignObject());
+  deleteCampaign() {
+    this.campaignService
+      .deleteCampaign(this.editData.id)
+      .pipe(
+        this.toast.observe({
+          success: 'Campaign deleted successfuly',
+          loading: 'Deleting ...',
+          error: 'There was an error',
+        })
+      )
+      .subscribe(() => {
+        window.location.reload();
+      });
   }
 
   formatDate(date: any) {
