@@ -53,7 +53,7 @@ export class CampaignListComponent implements OnInit {
     }
   }
 
-  openAddCompaignDialog(data?: string) {
+  openCompaignDialog(data?: string) {
     this.dialog.open(CampaignComponent, {
       width: '30%',
       panelClass: 'borderless-dialog',
@@ -72,6 +72,6 @@ export class CampaignListComponent implements OnInit {
 
   editCampaign(row: any) {
     console.log('hello');
-    this.openAddCompaignDialog(row);
+    this.openCompaignDialog(row);
   }
 }
