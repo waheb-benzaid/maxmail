@@ -50,10 +50,6 @@ export class CampaignService {
 
   deleteCampaign(id: string) {
     const campaignToDelete = doc(this.firestoreDB, 'mail_campaign', id);
-    return from(
-      deleteDoc(campaignToDelete)
-        .then(() => console.log('Campaign deleted '))
-        .catch((err) => console.log(err.message))
-    );
+    return from(deleteDoc(campaignToDelete));
   }
 }

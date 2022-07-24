@@ -61,7 +61,7 @@ export class CampaignListComponent implements OnInit {
         disableClose: true,
       })
       .afterClosed()
-      .subscribe((value) => {
+      .subscribe(() => {
         this.getAllCampaigns();
       });
   }

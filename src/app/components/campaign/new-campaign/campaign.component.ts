@@ -234,7 +234,8 @@ export class CampaignComponent implements OnInit {
         })
       )
       .subscribe(() => {
-        window.location.reload();
+        console.log('Campaign deleted');
+        this.dialogRef.close('delete');
       });
   }
 
