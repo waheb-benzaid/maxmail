@@ -13,6 +13,7 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateFormatterParams } from 'angular-calendar';
 import { Campaign } from 'src/app/models/Campaign.model';
+import { formatDate } from '../../../utils/format-date';
 
 @Component({
   selector: 'app-campaign',
@@ -168,7 +169,8 @@ export class CampaignComponent implements OnInit {
       attachments,
     } = this.campaignForm.value;
     const campaignObject = {
-      firstDropDate: this.formatDate(firstDropDate),
+      //firstDropDate: this.formatDate(firstDropDate),
+      firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
       campaignType,
       firstDropVolume,
@@ -200,7 +202,6 @@ export class CampaignComponent implements OnInit {
         .subscribe(() => {
           this.campaignForm.reset();
           this.dialogRef.close('save');
-          // window.location.reload();
         });
       return;
     }
