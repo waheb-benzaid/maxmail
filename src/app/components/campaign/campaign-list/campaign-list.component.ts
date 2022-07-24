@@ -53,12 +53,17 @@ export class CampaignListComponent implements OnInit {
   }
 
   openCompaignDialog(data?: string) {
-    this.dialog.open(CampaignComponent, {
-      width: '30%',
-      panelClass: 'borderless-dialog',
-      data: data,
-      disableClose: true,
-    });
+    this.dialog
+      .open(CampaignComponent, {
+        width: '30%',
+        panelClass: 'borderless-dialog',
+        data: data,
+        disableClose: true,
+      })
+      .afterClosed()
+      .subscribe((value) => {
+        this.getAllCampaigns();
+      });
   }
 
   getAllCampaigns() {
@@ -70,7 +75,6 @@ export class CampaignListComponent implements OnInit {
   }
 
   editCampaign(row: any) {
-    console.log('hello');
     this.openCompaignDialog(row);
   }
 }

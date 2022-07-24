@@ -199,8 +199,8 @@ export class CampaignComponent implements OnInit {
         )
         .subscribe(() => {
           this.campaignForm.reset();
-          this.dialogRef.close();
-          window.location.reload();
+          this.dialogRef.close('save');
+          // window.location.reload();
         });
       return;
     }
@@ -219,8 +219,7 @@ export class CampaignComponent implements OnInit {
       )
       .subscribe(() => {
         this.campaignForm.reset();
-        this.dialogRef.close();
-        window.location.reload();
+        this.dialogRef.close('update');
       });
   }
 
