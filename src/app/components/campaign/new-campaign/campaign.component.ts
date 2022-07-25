@@ -169,7 +169,6 @@ export class CampaignComponent implements OnInit {
       attachments,
     } = this.campaignForm.value;
     const campaignObject = {
-      //firstDropDate: this.formatDate(firstDropDate),
       firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
       campaignType,
