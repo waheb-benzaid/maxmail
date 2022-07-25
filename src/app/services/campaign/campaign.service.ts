@@ -15,7 +15,7 @@ import { Campaign } from 'src/app/models/Campaign.model';
 })
 export class CampaignService {
   constructor(private firestoreDB: Firestore) {}
-  save(campaignFields: Campaign) {
+  saveCampaign(campaignFields: Campaign) {
     const db = collection(this.firestoreDB, 'mail_campaign');
     return from(
       addDoc(db, campaignFields)
@@ -24,12 +24,12 @@ export class CampaignService {
     );
   }
 
-  getAllCampaign() {
+  getAllCampaigns() {
     const db = collection(this.firestoreDB, 'mail_campaign');
     return from(
       getDocs(db).then((response) => {
         return response.docs.map((item) => {
-          return { ...item.data(), id: item.id };
+          return { ...(<Campaign[]>item.data()), id: item.id };
         });
       })
     );

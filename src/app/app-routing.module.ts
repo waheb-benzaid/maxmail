@@ -12,6 +12,7 @@ import { UsersListComponent } from './components/users/users-list/users-list.com
 import { UserRegisterComponent } from './components/users/user-register/user-register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CampaignListComponent } from './components/campaign/campaign-list/campaign-list.component';
+import { DropsListComponent } from './components/drop/drops-list/drops-list.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
@@ -45,6 +46,11 @@ const routes: Routes = [
   {
     path: 'campaigns',
     component: CampaignListComponent,
+    ...canActivate(redirectUnauthorizedToLogin),
+  },
+  {
+    path: 'drops',
+    component: DropsListComponent,
     ...canActivate(redirectUnauthorizedToLogin),
   },
 ];

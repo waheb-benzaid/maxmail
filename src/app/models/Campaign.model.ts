@@ -1,4 +1,5 @@
 export interface Campaign {
+  campaignName?: any;
   firstDropDate: any;
   campaignStatus?: any;
   campaignType?: any;

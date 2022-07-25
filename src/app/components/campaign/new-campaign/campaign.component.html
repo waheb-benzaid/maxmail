@@ -3,6 +3,14 @@
   <div class="mat-dialog-content">
     <form [formGroup]="campaignForm">
       <mat-form-field appearance="outline">
+        <mat-label>Campaign Name</mat-label>
+        <input
+          matInput
+          placeholder="Campaign Name"
+          formControlName="campaignName"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Choose a date</mat-label>
         <input
           matInput

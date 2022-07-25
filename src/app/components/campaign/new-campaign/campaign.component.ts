@@ -1,17 +1,9 @@
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DateFormatterParams } from 'angular-calendar';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { formatDate } from '../../../utils/format-date';
 
@@ -29,10 +21,11 @@ export class CampaignComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private datePipe: DatePipe
   ) {
-    campaignService.getAllCampaign();
+    campaignService.getAllCampaigns();
   }
   actionButton: string = 'Save';
   campaignForm = new FormGroup({
+    campaignName: new FormControl('', Validators.required),
     firstDropDate: new FormControl('', Validators.required),
     campaignStatus: new FormControl('', Validators.required),
     campaignType: new FormControl('', Validators.required),
@@ -52,6 +45,9 @@ export class CampaignComponent implements OnInit {
   ngOnInit(): void {
     if (this.editData) {
       this.actionButton = 'Edit';
+      this.campaignForm.controls['campaignName'].setValue(
+        this.editData.campaignName
+      );
       this.campaignForm.controls['firstDropDate'].setValue(
         this.editData.firstDropDate
       );
@@ -95,64 +91,9 @@ export class CampaignComponent implements OnInit {
     }
   }
 
-  get firstDropDate() {
-    return this.campaignForm.get('firstDropDate');
-  }
-
-  get campaignStatus() {
-    return this.campaignForm.get('campaignStatus');
-  }
-
-  get campaignType() {
-    return this.campaignForm.get('campaignType');
-  }
-
-  get totalCampaignVolume() {
-    return this.campaignForm.get('totalCampaignVolume');
-  }
-
-  get firstDropVolume() {
-    return this.campaignForm.get('firstDropVolume');
-  }
-
-  get totalDropsNumber() {
-    return this.campaignForm.get('totalDropsNumber');
-  }
-
-  get mailerSize() {
-    return this.campaignForm.get('mailerSize');
-  }
-
-  get totalHouseholds() {
-    return this.campaignForm.get('totalHouseholds');
-  }
-
-  get totalcontractAmount() {
-    return this.campaignForm.get('totalcontractAmount');
-  }
-
-  get printOrderID() {
-    return this.campaignForm.get('printOrderID');
-  }
-
-  get accountName() {
-    return this.campaignForm.get('accountName');
-  }
-
-  get ownerName() {
-    return this.campaignForm.get('ownerName');
-  }
-
-  get contactName() {
-    return this.campaignForm.get('contactName');
-  }
-
-  get attachments() {
-    return this.campaignForm.get('attachments');
-  }
-
   getCampaignObject(): Campaign {
     const {
+      campaignName,
       firstDropDate,
       campaignStatus,
       campaignType,
@@ -169,6 +110,7 @@ export class CampaignComponent implements OnInit {
       attachments,
     } = this.campaignForm.value;
     const campaignObject = {
+      campaignName,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
       campaignType,
@@ -190,7 +132,7 @@ export class CampaignComponent implements OnInit {
   addCampaign() {
     if (!this.editData) {
       this.campaignService
-        .save(this.getCampaignObject())
+        .saveCampaign(this.getCampaignObject())
         .pipe(
           this.toast.observe({
             success: 'Campaign saved successfuly',
@@ -237,10 +179,5 @@ export class CampaignComponent implements OnInit {
         console.log('Campaign deleted');
         this.dialogRef.close('delete');
       });
-  }
-
-  formatDate(date: any) {
-    let formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd');
-    return formattedDate;
   }
 }

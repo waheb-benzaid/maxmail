@@ -39,6 +39,10 @@ export class NavBarComponent implements OnInit {
     this.router.navigate(['/campaigns']);
   }
 
+  redirectToDropsPage() {
+    this.router.navigate(['/drops']);
+  }
+
   currentUserProfile() {
     return this.authService.currentUser$;
   }

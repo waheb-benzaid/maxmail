@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
+import { Campaign } from 'src/app/models/Campaign.model';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { CampaignComponent } from '../new-campaign/campaign.component';
 
@@ -17,7 +18,7 @@ export class CampaignListComponent implements OnInit {
   ngOnInit(): void {}
   displayedColumns: string[] = [
     'id',
-    'accountName',
+    'campaignName',
     'campaignStatus',
     'campaignType',
     'action',
@@ -26,7 +27,7 @@ export class CampaignListComponent implements OnInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
+  allcampaigns: any;
   constructor(
     public dialog: MatDialog,
     private campaignService: CampaignService,
@@ -67,10 +68,11 @@ export class CampaignListComponent implements OnInit {
   }
 
   getAllCampaigns() {
-    this.campaignService.getAllCampaign().subscribe((res) => {
+    return this.campaignService.getAllCampaigns().subscribe((res) => {
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      return res;
     });
   }
 
