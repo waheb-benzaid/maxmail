@@ -1,0 +1,19 @@
+mat-form-field {
+  width: 100%;
+}
+.form-container {
+  display: block;
+  /* max-width: 300px;
+    width: 50%; */
+  background-color: whitesmoke;
+  padding: 48px;
+  border-radius: 16px;
+  margin-top: 20%;
+  margin: auto;
+  width: 85%;
+  height: 80%;
+
+  /* mat-form-field {
+      width: 100%;
+    } */
+}
