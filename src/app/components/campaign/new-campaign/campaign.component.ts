@@ -6,7 +6,8 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { formatDate } from '../../../utils/format-date';
-
+import { Drop } from '../../../models/Drop.model';
+campaignsName: [] = [];
 @Component({
   selector: 'app-campaign',
   templateUrl: './campaign.component.html',
@@ -125,6 +126,7 @@ export class CampaignComponent implements OnInit {
       ownerName,
       contactName,
       attachments,
+      drops: [],
     };
     return campaignObject;
   }

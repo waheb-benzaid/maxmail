@@ -37,6 +37,8 @@ export class CampaignListComponent implements OnInit {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
     this.getAllCampaigns();
+    console.log('all itens');
+    campaignService.getAllCampaignsNames();
   }
 
   ngAfterViewInit() {

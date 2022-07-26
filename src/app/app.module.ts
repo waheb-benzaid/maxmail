@@ -54,6 +54,7 @@ import { MY_DATE_FORMATS } from './date-formats';
 import { DatePipe } from '@angular/common';
 import { NewDropComponent } from './components/drop/new-drop/new-drop.component';
 import { DropsListComponent } from './components/drop/drops-list/drops-list.component';
+import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { DropsListComponent } from './components/drop/drops-list/drops-list.comp
       useFactory: adapterFactory,
     }),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
+    AngularFireModule.initializeApp(environment.firebase),
     provideAuth(() => getAuth()),
     provideStorage(() => getStorage()),
     provideAnalytics(() => getAnalytics()),

@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
+import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { DropService } from '../../../services/drop/drop.service';
 import { NewDropComponent } from '../new-drop/new-drop.component';
 
@@ -17,9 +18,9 @@ export class DropsListComponent implements OnInit {
   ngOnInit(): void {}
   displayedColumns: string[] = [
     'id',
-    'accountName',
-    'campaignStatus',
-    'campaignType',
+    'isLastDrop',
+    'isDropCompleted',
+    'isSeededReceived',
     'action',
   ];
   dataSource!: MatTableDataSource<any>;
@@ -31,11 +32,12 @@ export class DropsListComponent implements OnInit {
     public dialog: MatDialog,
     private dropService: DropService,
     private router: Router,
-    private toast: HotToastService
+    private toast: HotToastService,
+    private campaignService: CampaignService
   ) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
-    this.getAllDrops;
+    this.getAllDrops();
   }
 
   ngAfterViewInit() {
@@ -67,10 +69,10 @@ export class DropsListComponent implements OnInit {
   }
 
   getAllDrops() {
-    this.dropService.getAllDrops().subscribe((res) => {
-      this.dataSource = new MatTableDataSource(res);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    this.campaignService.getAllCampaigns().subscribe((res) => {
+      // this.dataSource = new MatTableDataSource(res);
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.sort = this.sort;
     });
   }
 
