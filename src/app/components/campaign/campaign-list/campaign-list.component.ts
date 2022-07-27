@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ComponentDecorator,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -7,6 +12,8 @@ import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
+import { openForms } from 'src/app/utils/openForm';
+import { CampaignDetailComponent } from '../campaign-detail/campaign-detail.component';
 import { CampaignComponent } from '../new-campaign/campaign.component';
 
 @Component({
@@ -16,6 +23,7 @@ import { CampaignComponent } from '../new-campaign/campaign.component';
 })
 export class CampaignListComponent implements OnInit {
   ngOnInit(): void {}
+  isDetailDialog = false;
   displayedColumns: string[] = [
     'id',
     'campaignName',
@@ -55,18 +63,19 @@ export class CampaignListComponent implements OnInit {
     }
   }
 
-  openCompaignDialog(data?: string) {
-    this.dialog
-      .open(CampaignComponent, {
-        width: '30%',
-        panelClass: 'borderless-dialog',
-        data: data,
-        disableClose: true,
-      })
-      .afterClosed()
-      .subscribe(() => {
-        this.getAllCampaigns();
-      });
+  openCompaignDialog(data?: string, width: string = '30%') {
+    openForms(this.dialog, CampaignComponent, '30%', data, 'borderless-dialog');
+  }
+
+  getCampaignDetail(rowData: any) {
+    this.isDetailDialog = true;
+    openForms(
+      this.dialog,
+      CampaignDetailComponent,
+      '30%',
+      rowData,
+      'borderless-dialog'
+    );
   }
 
   getAllCampaigns() {
@@ -78,8 +87,8 @@ export class CampaignListComponent implements OnInit {
     });
   }
 
-  editCampaign(row: any) {
-    this.openCompaignDialog(row);
+  editCampaign(rowData: any) {
+    this.openCompaignDialog(rowData);
   }
 
   deleteCampaign(id: string) {

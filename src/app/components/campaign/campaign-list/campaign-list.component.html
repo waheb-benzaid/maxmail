@@ -80,7 +80,7 @@
           <tr
             mat-row
             *matRowDef="let row; columns: displayedColumns"
-            (dblclick)="openCompaignDialog()"
+            (dblclick)="getCampaignDetail(row)"
             style="cursor: pointer"
           ></tr>
 
