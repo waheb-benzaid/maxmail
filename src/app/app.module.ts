@@ -55,6 +55,7 @@ import { DatePipe } from '@angular/common';
 import { NewDropComponent } from './components/drop/new-drop/new-drop.component';
 import { DropsListComponent } from './components/drop/drops-list/drops-list.component';
 import { AngularFireModule } from '@angular/fire/compat';
+import { CampaignDetailComponent } from './components/campaign/campaign-detail/campaign-detail.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     MaxmailDatePickerComponent,
     NewDropComponent,
     DropsListComponent,
+    CampaignDetailComponent,
   ],
   imports: [
     BrowserModule,
