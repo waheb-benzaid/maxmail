@@ -43,10 +43,9 @@ export class CampaignListComponent implements OnInit {
     private toast: HotToastService
   ) {
     // Assign the data to the data source for the table to render
+    campaignService.getAllCampaignsNames();
     this.dataSource = new MatTableDataSource();
     this.getAllCampaigns();
-    console.log('all itens');
-    campaignService.getAllCampaignsNames();
   }
 
   ngAfterViewInit() {
@@ -80,6 +79,8 @@ export class CampaignListComponent implements OnInit {
 
   getAllCampaigns() {
     return this.campaignService.getAllCampaigns().subscribe((res) => {
+      console.log(this.campaignService.cNames);
+
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

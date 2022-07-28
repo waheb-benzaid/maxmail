@@ -17,6 +17,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   providedIn: 'root',
 })
 export class CampaignService {
+  cNames: string[] = [];
   constructor(
     private firestoreDB: Firestore,
     private firestore: AngularFirestore
@@ -46,32 +47,12 @@ export class CampaignService {
   }
 
   getAllCampaignsNames() {
-    let campaign: Campaign[] = [];
-    // return this.getAllCampaigns().subscribe((res) => {
-    //   for (let result of res) {
-    //     campaign = <Campaign[]>result;
-    //   }
-    // });
-
-    // fname = null;
-    this.getAllCampaigns().subscribe((campaigns) => {
-      for (const campaign of campaigns) {
-        // return this.
+    let campaigns = this.firestore.collection('mail_campaign').valueChanges();
+    campaigns.subscribe((res) => {
+      for (let campaign of <Campaign[]>res) {
+        this.cNames.push(campaign.campaignName);
       }
     });
-    // this.users = this.afs
-    //   .collection('users', (ref) => ref.where('uid', '==', id))
-    //   .valueChanges();
-
-    // this.users.subscribe((users) => {
-    //   for (let user of users) {
-    //     this.fname = user.firstName;
-    //   }
-    // });
-
-    // console.log(fname);
-
-    //let value = collection(this.firestoreDB, 'mail_campaign');
   }
 
   updateCampaign(id: string, dataToUpdate: any) {

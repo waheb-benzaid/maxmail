@@ -46,8 +46,10 @@
               is Drop Completed
             </th>
             <td mat-cell *matCellDef="let row">
-              {{ row.drops.isDropCompleted }}
+              <!-- {{ row.drops.isDropCompleted }} -->
+              <mat-checkbox checked="row.drops.isDropCompleted"></mat-checkbox>
             </td>
+            <mat-checkbox checked="row.drops.isDropCompleted"></mat-checkbox>
           </ng-container>
 
           <!-- Campaign Type Column -->

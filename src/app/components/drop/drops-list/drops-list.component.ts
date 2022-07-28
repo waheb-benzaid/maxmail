@@ -70,9 +70,9 @@ export class DropsListComponent implements OnInit {
 
   getAllDrops() {
     this.campaignService.getAllCampaigns().subscribe((res) => {
-      // this.dataSource = new MatTableDataSource(res);
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
