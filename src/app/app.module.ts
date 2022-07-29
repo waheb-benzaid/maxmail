@@ -28,6 +28,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
   FirestoreModule,
   provideFirestore,
@@ -50,7 +51,6 @@ import {
 import { provideFunctions, getFunctions } from '@angular/fire/functions';
 import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 import { MatSelectModule } from '@angular/material/select';
-import { MY_DATE_FORMATS } from './date-formats';
 import { DatePipe } from '@angular/common';
 import { NewDropComponent } from './components/drop/new-drop/new-drop.component';
 import { DropsListComponent } from './components/drop/drops-list/drops-list.component';
@@ -98,6 +98,7 @@ import { CampaignDetailComponent } from './components/campaign/campaign-detail/c
     MatMenuModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatAutocompleteModule,
     HotToastModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

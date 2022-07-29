@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { formatDate } from '../../../utils/format-date';
 import { CampaignComponent } from '../new-campaign/campaign.component';
-campaignsName: [] = [];
+campaignsNames: [] = [];
 
 @Component({
   selector: 'app-campaign-detail',
@@ -112,6 +112,7 @@ export class CampaignDetailComponent implements OnInit {
       attachments,
     } = this.campaignDetail.value;
     const campaignObject = {
+      id: '',
       campaignName,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,

@@ -109,6 +109,7 @@ export class CampaignComponent implements OnInit {
       attachments,
     } = this.campaignForm.value;
     const campaignObject = {
+      id: '',
       campaignName,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
@@ -124,7 +125,6 @@ export class CampaignComponent implements OnInit {
       ownerName,
       contactName,
       attachments,
-      drops: [],
     };
     return campaignObject;
   }

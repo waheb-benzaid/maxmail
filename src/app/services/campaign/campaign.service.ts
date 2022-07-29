@@ -1,62 +1,66 @@
 import { Injectable } from '@angular/core';
 import {
   addDoc,
-  Firestore,
   collection,
+  Firestore,
   doc,
   updateDoc,
-  FieldValue,
+  deleteDoc,
+  collectionData,
+  FieldPath,
 } from '@angular/fire/firestore';
-import { de, id } from 'date-fns/locale';
-import { deleteDoc, getDocs } from 'firebase/firestore';
 import { from, Observable } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CampaignService {
   cNames: string[] = [];
-  constructor(
-    private firestoreDB: Firestore,
-    private firestore: AngularFirestore
-  ) {}
+  constructor(private firestoreDB: Firestore) {
+    this.getAllCampaignsNames();
+    console.log(this.getCampaignIdByName('second'), 'campaign name');
+  }
   items: Observable<any[]> | undefined;
 
   saveCampaign(campaignFields: Campaign) {
-    const db = collection(this.firestoreDB, 'mail_campaign');
+    campaignFields.id = doc(collection(this.firestoreDB, 'id')).id;
     return from(
-      addDoc(db, campaignFields)
-        .then(() => console.log('data saved'))
-        .catch((error) => console.log(error.message))
+      addDoc(collection(this.firestoreDB, 'mail_campaign'), campaignFields)
     );
   }
 
   getAllCampaigns() {
-    const db = collection(this.firestoreDB, 'mail_campaign');
-    //return from(this.firestore.collection('mail_campaign').valueChanges());
-
+    const campaigns = collection(this.firestoreDB, 'mail_campaign');
     return from(
-      getDocs(db).then((response) => {
-        return response.docs.map((item) => {
-          return { ...(<Campaign[]>item.data()), id: item.id };
-        });
-      })
+      collectionData(campaigns, { idField: 'id' }) as Observable<Campaign[]>
     );
   }
 
   getAllCampaignsNames() {
-    let campaigns = this.firestore.collection('mail_campaign').valueChanges();
-    campaigns.subscribe((res) => {
-      for (let campaign of <Campaign[]>res) {
-        this.cNames.push(campaign.campaignName);
+    let names: string[] = [];
+    this.getAllCampaigns().subscribe((campaigns) => {
+      for (const campaign of <Campaign[]>campaigns) {
+        names.push(campaign.campaignName);
       }
     });
+    return names;
+  }
+
+  getCampaignIdByName(_campaignName: string) {
+    let id: string = '';
+    this.getAllCampaigns().subscribe((campaigns) => {
+      for (const campaign of <Campaign[]>campaigns) {
+        if (campaign.campaignName === _campaignName) {
+          id = campaign.id;
+        }
+      }
+    });
+    return id;
   }
 
   updateCampaign(id: string, dataToUpdate: any) {
-    const campaignToUpdate = doc(this.firestoreDB, 'mail_campaign', id);
+    const campaignToUpdate = doc(this.firestoreDB, `mail_campaign/${id}`);
     return from(
       updateDoc(campaignToUpdate, dataToUpdate)
         .then(() => {
@@ -69,7 +73,7 @@ export class CampaignService {
   }
 
   deleteCampaign(id: string) {
-    const campaignToDelete = doc(this.firestoreDB, 'mail_campaign', id);
+    let campaignToDelete = doc(this.firestoreDB, `mail_campaign/${id}`);
     return from(deleteDoc(campaignToDelete));
   }
 }

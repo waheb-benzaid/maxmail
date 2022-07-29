@@ -1,15 +1,8 @@
-import {
-  Component,
-  ComponentDecorator,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { HotToastService } from '@ngneat/hot-toast';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { openForms } from 'src/app/utils/openForm';
@@ -38,9 +31,7 @@ export class CampaignListComponent implements OnInit {
   allcampaigns: any;
   constructor(
     public dialog: MatDialog,
-    private campaignService: CampaignService,
-    private router: Router,
-    private toast: HotToastService
+    private campaignService: CampaignService
   ) {
     // Assign the data to the data source for the table to render
     campaignService.getAllCampaignsNames();
@@ -79,20 +70,26 @@ export class CampaignListComponent implements OnInit {
 
   getAllCampaigns() {
     return this.campaignService.getAllCampaigns().subscribe((res) => {
-      console.log(this.campaignService.cNames);
-
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      return res;
     });
   }
-
+  getCampaignId(campaignName: string) {
+    // let campaign;
+    // this.campaignService.getAllCampaigns().subscribe((res) => {
+    //   res.map((item) => {
+    //     campaign = item;
+    //   });
+    // });
+    // campaign;
+  }
   editCampaign(rowData: any) {
     this.openCompaignDialog(rowData);
   }
 
   deleteCampaign(id: string) {
+    console.log(id);
     this.campaignService.deleteCampaign(id).subscribe(() => {
       this.getAllCampaigns();
     });

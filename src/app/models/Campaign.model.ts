@@ -1,6 +1,7 @@
 import { Drop } from './Drop.model';
 
 export interface Campaign {
+  id: string;
   campaignName?: any;
   firstDropDate: any;
   campaignStatus?: any;
@@ -15,12 +16,5 @@ export interface Campaign {
   accountName?: any;
   ownerName?: any;
   contactName?: any;
-  drops: Drop[]; // {
-  //   dropId?: any;
-  //   dropStatus?: any;
-  //   seededStatus?: any;
-  //   nextAvailableDates?: any;
-  //   dropAttachments?: any;
-  // };
   attachments?: any;
 }

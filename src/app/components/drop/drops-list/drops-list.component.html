@@ -32,12 +32,21 @@
             <td mat-cell *matCellDef="let row">{{ row.id }}</td>
           </ng-container>
 
+          <ng-container matColumnDef="dropName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Drop name</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.drops ? row.drops.dropName : "" }}
+            </td>
+          </ng-container>
+
           <!-- Account Name Column -->
           <ng-container matColumnDef="isLastDrop">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               is Last Drop
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.drops.isLastDrop }}</td>
+            <td mat-cell *matCellDef="let row">
+              {{ row.drops ? row.drops.isLastDrop : "" }}
+            </td>
           </ng-container>
 
           <!-- Campaign Status Column -->
@@ -58,7 +67,7 @@
               Is Seeded Received
             </th>
             <td mat-cell *matCellDef="let row">
-              {{ row.drops.isSeededReceived }}
+              {{ row.drops ? row.drops.isSeededReceived : "" }}
             </td>
           </ng-container>
 

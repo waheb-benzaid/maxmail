@@ -2,6 +2,25 @@
   <h1 mat-dialog-title>Drop Form</h1>
   <div class="mat-dialog-content">
     <form [formGroup]="dropForm">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Campaign</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one campaign"
+          aria-label="Campaign"
+          matInput
+          formControlName="campaignName"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
       <div class="checkbox">
         <p>
           <mat-checkbox
@@ -23,15 +42,6 @@
           >
         </p>
       </div>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Notes & Attachments</mat-label>
-        <input
-          matInput
-          placeholder="Notes & Attachments"
-          formControlName="dropAttachments"
-        />
-      </mat-form-field>
     </form>
   </div>
   <div mat-dialog-actions align="end">

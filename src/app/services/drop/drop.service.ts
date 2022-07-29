@@ -8,6 +8,7 @@ import {
 } from '@angular/fire/firestore';
 import { deleteDoc, getDocs } from 'firebase/firestore';
 import { from, Observable } from 'rxjs';
+import { Campaign } from 'src/app/models/Campaign.model';
 import { Drop } from 'src/app/models/Drop.model';
 
 @Injectable({
@@ -15,13 +16,10 @@ import { Drop } from 'src/app/models/Drop.model';
 })
 export class DropService {
   constructor(private firestoreDB: Firestore) {}
+
   saveDrop(dropFields: Drop) {
-    const db = collection(this.firestoreDB, 'mail_drop');
-    return from(
-      addDoc(db, dropFields)
-        .then(() => console.log('data saved'))
-        .catch((error) => console.log(error.message))
-    );
+    dropFields.dropId = doc(collection(this.firestoreDB, 'dropId')).id;
+    return from(addDoc(collection(this.firestoreDB, 'mail_drop'), dropFields));
   }
 
   getAllDrops() {
@@ -33,6 +31,18 @@ export class DropService {
         });
       })
     );
+  }
+
+  getDropByCampaignName(_campaignName: string) {
+    let drop: Drop[] = [];
+    this.getAllDrops().subscribe((res) => {
+      for (const iterator of <Drop[]>res) {
+        if (iterator.campaignName === _campaignName) {
+          drop.push(iterator);
+        }
+      }
+    });
+    return drop;
   }
 
   updateDrop(id: string, dataToUpdate: any) {
