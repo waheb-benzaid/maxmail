@@ -17,7 +17,8 @@ import { NewDropComponent } from '../new-drop/new-drop.component';
 export class DropsListComponent implements OnInit {
   ngOnInit(): void {}
   displayedColumns: string[] = [
-    'id',
+    'campaignName',
+    'dropName',
     'isLastDrop',
     'isDropCompleted',
     'isSeededReceived',
@@ -69,7 +70,7 @@ export class DropsListComponent implements OnInit {
   }
 
   getAllDrops() {
-    this.campaignService.getAllCampaigns().subscribe((res) => {
+    this.dropService.getAllDrops().subscribe((res) => {
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
