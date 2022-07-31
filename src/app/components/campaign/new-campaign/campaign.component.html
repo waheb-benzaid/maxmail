@@ -129,9 +129,6 @@
           placeholder="Print Order ID"
           formControlName="printOrderID"
         />
-        <mat-error *ngIf="printOrderID?.errors?.['required']">
-          printOrderID is required</mat-error
-        >
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Account Name</mat-label>
@@ -156,9 +153,6 @@
           placeholder="Contact Name"
           formControlName="contactName"
         />
-        <mat-error *ngIf="contactName?.errors?.['required']">
-          Contact Name is required</mat-error
-        >
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Notes & Attachments</mat-label>

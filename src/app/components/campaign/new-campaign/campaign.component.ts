@@ -35,11 +35,11 @@ export class CampaignComponent implements OnInit {
     mailerSize: new FormControl('', Validators.required),
     totalHouseholds: new FormControl('', Validators.required),
     totalcontractAmount: new FormControl('', Validators.required),
-    printOrderID: new FormControl('', Validators.required),
+    printOrderID: new FormControl(''),
     accountName: new FormControl('', Validators.required),
-    ownerName: new FormControl('', Validators.required),
-    contactName: new FormControl('', Validators.required),
-    attachments: new FormControl('', Validators.required),
+    ownerName: new FormControl(''),
+    contactName: new FormControl(''),
+    attachments: new FormControl(''),
   });
   ngOnInit(): void {
     if (this.editData) {
@@ -130,20 +130,8 @@ export class CampaignComponent implements OnInit {
     return this.campaignForm.get('totalcontractAmount');
   }
 
-  get printOrderID() {
-    return this.campaignForm.get('printOrderID');
-  }
-
   get accountName() {
     return this.campaignForm.get('accountName');
-  }
-
-  get ownerName() {
-    return this.campaignForm.get('ownerName');
-  }
-
-  get contactName() {
-    return this.campaignForm.get('contactName');
   }
 
   getCampaignObject(): Campaign {
