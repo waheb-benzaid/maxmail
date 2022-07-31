@@ -90,6 +90,62 @@ export class CampaignComponent implements OnInit {
     }
   }
 
+  get campaignName() {
+    return this.campaignForm.get('campaignName');
+  }
+
+  get firstDropDate() {
+    return this.campaignForm.get('firstDropDate');
+  }
+
+  get campaignStatus() {
+    return this.campaignForm.get('campaignStatus');
+  }
+
+  get campaignType() {
+    return this.campaignForm.get('campaignType');
+  }
+
+  get firstDropVolume() {
+    return this.campaignForm.get('firstDropVolume');
+  }
+
+  get totalCampaignVolume() {
+    return this.campaignForm.get('totalCampaignVolume');
+  }
+
+  get totalDropsNumber() {
+    return this.campaignForm.get('totalDropsNumber');
+  }
+
+  get mailerSize() {
+    return this.campaignForm.get('mailerSize');
+  }
+
+  get totalHouseholds() {
+    return this.campaignForm.get('totalHouseholds');
+  }
+
+  get totalcontractAmount() {
+    return this.campaignForm.get('totalcontractAmount');
+  }
+
+  get printOrderID() {
+    return this.campaignForm.get('printOrderID');
+  }
+
+  get accountName() {
+    return this.campaignForm.get('accountName');
+  }
+
+  get ownerName() {
+    return this.campaignForm.get('ownerName');
+  }
+
+  get contactName() {
+    return this.campaignForm.get('contactName');
+  }
+
   getCampaignObject(): Campaign {
     const {
       campaignName,
