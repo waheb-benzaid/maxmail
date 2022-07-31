@@ -47,10 +47,10 @@
           <mat-option value="mailer">Mailer</mat-option>
           <mat-option value="postcard">Postcard</mat-option>
           <mat-option value="magazine">Magazine</mat-option>
-          <mat-error *ngIf="campaignType?.errors?.['required']">
-            Campaign Type is required</mat-error
-          >
         </mat-select>
+        <mat-error *ngIf="campaignType?.errors?.['required']">
+          Campaign Type is required</mat-error
+        >
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>First Drop Volume</mat-label>
@@ -163,7 +163,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Notes & Attachments</mat-label>
         <input
-          text
+          matInput
           placeholder="Notes & Attachments"
           formControlName="attachments"
         />
