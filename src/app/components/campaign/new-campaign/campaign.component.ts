@@ -109,7 +109,6 @@ export class CampaignComponent implements OnInit {
       attachments,
     } = this.campaignForm.value;
     const campaignObject = {
-      id: '',
       campaignName,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
@@ -131,6 +130,8 @@ export class CampaignComponent implements OnInit {
 
   addCampaign() {
     if (!this.editData) {
+      console.log(this.getCampaignObject(), 'save object');
+
       this.campaignService
         .saveCampaign(this.getCampaignObject())
         .pipe(

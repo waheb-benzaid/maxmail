@@ -7,7 +7,6 @@ import {
   updateDoc,
   deleteDoc,
   collectionData,
-  FieldPath,
 } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
@@ -24,7 +23,7 @@ export class CampaignService {
   items: Observable<any[]> | undefined;
 
   saveCampaign(campaignFields: Campaign) {
-    campaignFields.id = doc(collection(this.firestoreDB, 'id')).id;
+    //campaignFields = doc(collection(this.firestoreDB));
     return from(
       addDoc(collection(this.firestoreDB, 'mail_campaign'), campaignFields)
     );
@@ -49,18 +48,18 @@ export class CampaignService {
 
   getCampaignIdByName(_campaignName: string) {
     let id: string = '';
-    this.getAllCampaigns().subscribe((campaigns) => {
-      for (const campaign of <Campaign[]>campaigns) {
-        if (campaign.campaignName === _campaignName) {
-          id = campaign.id;
-        }
-      }
-    });
+    // this.getAllCampaigns().subscribe((campaigns) => {
+    //   for (const campaign of <Campaign[]>campaigns) {
+    //     if (campaign.campaignName === _campaignName) {
+    //       //doc('campaign'.data)
+    //     }
+    //   }
+    // });
     return id;
   }
 
   updateCampaign(id: string, dataToUpdate: any) {
-    const campaignToUpdate = doc(this.firestoreDB, `mail_campaign/${id}`);
+    const campaignToUpdate = doc(this.firestoreDB, `mail_campaign`, id);
     return from(
       updateDoc(campaignToUpdate, dataToUpdate)
         .then(() => {
