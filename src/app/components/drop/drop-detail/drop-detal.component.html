@@ -1,0 +1,65 @@
+<div class="form-container mat-elevation-z5">
+  <h1 mat-dialog-title>Drop Form</h1>
+  <div class="mat-dialog-content">
+    <form [formGroup]="dropForm">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Campaign</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one campaign"
+          aria-label="Campaign"
+          matInput
+          formControlName="campaignName"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="checkbox">
+        <p>
+          <mat-checkbox
+            formControlName="isDropCompleted"
+            [(ngModel)]="isDropCompleted"
+            >Is Drop Completed</mat-checkbox
+          >
+        </p>
+        <p>
+          <mat-checkbox formControlName="isLastDrop" [(ngModel)]="isLastDrop"
+            >Is Last Drop</mat-checkbox
+          >
+        </p>
+        <p>
+          <mat-checkbox
+            formControlName="isSeededReceived"
+            [(ngModel)]="isSeededReceived"
+            >Is Seeded Received</mat-checkbox
+          >
+        </p>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button
+      mat-raised-button
+      color="warm"
+      mat-dialog-close
+      style="background-color: coral"
+    >
+      Close
+    </button>
+    <button
+      style="margin-left: 8px"
+      mat-raised-button
+      color="primary"
+      (click)="addDrop()"
+    >
+      {{ actionButton }}
+    </button>
+  </div>
+</div>

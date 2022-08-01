@@ -1,0 +1,147 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DropService } from 'src/app/services/drop/drop.service';
+import { HotToastService } from '@ngneat/hot-toast';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Drop } from 'src/app/models/Drop.model';
+import { formatDate } from '../../../utils/format-date';
+import { CampaignService } from 'src/app/services/campaign/campaign.service';
+import { map, Observable, startWith } from 'rxjs';
+import { NewDropComponent } from '../new-drop/new-drop.component';
+
+@Component({
+  selector: 'app-drop-detal',
+  templateUrl: './drop-detal.component.html',
+  styleUrls: ['./drop-detal.component.css'],
+})
+export class DropDetalComponent implements OnInit {
+  myControl = new FormControl('');
+  options: string[] = [];
+  filteredOptions: Observable<string[]> | undefined;
+  constructor(
+    private dropService: DropService,
+    private toast: HotToastService,
+    private dialogRef: MatDialogRef<NewDropComponent>,
+    @Inject(MAT_DIALOG_DATA) public editMode: any,
+    private datePipe: DatePipe,
+    private campaignService: CampaignService
+  ) {
+    dropService.getAllDrops();
+    this.options = campaignService.getAllCampaignsNames();
+    console.log('options');
+
+    console.log(this.options);
+  }
+  isDropCompleted = false;
+  isLastDrop = false;
+  isSeededReceived = false;
+  actionButton: string = 'Save';
+  dropForm = new FormGroup({
+    campaignName: new FormControl('', Validators.required),
+    isLastDrop: new FormControl('', Validators.required),
+    isDropCompleted: new FormControl('', Validators.required),
+    isSeededReceived: new FormControl('', Validators.required),
+    nextAvailableDates: new FormControl('', Validators.required),
+  });
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
+  }
+  ngOnInit(): void {
+    this.filteredOptions = this.dropForm.controls[
+      'campaignName'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value || ''))
+    );
+    if (this.editMode) {
+      this.actionButton = 'Edit';
+      this.dropForm.controls['campaignName'].setValue(
+        this.editMode.campaignName
+      );
+      this.dropForm.controls['isLastDrop'].setValue(this.editMode.isLastDrop);
+      this.dropForm.controls['isDropCompleted'].setValue(
+        this.editMode.isDropCompleted
+      );
+      this.dropForm.controls['isSeededReceived'].setValue(
+        this.editMode.isSeededReceived
+      );
+      this.dropForm.controls['nextAvailableDates'].setValue(
+        this.editMode.nextAvailableDates
+      );
+    }
+  }
+
+  getDropObject(): Drop {
+    const {
+      campaignName,
+      isLastDrop,
+      isDropCompleted,
+      isSeededReceived,
+      nextAvailableDates,
+    } = this.dropForm.value;
+    const dropObject = {
+      campaignName,
+      isLastDrop,
+      isDropCompleted,
+      isSeededReceived,
+      nextAvailableDates,
+    };
+    return dropObject;
+  }
+
+  addDrop() {
+    if (!this.editMode) {
+      this.dropService
+        .saveDrop(this.dropForm.value)
+        .pipe(
+          this.toast.observe({
+            success: 'drop saved successfuly',
+            loading: 'Saving ...',
+            error: 'There was a error',
+          })
+        )
+        .subscribe(() => {
+          this.dropForm.reset();
+          this.dialogRef.close('save');
+        });
+    }
+    this.updatedrop(this.editMode.id);
+  }
+
+  updatedrop(id: string) {
+    this.dropService
+      .updateDrop(id, this.getDropObject())
+      .pipe(
+        this.toast.observe({
+          success: 'drop edited successfuly',
+          loading: 'Editing ...',
+          error: 'There was a error',
+        })
+      )
+      .subscribe(() => {
+        this.dropForm.reset();
+        this.dialogRef.close('update');
+      });
+  }
+
+  deletedrop() {
+    this.dropService
+      .deleteDrop(this.editMode.id)
+      .pipe(
+        this.toast.observe({
+          success: 'drop deleted successfuly',
+          loading: 'Deleting ...',
+          error: 'There was an error',
+        })
+      )
+      .subscribe(() => {
+        console.log('drop deleted');
+        this.dialogRef.close('delete');
+      });
+  }
+}

@@ -56,6 +56,7 @@ import { NewDropComponent } from './components/drop/new-drop/new-drop.component'
 import { DropsListComponent } from './components/drop/drops-list/drops-list.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { CampaignDetailComponent } from './components/campaign/campaign-detail/campaign-detail.component';
+import { DropDetalComponent } from './components/drop/drop-detail/drop-detal.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { CampaignDetailComponent } from './components/campaign/campaign-detail/c
     NewDropComponent,
     DropsListComponent,
     CampaignDetailComponent,
+    DropDetalComponent,
   ],
   imports: [
     BrowserModule,

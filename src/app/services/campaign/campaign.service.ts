@@ -54,7 +54,7 @@ export class CampaignService {
     return names;
   }
 
-  getCampaignMailerSize(_campaignName: string) {
+  getCampaignInformations(_campaignName: string) {
     this.getAllCampaigns().subscribe((campaigns) => {
       for (const campaign of <Campaign[]>campaigns) {
         if (campaign.campaignName === _campaignName) {
