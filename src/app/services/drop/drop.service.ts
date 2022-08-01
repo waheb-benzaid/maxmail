@@ -9,21 +9,25 @@ import {
   deleteDoc,
   getDocs,
 } from '@angular/fire/firestore';
-import { from, Observable } from 'rxjs';
+import { from, Observable, combineLatest, combineLatestAll } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { Drop } from 'src/app/models/Drop.model';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
+import { CampaignService } from '../campaign/campaign.service';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DropService {
-  // private itemDoc: AngularFirestoreDocument<Drop>;
-  // drop: Observable<Drop>;
-  constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {
+  constructor(
+    private firestoreDB: Firestore,
+    private afs: AngularFirestore,
+    private campaignService: CampaignService
+  ) {
     this.deleteDropsByCampaignName('jksjks');
   }
 
@@ -34,6 +38,7 @@ export class DropService {
 
   getAllDrops() {
     const db = collection(this.firestoreDB, 'mail_drop');
+
     return from(
       getDocs(db).then((response) => {
         return response.docs.map((item) => {

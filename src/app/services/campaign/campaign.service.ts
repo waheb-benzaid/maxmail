@@ -16,6 +16,15 @@ import { Campaign } from 'src/app/models/Campaign.model';
 })
 export class CampaignService {
   cNames: string[] = [];
+
+  public campaignInformation = {
+    CampaignContact: '',
+    CampaignCompany: '',
+    CampaignStatus: '',
+    campaignType: '',
+    mailerSize: '',
+  };
+
   constructor(private firestoreDB: Firestore) {
     this.getAllCampaignsNames();
     console.log(this.getCampaignIdByName('second'), 'campaign name');
@@ -23,7 +32,6 @@ export class CampaignService {
   items: Observable<any[]> | undefined;
 
   saveCampaign(campaignFields: Campaign) {
-    //campaignFields = doc(collection(this.firestoreDB));
     return from(
       addDoc(collection(this.firestoreDB, 'mail_campaign'), campaignFields)
     );
@@ -44,6 +52,20 @@ export class CampaignService {
       }
     });
     return names;
+  }
+
+  getCampaignMailerSize(_campaignName: string) {
+    this.getAllCampaigns().subscribe((campaigns) => {
+      for (const campaign of <Campaign[]>campaigns) {
+        if (campaign.campaignName === _campaignName) {
+          this.campaignInformation.CampaignCompany = campaign.contactName;
+          this.campaignInformation.CampaignContact = campaign.contactName;
+          this.campaignInformation.CampaignStatus = campaign.campaignStatus;
+          this.campaignInformation.campaignType = campaign.campaignType;
+          this.campaignInformation.mailerSize = campaign.mailerSize;
+        }
+      }
+    });
   }
 
   getCampaignIdByName(_campaignName: string) {
