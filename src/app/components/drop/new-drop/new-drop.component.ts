@@ -18,6 +18,7 @@ export class NewDropComponent implements OnInit {
   myControl = new FormControl('');
   options: string[] = [];
   filteredOptions: Observable<string[]> | undefined;
+  public data: any;
   constructor(
     private dropService: DropService,
     private toast: HotToastService,
@@ -29,15 +30,16 @@ export class NewDropComponent implements OnInit {
     dropService.getAllDrops();
     this.options = campaignService.getAllCampaignsNames();
     console.log('options');
-
-    console.log(this.options);
   }
-  isDropCompleted = false;
-  isLastDrop = false;
-  isSeededReceived = false;
+  // isDropCompleted = false;
+  // isLastDrop = false;
+  // isSeededReceived = false;
   actionButton: string = 'Save';
   dropForm = new FormGroup({
     campaignName: new FormControl('', Validators.required),
+    dropDate: new FormControl('', Validators.required),
+    dropNumber: new FormControl('', Validators.required),
+    dropVolume: new FormControl('', Validators.required),
     isLastDrop: new FormControl('', Validators.required),
     isDropCompleted: new FormControl('', Validators.required),
     isSeededReceived: new FormControl('', Validators.required),
@@ -58,10 +60,14 @@ export class NewDropComponent implements OnInit {
       map((value) => this._filter(value || ''))
     );
     if (this.editMode) {
+      this.data = this.editMode;
       this.actionButton = 'Edit';
       this.dropForm.controls['campaignName'].setValue(
         this.editMode.campaignName
       );
+      this.dropForm.controls['dropDate'].setValue(this.editMode.dropDate);
+      this.dropForm.controls['dropNumber'].setValue(this.editMode.dropNumber);
+      this.dropForm.controls['dropVolume'].setValue(this.editMode.dropVolume);
       this.dropForm.controls['isLastDrop'].setValue(this.editMode.isLastDrop);
       this.dropForm.controls['isDropCompleted'].setValue(
         this.editMode.isDropCompleted
@@ -75,9 +81,44 @@ export class NewDropComponent implements OnInit {
     }
   }
 
+  get campaignName() {
+    return this.dropForm.get('campaignName');
+  }
+
+  get dropDate() {
+    return this.dropForm.get('dropDate');
+  }
+
+  get dropNumber() {
+    return this.dropForm.get('dropNumber');
+  }
+
+  get dropVolume() {
+    return this.dropForm.get('dropVolume');
+  }
+
+  get _isLastDrop() {
+    return this.dropForm.get('isLastDrop');
+  }
+
+  get _isDropCompleted() {
+    return this.dropForm.get('isDropCompleted');
+  }
+
+  get _isSeededReceived() {
+    return this.dropForm.get('isSeededReceived');
+  }
+
+  get nextAvailableDates() {
+    return this.dropForm.get('nextAvailableDates');
+  }
+
   getDropObject(): Drop {
     const {
       campaignName,
+      dropDate,
+      dropNumber,
+      dropVolume,
       isLastDrop,
       isDropCompleted,
       isSeededReceived,
@@ -85,6 +126,9 @@ export class NewDropComponent implements OnInit {
     } = this.dropForm.value;
     const dropObject = {
       campaignName,
+      dropDate: formatDate(dropDate, this.datePipe),
+      dropNumber,
+      dropVolume,
       isLastDrop,
       isDropCompleted,
       isSeededReceived,
@@ -96,7 +140,7 @@ export class NewDropComponent implements OnInit {
   addDrop() {
     if (!this.editMode) {
       this.dropService
-        .saveDrop(this.dropForm.value)
+        .saveDrop(this.getDropObject())
         .pipe(
           this.toast.observe({
             success: 'drop saved successfuly',
@@ -114,7 +158,7 @@ export class NewDropComponent implements OnInit {
 
   updatedrop(id: string) {
     this.dropService
-      .updateDrop(id, this.getDropObject())
+      .updateDrop(id, this.dropForm.value)
       .pipe(
         this.toast.observe({
           success: 'drop edited successfuly',

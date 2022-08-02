@@ -19,7 +19,7 @@
         <input
           matInput
           (keyup)="applyFilter($event)"
-          placeholder="Ex. Mia"
+          placeholder="Ex. Campaign Name"
           #input
         />
       </mat-form-field>
@@ -42,11 +42,11 @@
             </td>
           </ng-container>
 
-          <!-- Account Name Column -->
+          <!-- Last Drop Column -->
           <ng-container matColumnDef="isLastDrop">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Drop</th>
             <td mat-cell *matCellDef="let row">
-              {{ row.isLastDrop }}
+              <mat-checkbox [checked]="row.isLastDrop"></mat-checkbox>
             </td>
           </ng-container>
 
@@ -56,10 +56,10 @@
               Drop Completed
             </th>
             <td mat-cell *matCellDef="let row">
-              {{ row.isDropCompleted }}
-              <mat-checkbox checked="row.isDropCompleted"></mat-checkbox>
+              <mat-checkbox
+                [checked]="row.isDropCompleted ? true : false"
+              ></mat-checkbox>
             </td>
-            <mat-checkbox checked="row.isDropCompleted"></mat-checkbox>
           </ng-container>
 
           <!-- Campaign Type Column -->
@@ -68,7 +68,7 @@
               Seeded Received
             </th>
             <td mat-cell *matCellDef="let row">
-              {{ row.isSeededReceived }}
+              <mat-checkbox [checked]="row.isSeededReceived"></mat-checkbox>
             </td>
           </ng-container>
 
@@ -89,7 +89,12 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            (dblclick)="getDropDetail(row)"
+            style="cursor: pointer"
+          ></tr>
 
           <!-- Row shown when there is no matching data. -->
           <tr class="mat-row" *matNoDataRow>

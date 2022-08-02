@@ -33,12 +33,15 @@ export class DropDetalComponent implements OnInit {
 
     console.log(this.options);
   }
-  isDropCompleted = false;
-  isLastDrop = false;
-  isSeededReceived = false;
+  // isDropCompleted = false;
+  // isLastDrop = false;
+  // isSeededReceived = false;
   actionButton: string = 'Save';
   dropForm = new FormGroup({
     campaignName: new FormControl('', Validators.required),
+    dropDate: new FormControl('', Validators.required),
+    dropNumber: new FormControl('', Validators.required),
+    dropVolume: new FormControl('', Validators.required),
     isLastDrop: new FormControl('', Validators.required),
     isDropCompleted: new FormControl('', Validators.required),
     isSeededReceived: new FormControl('', Validators.required),
@@ -58,90 +61,56 @@ export class DropDetalComponent implements OnInit {
       startWith(''),
       map((value) => this._filter(value || ''))
     );
-    if (this.editMode) {
-      this.actionButton = 'Edit';
-      this.dropForm.controls['campaignName'].setValue(
-        this.editMode.campaignName
-      );
-      this.dropForm.controls['isLastDrop'].setValue(this.editMode.isLastDrop);
-      this.dropForm.controls['isDropCompleted'].setValue(
-        this.editMode.isDropCompleted
-      );
-      this.dropForm.controls['isSeededReceived'].setValue(
-        this.editMode.isSeededReceived
-      );
-      this.dropForm.controls['nextAvailableDates'].setValue(
-        this.editMode.nextAvailableDates
-      );
-    }
+
+    console.log(this.editMode.isLastDrop);
+    console.log(this.editMode.isDropCompleted);
+    console.log(this.editMode.isSeededReceived);
+
+    this.dropForm.controls['campaignName'].setValue(this.editMode.campaignName);
+    this.dropForm.controls['dropDate'].setValue(this.editMode.dropDate);
+    this.dropForm.controls['dropNumber'].setValue(this.editMode.dropNumber);
+    this.dropForm.controls['dropVolume'].setValue(this.editMode.dropVolume);
+    this.dropForm.controls['isLastDrop'].setValue(this.editMode.isLastDrop);
+    this.dropForm.controls['isDropCompleted'].setValue(
+      this.editMode.isDropCompleted
+    );
+    this.dropForm.controls['isSeededReceived'].setValue(
+      this.editMode.isSeededReceived
+    );
+    this.dropForm.controls['nextAvailableDates'].setValue(
+      this.editMode.nextAvailableDates
+    );
   }
 
-  getDropObject(): Drop {
-    const {
-      campaignName,
-      isLastDrop,
-      isDropCompleted,
-      isSeededReceived,
-      nextAvailableDates,
-    } = this.dropForm.value;
-    const dropObject = {
-      campaignName,
-      isLastDrop,
-      isDropCompleted,
-      isSeededReceived,
-      nextAvailableDates,
-    };
-    return dropObject;
-  }
+  // get campaignName() {
+  //   return this.dropForm.get('campaignName');
+  // }
 
-  addDrop() {
-    if (!this.editMode) {
-      this.dropService
-        .saveDrop(this.dropForm.value)
-        .pipe(
-          this.toast.observe({
-            success: 'drop saved successfuly',
-            loading: 'Saving ...',
-            error: 'There was a error',
-          })
-        )
-        .subscribe(() => {
-          this.dropForm.reset();
-          this.dialogRef.close('save');
-        });
-    }
-    this.updatedrop(this.editMode.id);
-  }
+  // get dropDate() {
+  //   return this.dropForm.get('dropDate');
+  // }
 
-  updatedrop(id: string) {
-    this.dropService
-      .updateDrop(id, this.getDropObject())
-      .pipe(
-        this.toast.observe({
-          success: 'drop edited successfuly',
-          loading: 'Editing ...',
-          error: 'There was a error',
-        })
-      )
-      .subscribe(() => {
-        this.dropForm.reset();
-        this.dialogRef.close('update');
-      });
-  }
+  // get dropNumber() {
+  //   return this.dropForm.get('dropNumber');
+  // }
 
-  deletedrop() {
-    this.dropService
-      .deleteDrop(this.editMode.id)
-      .pipe(
-        this.toast.observe({
-          success: 'drop deleted successfuly',
-          loading: 'Deleting ...',
-          error: 'There was an error',
-        })
-      )
-      .subscribe(() => {
-        console.log('drop deleted');
-        this.dialogRef.close('delete');
-      });
-  }
+  // get dropVolume() {
+  //   return this.dropForm.get('dropVolume');
+  // }
+
+  // get _isLastDrop() {
+  //   return this.dropForm.get('isLastDrop');
+  // }
+
+  // get _isDropCompleted() {
+  //   return this.dropForm.get('isDropCompleted');
+  // }
+
+  // get _isSeededReceived() {
+  //   return this.dropForm.get('isSeededReceived');
+  // }
+
+  // get nextAvailableDates() {
+  //   return this.dropForm.get('nextAvailableDates');
+  // }
 }

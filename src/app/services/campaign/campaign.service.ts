@@ -8,6 +8,7 @@ import {
   deleteDoc,
   collectionData,
 } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { from, Observable } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
 
@@ -16,6 +17,7 @@ import { Campaign } from 'src/app/models/Campaign.model';
 })
 export class CampaignService {
   cNames: string[] = [];
+  isEmpty: boolean = false;
 
   public campaignInformation = {
     CampaignContact: '',
@@ -25,9 +27,10 @@ export class CampaignService {
     mailerSize: '',
   };
 
-  constructor(private firestoreDB: Firestore) {
+  constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {
     this.getAllCampaignsNames();
-    console.log(this.getCampaignIdByName('second'), 'campaign name');
+    this.isCampaignCollectionEmpty();
+    console.log(this.isCampaignCollectionEmpty());
   }
   items: Observable<any[]> | undefined;
 
@@ -97,4 +100,6 @@ export class CampaignService {
     let campaignToDelete = doc(this.firestoreDB, `mail_campaign/${id}`);
     return from(deleteDoc(campaignToDelete));
   }
+
+  async isCampaignCollectionEmpty() {}
 }

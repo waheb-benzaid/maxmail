@@ -6,7 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
+import { openForms } from 'src/app/utils/openForm';
 import { DropService } from '../../../services/drop/drop.service';
+import { DropDetalComponent } from '../drop-detail/drop-detal.component';
 import { NewDropComponent } from '../new-drop/new-drop.component';
 
 @Component({
@@ -15,6 +17,7 @@ import { NewDropComponent } from '../new-drop/new-drop.component';
   styleUrls: ['./drops-list.component.css'],
 })
 export class DropsListComponent implements OnInit {
+  isDetailDialog: boolean = false;
   ngOnInit(): void {}
   displayedColumns: string[] = [
     'campaignName',
@@ -85,5 +88,16 @@ export class DropsListComponent implements OnInit {
     this.dropService.deleteDrop(id).subscribe(() => {
       this.getAllDrops();
     });
+  }
+
+  getDropDetail(rowData: any) {
+    this.isDetailDialog = true;
+    openForms(
+      this.dialog,
+      DropDetalComponent,
+      '30%',
+      rowData,
+      'borderless-dialog'
+    );
   }
 }

@@ -21,23 +21,68 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+      <!-- -------------------------------------------- -->
+      <mat-form-field appearance="outline">
+        <mat-label>Choose a date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          placeholder="Drop Date"
+          formControlName="dropDate"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker> </mat-datepicker>
+        <mat-error *ngIf="dropDate?.errors?.['required']">
+          Drop Date is required</mat-error
+        >
+      </mat-form-field>
+      <!-- ------------------------------------ -->
+      <mat-form-field appearance="outline">
+        <mat-label>Drop Number</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="First Drop Volume"
+          formControlName="dropNumber"
+        />
+        <mat-error *ngIf="dropNumber?.errors?.['required']">
+          Drop Number is required</mat-error
+        >
+      </mat-form-field>
+      <!-- ------------------------ -->
+      <mat-form-field appearance="outline">
+        <mat-label>Drop Volume</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Drop Volume"
+          formControlName="dropVolume"
+        />
+        <mat-error *ngIf="dropVolume?.errors?.['required']">
+          Drop Volume is required</mat-error
+        >
+      </mat-form-field>
+      <!-- ------------------------ -->
       <div class="checkbox">
         <p>
           <mat-checkbox
             formControlName="isDropCompleted"
-            [(ngModel)]="isDropCompleted"
+            [checked]="this.data ? this.data.isDropCompleted : false"
             >Is Drop Completed</mat-checkbox
           >
         </p>
         <p>
-          <mat-checkbox formControlName="isLastDrop" [(ngModel)]="isLastDrop"
+          <mat-checkbox
+            formControlName="isLastDrop"
+            [checked]="this.data ? this.data.isLastDrop : false"
             >Is Last Drop</mat-checkbox
           >
         </p>
         <p>
           <mat-checkbox
             formControlName="isSeededReceived"
-            [(ngModel)]="isSeededReceived"
+            [checked]="this.data ? this.data.isSeededReceived : false"
             >Is Seeded Received</mat-checkbox
           >
         </p>
