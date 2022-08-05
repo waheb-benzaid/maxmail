@@ -31,12 +31,11 @@ export class NewDropComponent implements OnInit {
     this.options = campaignService.getAllCampaignsNames();
     console.log('options');
   }
-  // isDropCompleted = false;
-  // isLastDrop = false;
-  // isSeededReceived = false;
+  searchText: any;
   actionButton: string = 'Save';
   dropForm = new FormGroup({
     campaignName: new FormControl('', Validators.required),
+    searchCampaignName: new FormControl('', Validators.required),
     dropDate: new FormControl('', Validators.required),
     dropNumber: new FormControl('', Validators.required),
     dropVolume: new FormControl('', Validators.required),
@@ -80,7 +79,15 @@ export class NewDropComponent implements OnInit {
       );
     }
   }
+  onKey(value: any) {
+    this.options = this._filter(value);
+  }
 
+  // **// Filter the states list and send back to populate the selectedStates**
+  // search(value: string) {
+  //     let filter = value.toLowerCase();
+  //     return this.states.filter(option => option.toLowerCase().startsWith(filter));
+  //   }
   get campaignName() {
     return this.dropForm.get('campaignName');
   }

@@ -2,8 +2,30 @@
   <h1 mat-dialog-title>Drop Form</h1>
   <div class="mat-dialog-content">
     <form [formGroup]="dropForm">
-      <mat-form-field class="example-full-width" appearance="fill">
+      <!-- ---------------------- -->
+
+      <mat-form-field appearance="outline">
         <mat-label>Campaign</mat-label>
+        <mat-select formControlName="campaignName">
+          <input
+            matInput
+            type="text"
+            formControlName="campaignName"
+            (keyup)="onKey($event.target.value)"
+          />
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let option of options" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="campaignName?.errors?.['required']">
+          Campaign Type is required</mat-error
+        >
+      </mat-form-field>
+      <!------------------------------------------------------------->
+      <!-- <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Campaign </mat-label>
         <input
           type="text"
           placeholder="Pick one campaign"
@@ -20,10 +42,10 @@
             {{ option }}
           </mat-option>
         </mat-autocomplete>
-      </mat-form-field>
+      </mat-form-field> -->
       <!-- -------------------------------------------- -->
       <mat-form-field appearance="outline">
-        <mat-label>Choose a date</mat-label>
+        <mat-label>Drop Date</mat-label>
         <input
           matInput
           [matDatepicker]="picker"
