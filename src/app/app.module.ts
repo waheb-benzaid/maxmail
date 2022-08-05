@@ -57,6 +57,7 @@ import { DropsListComponent } from './components/drop/drops-list/drops-list.comp
 import { AngularFireModule } from '@angular/fire/compat';
 import { CampaignDetailComponent } from './components/campaign/campaign-detail/campaign-detail.component';
 import { DropDetalComponent } from './components/drop/drop-detail/drop-detal.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { DropDetalComponent } from './components/drop/drop-detail/drop-detal.com
     MatDatepickerModule,
     MatSelectModule,
     MatAutocompleteModule,
+    NgxMatSelectSearchModule,
     HotToastModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
