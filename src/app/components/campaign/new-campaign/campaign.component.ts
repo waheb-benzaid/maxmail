@@ -5,7 +5,7 @@ import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Campaign } from 'src/app/models/Campaign.model';
-import { formatDate } from '../../../utils/format-date';
+import { formatDate } from '../../../utils/Functions/format-date';
 campaignsName: [] = [];
 @Component({
   selector: 'app-campaign',

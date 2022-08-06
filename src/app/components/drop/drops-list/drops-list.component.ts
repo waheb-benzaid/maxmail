@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
-import { openForms } from 'src/app/utils/openForm';
+import { openForms } from 'src/app/utils/Functions/openForm';
 import { DropService } from '../../../services/drop/drop.service';
 import { DropDetalComponent } from '../drop-detail/drop-detal.component';
 import { NewDropComponent } from '../new-drop/new-drop.component';

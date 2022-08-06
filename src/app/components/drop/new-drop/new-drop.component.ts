@@ -5,7 +5,7 @@ import { DropService } from 'src/app/services/drop/drop.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Drop } from 'src/app/models/Drop.model';
-import { formatDate } from '../../../utils/format-date';
+import { formatDate } from '../../../utils/Functions/format-date';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { map, Observable, startWith } from 'rxjs';
 
