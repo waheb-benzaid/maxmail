@@ -31,6 +31,8 @@ export class DropService {
     this.deleteDropsByCampaignName('jksjks');
   }
 
+  createAutoDropsObject() {}
+
   saveDrop(dropFields: Drop) {
     dropFields.dropId = doc(collection(this.firestoreDB, 'dropId')).id;
     return from(addDoc(collection(this.firestoreDB, 'mail_drop'), dropFields));
