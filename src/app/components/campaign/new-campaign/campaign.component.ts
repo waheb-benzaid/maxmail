@@ -5,7 +5,12 @@ import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Campaign } from 'src/app/models/Campaign.model';
-import { formatDate } from '../../../utils/Functions/format-date';
+import {
+  formatDate,
+  getDay,
+  getMonth,
+} from '../../../utils/Functions/format-date';
+import { DropService } from 'src/app/services/drop/drop.service';
 campaignsName: [] = [];
 @Component({
   selector: 'app-campaign',
@@ -19,7 +24,8 @@ export class CampaignComponent implements OnInit {
     private toast: HotToastService,
     private dialogRef: MatDialogRef<CampaignComponent>,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private dropService: DropService
   ) {
     campaignService.getAllCampaigns();
   }
@@ -135,6 +141,9 @@ export class CampaignComponent implements OnInit {
   }
 
   getCampaignObject(): Campaign {
+    let campaignDrops = this.dropService.createAutoDropsObject(
+      <Campaign>this.campaignForm.value
+    );
     const {
       campaignName,
       firstDropDate,
@@ -167,6 +176,7 @@ export class CampaignComponent implements OnInit {
       accountName,
       ownerName,
       contactName,
+      drops: campaignDrops,
       attachments,
     };
     return campaignObject;

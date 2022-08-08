@@ -5,19 +5,16 @@ import {
   collection,
   doc,
   updateDoc,
-  getDoc,
   deleteDoc,
   getDocs,
 } from '@angular/fire/firestore';
-import { from, Observable, combineLatest, combineLatestAll } from 'rxjs';
-import { Campaign } from 'src/app/models/Campaign.model';
+import { from } from 'rxjs';
 import { Drop } from 'src/app/models/Drop.model';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CampaignService } from '../campaign/campaign.service';
-import { map, switchMap } from 'rxjs/operators';
+import { DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/dialog';
+import { getDay, getMonth } from '../../utils/Functions/format-date';
+import { Campaign } from 'src/app/models/Campaign.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +27,39 @@ export class DropService {
   ) {
     this.deleteDropsByCampaignName('jksjks');
   }
-
-  createAutoDropsObject() {}
+  public drops: Drop[] = [
+    {
+      campaignName: '',
+      dropStatus: '',
+      isSeededReceived: false,
+      isLastDrop: false,
+      isDropCompleted: false,
+      dropNumber: '',
+      dropVolume: '',
+    },
+  ];
+  createAutoDropsObject(campaignObject: Campaign) {
+    this.drops.length = 0;
+    let day = getDay(campaignObject.firstDropDate as Date);
+    let month = getMonth(campaignObject.firstDropDate as Date);
+    let objectToInsert = {
+      campaignName: '',
+      dropStatus: '',
+      isSeededReceived: false,
+      isLastDrop: false,
+      isDropCompleted: false,
+      dropNumber: '',
+      dropVolume: '',
+    };
+    for (let i = 0; i < campaignObject.totalDropsNumber; i++) {
+      objectToInsert.campaignName = campaignObject.campaignName;
+      //objectToInsert.dropStatus = campaignObject.dro;
+      objectToInsert.dropNumber = (i + 1).toString();
+      objectToInsert.dropVolume = campaignObject.firstDropVolume;
+      this.drops.push(objectToInsert);
+    }
+    return this.drops;
+  }
 
   saveDrop(dropFields: Drop) {
     dropFields.dropId = doc(collection(this.firestoreDB, 'dropId')).id;
