@@ -40,8 +40,8 @@ export class DropService {
   ];
   createAutoDropsObject(campaignObject: Campaign) {
     this.drops.length = 0;
-    let day = getDay(campaignObject.firstDropDate as Date);
-    let month = getMonth(campaignObject.firstDropDate as Date);
+    //  let day = getDay(campaignObject.firstDropDate as Date);
+    //  let month = getMonth(campaignObject.firstDropDate as Date);
     let objectToInsert = {
       campaignName: '',
       dropStatus: '',

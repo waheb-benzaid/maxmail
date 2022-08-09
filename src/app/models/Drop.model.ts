@@ -2,6 +2,7 @@ export interface Drop {
   dropId?: any;
   campaignName?: any;
   dropStatus?: any;
+  dropDate?: any;
   dropNumber?: any;
   dropVolume?: any;
   isLastDrop?: any;
