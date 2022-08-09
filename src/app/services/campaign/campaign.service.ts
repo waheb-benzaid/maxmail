@@ -30,8 +30,8 @@ export class CampaignService {
   constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {
     this.getAllCampaignsNames();
     this.isCampaignCollectionEmpty();
-    console.log(this.isCampaignCollectionEmpty());
   }
+
   items: Observable<any[]> | undefined;
 
   saveCampaign(campaignFields: Campaign) {

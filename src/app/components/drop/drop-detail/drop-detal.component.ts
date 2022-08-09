@@ -29,9 +29,6 @@ export class DropDetalComponent implements OnInit {
   ) {
     dropService.getAllDrops();
     this.options = campaignService.getAllCampaignsNames();
-    console.log('options');
-
-    console.log(this.options);
   }
   // isDropCompleted = false;
   // isLastDrop = false;
@@ -61,10 +58,6 @@ export class DropDetalComponent implements OnInit {
       startWith(''),
       map((value) => this._filter(value || ''))
     );
-
-    console.log(this.editMode.isLastDrop);
-    console.log(this.editMode.isDropCompleted);
-    console.log(this.editMode.isSeededReceived);
 
     this.dropForm.controls['campaignName'].setValue(this.editMode.campaignName);
     this.dropForm.controls['dropDate'].setValue(this.editMode.dropDate);

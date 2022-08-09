@@ -58,6 +58,9 @@ export class DropService {
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = `${year}/${month}/${day}`;
       objectToInsert.dropVolume = campaignObject.firstDropVolume;
+      objectToInsert.isDropCompleted = false;
+      objectToInsert.isLastDrop = false;
+      objectToInsert.isSeededReceived = false;
       this.drops.push(objectToInsert);
       month++;
       if (month === 7) {

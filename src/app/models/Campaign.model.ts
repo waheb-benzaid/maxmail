@@ -1,3 +1,5 @@
+import { Drop } from './Drop.model';
+
 export interface Campaign {
   campaignName?: any;
   firstDropDate: any;
@@ -13,5 +15,6 @@ export interface Campaign {
   accountName?: any;
   ownerName?: any;
   contactName?: any;
+  drops?: Drop[];
   attachments?: any;
 }
