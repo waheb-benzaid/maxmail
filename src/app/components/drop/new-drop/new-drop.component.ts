@@ -37,7 +37,7 @@ export class NewDropComponent implements OnInit {
     campaignName: new FormControl('', Validators.required),
     searchCampaignName: new FormControl('', Validators.required),
     dropDate: new FormControl('', Validators.required),
-    dropNumber: new FormControl('', Validators.required),
+    dropNumber: new FormControl(0, Validators.required),
     dropVolume: new FormControl('', Validators.required),
     isLastDrop: new FormControl('', Validators.required),
     isDropCompleted: new FormControl('', Validators.required),
@@ -141,7 +141,7 @@ export class NewDropComponent implements OnInit {
       isSeededReceived,
       nextAvailableDates,
     };
-    return dropObject;
+    return dropObject as any;
   }
 
   addDrop() {

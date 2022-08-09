@@ -13,7 +13,7 @@ import { Drop } from 'src/app/models/Drop.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CampaignService } from '../campaign/campaign.service';
 import { DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/dialog';
-import { getDay, getMonth } from '../../utils/Functions/format-date';
+import { getDay, getMonth, getYear } from '../../utils/Functions/format-date';
 import { Campaign } from 'src/app/models/Campaign.model';
 
 @Injectable({
@@ -30,33 +30,43 @@ export class DropService {
   public drops: Drop[] = [
     {
       campaignName: '',
-      dropStatus: '',
       isSeededReceived: false,
       isLastDrop: false,
       isDropCompleted: false,
-      dropNumber: '',
+      dropNumber: 0,
       dropVolume: '',
+      dropDate: '',
     },
   ];
   createAutoDropsObject(campaignObject: Campaign) {
     this.drops.length = 0;
-    //  let day = getDay(campaignObject.firstDropDate as Date);
-    //  let month = getMonth(campaignObject.firstDropDate as Date);
+    let day = getDay(campaignObject.firstDropDate as Date) + 1;
+    let month = getMonth(campaignObject.firstDropDate as Date) + 1;
+    let year = getYear(campaignObject.firstDropDate as Date);
     let objectToInsert = {
       campaignName: '',
-      dropStatus: '',
       isSeededReceived: false,
       isLastDrop: false,
       isDropCompleted: false,
-      dropNumber: '',
+      dropNumber: 0,
       dropVolume: '',
+      dropDate: '',
     };
-    for (let i = 0; i < campaignObject.totalDropsNumber; i++) {
+    for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
+      objectToInsert = new Object() as any;
       objectToInsert.campaignName = campaignObject.campaignName;
-      //objectToInsert.dropStatus = campaignObject.dro;
-      objectToInsert.dropNumber = (i + 1).toString();
+      objectToInsert.dropNumber = i;
+      objectToInsert.dropDate = `${year}/${month}/${day}`;
       objectToInsert.dropVolume = campaignObject.firstDropVolume;
       this.drops.push(objectToInsert);
+      month++;
+      if (month === 7) {
+        month++;
+      }
+      if (month > 12) {
+        month = 1;
+        year++;
+      }
     }
     return this.drops;
   }
@@ -68,7 +78,6 @@ export class DropService {
 
   getAllDrops() {
     const db = collection(this.firestoreDB, 'mail_drop');
-
     return from(
       getDocs(db).then((response) => {
         return response.docs.map((item) => {
