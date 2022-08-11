@@ -7,8 +7,9 @@ import {
   updateDoc,
   deleteDoc,
   getDocs,
+  collectionData,
 } from '@angular/fire/firestore';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { Drop } from 'src/app/models/Drop.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CampaignService } from '../campaign/campaign.service';
@@ -20,13 +21,16 @@ import { Campaign } from 'src/app/models/Campaign.model';
   providedIn: 'root',
 })
 export class DropService {
+  dropsList: any[] = [];
   constructor(
     private firestoreDB: Firestore,
     private afs: AngularFirestore,
     private campaignService: CampaignService
   ) {
     this.deleteDropsByCampaignName('jksjks');
+    this.getAllCampaignsDrops();
   }
+  // dropsList:Drop []:[]
   public drops: Drop[] = [
     {
       campaignName: '',
@@ -36,6 +40,7 @@ export class DropService {
       dropNumber: 0,
       dropVolume: '',
       dropDate: '',
+      nextAvailableDates: '',
     },
   ];
   createAutoDropsObject(campaignObject: Campaign) {
@@ -51,6 +56,7 @@ export class DropService {
       dropNumber: 0,
       dropVolume: '',
       dropDate: '',
+      nextAvailableDates: '',
     };
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
       objectToInsert = new Object() as any;
@@ -90,10 +96,39 @@ export class DropService {
     );
   }
 
+  getAllCampaignsDrops(): Observable<Drop[]> {
+    this.drops.length = 0;
+    let objectToDisplay = {
+      campaignName: '',
+      isSeededReceived: false,
+      isLastDrop: false,
+      isDropCompleted: false,
+      dropNumber: 0,
+      dropVolume: '',
+      dropDate: '',
+      nextAvailableDates: '',
+    };
+    this.campaignService.getAllCampaigns().subscribe((campaigns) => {
+      for (let i = 0; i < campaigns.length; i++) {
+        campaigns[i].drops.forEach((drop) => {
+          objectToDisplay.campaignName = drop.campaignName;
+          objectToDisplay.dropNumber = drop.dropNumber;
+          objectToDisplay.dropDate = drop.dropDate;
+          objectToDisplay.dropVolume = drop.dropVolume;
+          objectToDisplay.isDropCompleted = drop.isDropCompleted;
+          objectToDisplay.isLastDrop = drop.isLastDrop;
+          objectToDisplay.isSeededReceived = drop.isSeededReceived;
+          this.drops.push(objectToDisplay);
+        });
+      }
+    });
+    return this.drops as unknown as Observable<Drop[]>;
+  }
+
   getDropByCampaignName(_campaignName: string) {
     let drop: Drop[] = [];
     this.getAllDrops().subscribe((res) => {
-      for (const iterator of <Drop[]>res) {
+      for (const iterator of <Drop[]>(<unknown>res)) {
         if (iterator.campaignName === _campaignName) {
           drop.push(iterator);
         }
