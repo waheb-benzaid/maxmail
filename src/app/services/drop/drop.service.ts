@@ -7,13 +7,10 @@ import {
   updateDoc,
   deleteDoc,
   getDocs,
-  collectionData,
 } from '@angular/fire/firestore';
-import { from, Observable } from 'rxjs';
+import { from } from 'rxjs';
 import { Drop } from 'src/app/models/Drop.model';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { CampaignService } from '../campaign/campaign.service';
-import { DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/dialog';
+
 import { getDay, getMonth, getYear } from '../../utils/Functions/format-date';
 import { Campaign } from 'src/app/models/Campaign.model';
 
@@ -42,6 +39,7 @@ export class DropService {
     let day = getDay(campaignObject.firstDropDate as Date) + 1;
     let month = getMonth(campaignObject.firstDropDate as Date) + 1;
     let year = getYear(campaignObject.firstDropDate as Date);
+
     let objectToInsert = {
       campaignName: '',
       isSeededReceived: false,
