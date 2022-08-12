@@ -22,15 +22,9 @@ import { Campaign } from 'src/app/models/Campaign.model';
 })
 export class DropService {
   dropsList: any[] = [];
-  constructor(
-    private firestoreDB: Firestore,
-    private afs: AngularFirestore,
-    private campaignService: CampaignService
-  ) {
+  constructor(private firestoreDB: Firestore) {
     this.deleteDropsByCampaignName('jksjks');
-    this.getAllCampaignsDrops();
   }
-  // dropsList:Drop []:[]
   public drops: Drop[] = [
     {
       campaignName: '',
@@ -94,35 +88,6 @@ export class DropService {
         });
       })
     );
-  }
-
-  getAllCampaignsDrops(): Observable<Drop[]> {
-    this.drops.length = 0;
-    let objectToDisplay = {
-      campaignName: '',
-      isSeededReceived: false,
-      isLastDrop: false,
-      isDropCompleted: false,
-      dropNumber: 0,
-      dropVolume: '',
-      dropDate: '',
-      nextAvailableDates: '',
-    };
-    this.campaignService.getAllCampaigns().subscribe((campaigns) => {
-      for (let i = 0; i < campaigns.length; i++) {
-        campaigns[i].drops.forEach((drop) => {
-          objectToDisplay.campaignName = drop.campaignName;
-          objectToDisplay.dropNumber = drop.dropNumber;
-          objectToDisplay.dropDate = drop.dropDate;
-          objectToDisplay.dropVolume = drop.dropVolume;
-          objectToDisplay.isDropCompleted = drop.isDropCompleted;
-          objectToDisplay.isLastDrop = drop.isLastDrop;
-          objectToDisplay.isSeededReceived = drop.isSeededReceived;
-          this.drops.push(objectToDisplay);
-        });
-      }
-    });
-    return this.drops as unknown as Observable<Drop[]>;
   }
 
   getDropByCampaignName(_campaignName: string) {

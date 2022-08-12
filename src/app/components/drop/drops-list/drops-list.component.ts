@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
+import { Drop } from 'src/app/models/Drop.model';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { openForms } from 'src/app/utils/Functions/openForm';
 import { DropService } from '../../../services/drop/drop.service';
@@ -73,8 +74,14 @@ export class DropsListComponent implements OnInit {
   }
 
   getAllDrops() {
-    this.dropService.getAllDrops().subscribe((res) => {
-      this.dataSource = new MatTableDataSource(res);
+    let drops: Drop[] = [];
+    this.campaignService.getAllCampaigns().subscribe((res) => {
+      res.forEach((campaign) => {
+        campaign.drops.forEach((drop) => {
+          drops.push(drop);
+        });
+      });
+      this.dataSource = new MatTableDataSource(drops);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
