@@ -142,7 +142,8 @@ export class CampaignComponent implements OnInit {
 
   getCampaignObject(): Campaign {
     let campaignDrops = this.dropService.createAutoDropsObject(
-      <Campaign>this.campaignForm.value
+      <Campaign>this.campaignForm.value,
+      this.editData
     );
     const {
       campaignName,

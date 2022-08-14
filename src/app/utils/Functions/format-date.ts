@@ -21,7 +21,6 @@ export function getDay(date: Date, datePipe?: DatePipe) {
   if (typeof date === 'string') {
     date = new Date(date);
   }
-
   return date.getUTCDate();
 }
 

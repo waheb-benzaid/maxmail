@@ -35,9 +35,11 @@ export class DropService {
       nextAvailableDates: '',
     },
   ];
-  createAutoDropsObject(campaignObject: Campaign) {
+  createAutoDropsObject(campaignObject: Campaign, isEditMode: boolean) {
     this.drops.length = 0;
-    let day = getDay(campaignObject.firstDropDate as Date) + 1;
+    let day = isEditMode
+      ? getDay(campaignObject.firstDropDate as Date)
+      : getDay(campaignObject.firstDropDate as Date) + 1;
     let month = getMonth(campaignObject.firstDropDate as Date) + 1;
     let year = getYear(campaignObject.firstDropDate as Date);
 
