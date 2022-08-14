@@ -25,6 +25,7 @@ export class DropService {
   public drops: Drop[] = [
     {
       campaignName: '',
+      dropName: '',
       isSeededReceived: false,
       isLastDrop: false,
       isDropCompleted: false,
@@ -42,6 +43,7 @@ export class DropService {
 
     let objectToInsert = {
       campaignName: '',
+      dropName: '',
       isSeededReceived: false,
       isLastDrop: false,
       isDropCompleted: false,
@@ -55,6 +57,7 @@ export class DropService {
       objectToInsert.campaignName = campaignObject.campaignName;
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = `${year}/${month}/${day}`;
+      objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
       objectToInsert.dropVolume = campaignObject.firstDropVolume;
       objectToInsert.isDropCompleted = false;
       objectToInsert.isLastDrop = false;
