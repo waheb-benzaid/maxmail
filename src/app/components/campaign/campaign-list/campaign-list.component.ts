@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Campaign } from 'src/app/models/Campaign.model';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { openForms } from 'src/app/utils/Functions/openForm';
 import { CampaignDetailComponent } from '../campaign-detail/campaign-detail.component';
@@ -85,7 +84,9 @@ export class CampaignListComponent implements OnInit {
     // campaign;
   }
   editCampaign(rowData: any) {
+    console.log(rowData, 'rowdata');
     this.openCompaignDialog(rowData);
+    console.log(rowData, 'rowdata');
   }
 
   deleteCampaign(id: string) {
