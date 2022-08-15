@@ -1,7 +1,7 @@
 <div class="form-container mat-elevation-z5">
   <h1 mat-dialog-title>Campaign Form</h1>
   <div class="mat-dialog-content">
-    <form [formGroup]="campaignForm">
+    <form [formGroup]="campaignForm" (ngSubmit)="addCampaign()">
       <mat-form-field appearance="outline">
         <mat-label>Campaign Name</mat-label>
         <input
@@ -25,7 +25,7 @@
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker> </mat-datepicker>
-        <mat-error *ngIf="firstDropDate?.errors?.['required']">
+        <mat-error *ngIf="firstDropDate?.hasError('required')">
           First Drop Date is required</mat-error
         >
       </mat-form-field>
@@ -37,7 +37,7 @@
           <mat-option value="cancelled">cancelled</mat-option>
           <mat-option value="completed">completed</mat-option>
         </mat-select>
-        <mat-error *ngIf="campaignStatus?.errors?.['required']">
+        <mat-error *ngIf="campaignStatus?.hasError('required')">
           Campaign Status required</mat-error
         >
       </mat-form-field>

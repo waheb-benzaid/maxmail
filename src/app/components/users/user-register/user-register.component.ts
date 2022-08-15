@@ -8,11 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
-import { first, switchMap, tap } from 'rxjs';
-import { UserModel } from 'src/app/models/User.model';
-import { ImageUploadService } from 'src/app/services/image-upload/image-upload.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/auth/authentication.service';
 

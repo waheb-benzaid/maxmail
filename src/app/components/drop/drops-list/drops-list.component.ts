@@ -22,6 +22,7 @@ export class DropsListComponent implements OnInit {
   isDetailDialog: boolean = false;
   ngOnInit(): void {}
   displayedColumns: string[] = [
+    'id',
     'campaignName',
     'dropName',
     'isLastDrop',
@@ -89,6 +90,7 @@ export class DropsListComponent implements OnInit {
   }
 
   editDrop(row: any) {
+    console.log(row);
     this.openDropDialog(row);
   }
 

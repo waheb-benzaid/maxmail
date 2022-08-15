@@ -184,6 +184,10 @@ export class CampaignComponent implements OnInit {
   }
 
   addCampaign() {
+    if (!this.campaignForm.valid) {
+      alert('some required fields are empty!');
+      return;
+    }
     if (!this.editData) {
       console.log(this.getCampaignObject(), 'save object');
 
@@ -193,7 +197,7 @@ export class CampaignComponent implements OnInit {
           this.toast.observe({
             success: 'Campaign saved successfuly',
             loading: 'Saving ...',
-            error: 'There was a error',
+            error: ({ message }) => `${message}`,
           })
         )
         .subscribe(() => {

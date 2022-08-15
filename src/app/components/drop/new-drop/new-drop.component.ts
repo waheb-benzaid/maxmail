@@ -145,22 +145,22 @@ export class NewDropComponent implements OnInit {
   }
 
   addDrop() {
-    if (!this.editMode) {
-      this.dropService
-        .saveDrop(this.getDropObject())
-        .pipe(
-          this.toast.observe({
-            success: 'drop saved successfuly',
-            loading: 'Saving ...',
-            error: 'There was a error',
-          })
-        )
-        .subscribe(() => {
-          this.dropForm.reset();
-          this.dialogRef.close('save');
-        });
-    }
-    this.updatedrop(this.editMode.id);
+    // if (!this.editMode) {
+    //   this.dropService
+    //     .saveDrop(this.getDropObject())
+    //     .pipe(
+    //       this.toast.observe({
+    //         success: 'drop saved successfuly',
+    //         loading: 'Saving ...',
+    //         error: 'There was a error',
+    //       })
+    //     )
+    //     .subscribe(() => {
+    //       this.dropForm.reset();
+    //       this.dialogRef.close('save');
+    //     });
+    // }
+    // this.updatedrop(this.editMode.id);
   }
 
   updatedrop(id: string) {

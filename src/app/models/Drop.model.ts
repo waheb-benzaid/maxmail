@@ -1,5 +1,5 @@
 export interface Drop {
-  dropId?: any;
+  campaignId?: any;
   campaignName: any;
   dropName: any;
   dropDate: any;

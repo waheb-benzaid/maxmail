@@ -24,6 +24,7 @@ export class DropService {
   }
   public drops: Drop[] = [
     {
+      campaignId: '',
       campaignName: '',
       dropName: '',
       isSeededReceived: false,
@@ -44,6 +45,7 @@ export class DropService {
     let year = getYear(campaignObject.firstDropDate as Date);
 
     let objectToInsert = {
+      campaignId: '',
       campaignName: '',
       dropName: '',
       isSeededReceived: false,
@@ -56,7 +58,8 @@ export class DropService {
     };
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
       objectToInsert = new Object() as any;
-      objectToInsert.campaignName = campaignObject.campaignName;
+      // objectToInsert.campaignId = campaignObject.objectToInsert.campaignName =
+      campaignObject.campaignName;
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = `${year}/${month}/${day}`;
       objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
@@ -78,8 +81,8 @@ export class DropService {
   }
 
   saveDrop(dropFields: Drop) {
-    dropFields.dropId = doc(collection(this.firestoreDB, 'dropId')).id;
-    return from(addDoc(collection(this.firestoreDB, 'mail_drop'), dropFields));
+    // dropFields.dropId = doc(collection(this.firestoreDB, 'dropId')).id;
+    // return from(addDoc(collection(this.firestoreDB, 'mail_drop'), dropFields));
   }
 
   getAllDrops() {
