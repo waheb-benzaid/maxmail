@@ -74,15 +74,17 @@ export class CampaignListComponent implements OnInit {
       this.dataSource.sort = this.sort;
     });
   }
+
   getCampaignId(campaignName: string) {
-    // let campaign;
-    // this.campaignService.getAllCampaigns().subscribe((res) => {
-    //   res.map((item) => {
-    //     campaign = item;
-    //   });
-    // });
-    // campaign;
+    let campaign;
+    this.campaignService.getAllCampaigns().subscribe((res) => {
+      res.map((item) => {
+        campaign = item;
+      });
+    });
+    campaign;
   }
+
   editCampaign(rowData: any) {
     console.log(rowData, 'rowdata');
     this.openCompaignDialog(rowData);

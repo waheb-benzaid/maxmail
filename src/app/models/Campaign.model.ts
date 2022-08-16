@@ -1,6 +1,7 @@
 import { Drop } from './Drop.model';
 
 export interface Campaign {
+  campaignID: any;
   campaignName: any;
   firstDropDate: any;
   campaignStatus: any;
