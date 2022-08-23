@@ -22,6 +22,7 @@ export class DropService {
   constructor(private firestoreDB: Firestore) {
     this.deleteDropsByCampaignName('jksjks');
   }
+  currentCampaignId: string = '';
   public drops: Drop[] = [
     {
       campaignId: '',
@@ -36,7 +37,11 @@ export class DropService {
       nextAvailableDates: '',
     },
   ];
-  createAutoDropsObject(campaignObject: Campaign, isEditMode: boolean) {
+  createAutoDropsObject(
+    campaignObject: Campaign,
+    isEditMode: boolean,
+    id?: string
+  ) {
     this.drops.length = 0;
     let day = isEditMode
       ? getDay(campaignObject.firstDropDate as Date)
@@ -56,10 +61,11 @@ export class DropService {
       dropDate: '',
       nextAvailableDates: '',
     };
+    objectToInsert.campaignId = this.currentCampaignId;
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
       objectToInsert = new Object() as any;
-      // objectToInsert.campaignId = campaignObject.objectToInsert.campaignName =
-      campaignObject.campaignName;
+      objectToInsert.campaignId = this.currentCampaignId;
+      objectToInsert.campaignName = campaignObject.campaignName;
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = `${year}/${month}/${day}`;
       objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
@@ -78,6 +84,13 @@ export class DropService {
       }
     }
     return this.drops;
+  }
+
+  getCurrentCampaignID(campaignId: string) {
+    console.log(campaignId, 'from function');
+
+    this.currentCampaignId = campaignId;
+    console.log(this.currentCampaignId);
   }
 
   saveDrop(dropFields: Drop) {

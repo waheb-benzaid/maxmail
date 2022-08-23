@@ -11,6 +11,7 @@ import {
   getMonth,
 } from '../../../utils/Functions/format-date';
 import { DropService } from 'src/app/services/drop/drop.service';
+import { Drop } from '../../../models/Drop.model';
 campaignsName: [] = [];
 @Component({
   selector: 'app-campaign',
@@ -162,8 +163,10 @@ export class CampaignComponent implements OnInit {
       contactName,
       attachments,
     } = this.campaignForm.value;
+    let dropsArray: Drop[];
     const campaignObject = {
-      campaignID: '',
+      // /
+      // /campaignID: '',
       campaignName,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
@@ -185,11 +188,11 @@ export class CampaignComponent implements OnInit {
   }
 
   addCampaign() {
-    if (!this.campaignForm.valid) {
-      alert('some required fields are empty!');
-      return;
-    }
     if (!this.editData) {
+      if (!this.campaignForm.valid) {
+        alert('some required fields are empty!');
+        return;
+      }
       this.campaignService
         .saveCampaign(this.getCampaignObject())
         .pipe(
@@ -209,6 +212,9 @@ export class CampaignComponent implements OnInit {
   }
 
   updateCampaign(id: string) {
+    this.getCampaignObject().campaignID = id;
+    console.log(this.getCampaignObject().campaignID, 'log');
+
     this.campaignService
       .updateCampaign(id, this.getCampaignObject())
       .pipe(

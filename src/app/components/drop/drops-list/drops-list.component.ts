@@ -22,7 +22,7 @@ export class DropsListComponent implements OnInit {
   isDetailDialog: boolean = false;
   ngOnInit(): void {}
   displayedColumns: string[] = [
-    'id',
+    // 'campaignId',
     'campaignName',
     'dropName',
     'isLastDrop',

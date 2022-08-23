@@ -3,7 +3,6 @@
   <div class="mat-dialog-content">
     <form [formGroup]="dropForm">
       <!-- ---------------------- -->
-
       <mat-form-field appearance="outline">
         <mat-label>Campaign</mat-label>
         <mat-select formControlName="campaignName">
@@ -20,7 +19,7 @@
         </mat-select>
 
         <mat-error *ngIf="campaignName?.errors?.['required']">
-          Campaign Type is required</mat-error
+          Campaign Name is required</mat-error
         >
       </mat-form-field>
       <!------------------------------------------------------------->
@@ -43,7 +42,7 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field> -->
-      <!-- -------------------------------------------- -->
+      <!-------------------------------------------------->
       <mat-form-field appearance="outline">
         <mat-label>Drop Date</mat-label>
         <input

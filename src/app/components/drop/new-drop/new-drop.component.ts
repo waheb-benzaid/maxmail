@@ -164,19 +164,20 @@ export class NewDropComponent implements OnInit {
   }
 
   updatedrop(id: string) {
-    this.dropService
-      .updateDrop(id, this.dropForm.value)
-      .pipe(
-        this.toast.observe({
-          success: 'drop edited successfuly',
-          loading: 'Editing ...',
-          error: 'There was a error',
-        })
-      )
-      .subscribe(() => {
-        this.dropForm.reset();
-        this.dialogRef.close('update');
-      });
+    // this.dropService
+    //   .updateDrop(id, this.dropForm.value)
+    //   .pipe(
+    //     this.toast.observe({
+    //       success: 'drop edited successfuly',
+    //       loading: 'Editing ...',
+    //       error: 'There was a error',
+    //     })
+    //   )
+    //   .subscribe(() => {
+    //     this.dropForm.reset();
+    //     this.dialogRef.close('update');
+    //   });
+    console.log(id);
   }
 
   deletedrop() {

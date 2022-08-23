@@ -8,15 +8,11 @@ import {
   deleteDoc,
   collectionData,
 } from '@angular/fire/firestore';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-  DocumentChangeAction,
-} from '@angular/fire/compat/firestore';
-import { from, map, Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { from, Observable } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
-import { Drop } from 'src/app/models/Drop.model';
-import { setDoc, where } from 'firebase/firestore';
+
+import { DropService } from '../drop/drop.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,27 +30,21 @@ export class CampaignService {
     mailerSize: '',
   };
 
-  constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {
-    //console.log(this.getCampaignId());
+  constructor(
+    private firestoreDB: Firestore,
+    private afs: AngularFirestore,
+    private dropService: DropService
+  ) {
     this.isCampaignCollectionEmpty();
-
-    this.getCampaignId();
     console.log(this.campaignId, 'campaignID');
   }
 
   items: Observable<any[]> | undefined;
 
   saveCampaign(campaignFields: Campaign) {
-    // campaignFields.campaignID = this.afs.createId();
-    // return from(
-    //   // setDoc(collection(this.firestoreDB, 'mail_campaign',id), campaignFields)
-    //   setDoc(
-    //     (this.afs, 'mail_campaign', campaignFields.campaignID),
-    //     campaignFields
-    //   )
-    // );
     let id = this.afs.createId();
     campaignFields.campaignID = id;
+    this.dropService.getCurrentCampaignID(id);
     return from(
       this.afs.collection('mail_campaign').doc(id).set(campaignFields)
     );
@@ -77,51 +67,19 @@ export class CampaignService {
     return names;
   }
 
-  getCampaignId() {
-    // const campaignCollection = this.afs
-    //   .collection<Campaign>('mail_campaign')
-    //   .snapshotChanges();
-    // let obj: Drop = null;
-    // campaignCollection.forEach((value) => {
-    //   return value.map((res) => {
-    //     if (res.payload.doc.data().campaignName === 'x') {
-    //       this.campaignId = res.payload.doc.id;
-    //       obj.campaignId = res.payload.doc.id;
-    //       let obj: Drop = res.
-    //       return obj.campaignId;
-    //     }
-    //     return '';
-    //   });
-    // // });
-    // return this.afs
-    //   .collection<Campaign>('mail_campaign')
-    //   .snapshotChanges()
-    //   .subscribe((res) => {
-    //     res.map((item) => {});
-    //   });
-    //       const racesCollection: AngularFirestoreCollection<Race>;
-    // return racesCollection.snapshotChanges().map(actions => {
-    //   return actions.map(a => {
-    //     const data = a.payload.doc.data() as Race;
-    //     data.id = a.payload.doc.id;
-    //     return data;
-    //   });
-    // });
-  }
-
-  getCampaignInformations(_campaignName: string) {
-    this.getAllCampaigns().subscribe((campaigns) => {
-      for (const campaign of <Campaign[]>campaigns) {
-        if (campaign.campaignName === _campaignName) {
-          this.campaignInformation.CampaignCompany = campaign.contactName;
-          this.campaignInformation.CampaignContact = campaign.contactName;
-          this.campaignInformation.CampaignStatus = campaign.campaignStatus;
-          this.campaignInformation.campaignType = campaign.campaignType;
-          this.campaignInformation.mailerSize = campaign.mailerSize;
-        }
-      }
-    });
-  }
+  // getCampaignInformations(_campaignName: string) {
+  //   this.getAllCampaigns().subscribe((campaigns) => {
+  //     for (const campaign of <Campaign[]>campaigns) {
+  //       if (campaign.campaignName === _campaignName) {
+  //         this.campaignInformation.CampaignCompany = campaign.contactName;
+  //         this.campaignInformation.CampaignContact = campaign.contactName;
+  //         this.campaignInformation.CampaignStatus = campaign.campaignStatus;
+  //         this.campaignInformation.campaignType = campaign.campaignType;
+  //         this.campaignInformation.mailerSize = campaign.mailerSize;
+  //       }
+  //     }
+  //   });
+  // }
 
   getCampaignIdByName(_campaignName: string) {
     let id: string = '';
