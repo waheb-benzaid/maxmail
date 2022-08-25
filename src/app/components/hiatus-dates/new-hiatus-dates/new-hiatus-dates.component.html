@@ -1,0 +1,52 @@
+<div class="form-container mat-elevation-z5">
+  <h1 mat-dialog-title>Hiatus Dates Form</h1>
+  <div class="mat-dialog-content">
+    <form [formGroup]="hiatusDatesForm" (ngSubmit)="addHiatusDate()">
+      <mat-form-field appearance="outline">
+        <mat-label>Hiatus Date Description</mat-label>
+        <input
+          matInput
+          placeholder=" Hiatus Date Description"
+          formControlName="dateDescription"
+        />
+        <mat-error *ngIf="dateDescription?.errors?.['required']">
+          Date is required</mat-error
+        >
+      </mat-form-field>
+      <!--------------------------------------------------  -->
+      <mat-form-field appearance="outline">
+        <mat-label>Choose a hiatus date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          placeholder="First Drop Date"
+          formControlName="firstDropDate"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker> </mat-datepicker>
+        <mat-error *ngIf="hiatusDate?.hasError('required')">
+          Hiatus Date is required</mat-error
+        >
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button
+      mat-raised-button
+      color="warm"
+      mat-dialog-close
+      style="background-color: coral"
+    >
+      Close
+    </button>
+    <button
+      style="margin-left: 8px"
+      mat-raised-button
+      color="primary"
+      (click)="addHiatusDate()"
+    >
+      {{ actionButton }}
+    </button>
+  </div>
+</div>
