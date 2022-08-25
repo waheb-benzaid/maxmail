@@ -12,6 +12,7 @@ import { from } from 'rxjs';
 import { Drop } from 'src/app/models/Drop.model';
 
 import { getDay, getMonth, getYear } from '../../utils/Functions/format-date';
+import { Months } from '../../utils/Enums/months';
 import { Campaign } from 'src/app/models/Campaign.model';
 
 @Injectable({
@@ -19,9 +20,10 @@ import { Campaign } from 'src/app/models/Campaign.model';
 })
 export class DropService {
   dropsList: any[] = [];
-  constructor(private firestoreDB: Firestore) {
-    this.deleteDropsByCampaignName('jksjks');
-  }
+  constructor(private firestoreDB: Firestore, private months: Months) {}
+
+  hiatusDates: number[] = [1, 2, 4, 10, 11, 16, 19, 20, 23, 25, 29];
+
   currentCampaignId: string = '';
   public drops: Drop[] = [
     {
@@ -87,8 +89,6 @@ export class DropService {
   }
 
   getCurrentCampaignID(campaignId: string) {
-    console.log(campaignId, 'from function');
-
     this.currentCampaignId = campaignId;
     console.log(this.currentCampaignId);
   }

@@ -160,7 +160,7 @@ export class NewDropComponent implements OnInit {
     //       this.dialogRef.close('save');
     //     });
     // }
-    // this.updatedrop(this.editMode.id);
+    // this.updatedrop(this.editMode);
   }
 
   updatedrop(id: string) {
@@ -177,7 +177,7 @@ export class NewDropComponent implements OnInit {
     //     this.dropForm.reset();
     //     this.dialogRef.close('update');
     //   });
-    console.log(id);
+    console.log(id, 'this is the ID');
   }
 
   deletedrop() {
