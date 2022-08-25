@@ -7,9 +7,9 @@
         <input
           matInput
           placeholder=" Hiatus Date Description"
-          formControlName="dateDescription"
+          formControlName="hiatusDateDescription"
         />
-        <mat-error *ngIf="dateDescription?.errors?.['required']">
+        <mat-error *ngIf="hiatusDateDescription?.errors?.['required']">
           Date is required</mat-error
         >
       </mat-form-field>
@@ -19,8 +19,8 @@
         <input
           matInput
           [matDatepicker]="picker"
-          placeholder="First Drop Date"
-          formControlName="firstDropDate"
+          placeholder="Hiatus Date"
+          formControlName="hiatusDate"
         />
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
