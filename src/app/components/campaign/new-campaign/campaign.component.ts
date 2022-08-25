@@ -12,7 +12,7 @@ import {
 } from '../../../utils/Functions/format-date';
 import { DropService } from 'src/app/services/drop/drop.service';
 import { Drop } from '../../../models/Drop.model';
-campaignsName: [] = [];
+//campaignsName: [] = [];
 @Component({
   selector: 'app-campaign',
   templateUrl: './campaign.component.html',
@@ -33,7 +33,7 @@ export class CampaignComponent implements OnInit {
   actionButton: string = 'Save';
   campaignForm = new FormGroup({
     campaignName: new FormControl('', Validators.required),
-    firstDropDate: new FormControl('', Validators.required),
+    firstDropDate: new FormControl(Date, Validators.required),
     campaignStatus: new FormControl('', Validators.required),
     campaignType: new FormControl('', Validators.required),
     firstDropVolume: new FormControl('', Validators.required),
@@ -168,7 +168,7 @@ export class CampaignComponent implements OnInit {
       // /
       // /campaignID: '',
       campaignName,
-      firstDropDate: formatDate(firstDropDate, this.datePipe),
+      firstDropDate, //: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
       campaignType,
       firstDropVolume,
@@ -189,10 +189,10 @@ export class CampaignComponent implements OnInit {
 
   addCampaign() {
     if (!this.editData) {
-      if (!this.campaignForm.valid) {
-        alert('some required fields are empty!');
-        return;
-      }
+      // if (!this.campaignForm.valid) {
+      //   alert('some required fields are empty!');
+      //   return;
+      // }
       this.campaignService
         .saveCampaign(this.getCampaignObject())
         .pipe(

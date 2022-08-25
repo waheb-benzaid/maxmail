@@ -21,7 +21,6 @@ import { Campaign } from 'src/app/models/Campaign.model';
 export class DropService {
   dropsList: any[] = [];
   constructor(private firestoreDB: Firestore) {}
-
   currentCampaignId: string = '';
   public drops: Drop[] = [
     {

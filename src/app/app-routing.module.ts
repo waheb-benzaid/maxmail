@@ -13,7 +13,7 @@ import { UserRegisterComponent } from './components/users/user-register/user-reg
 import { ProfileComponent } from './components/profile/profile.component';
 import { CampaignListComponent } from './components/campaign/campaign-list/campaign-list.component';
 import { DropsListComponent } from './components/drop/drops-list/drops-list.component';
-import { HiatusDatesComponent } from './components/hiatus-dates/hiatus-dates.component';
+import { HiatusDatesListComponent } from './components/hiatus-dates/hiatus-dates-list/hiatus-dates-list.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
@@ -56,7 +56,7 @@ const routes: Routes = [
   },
   {
     path: 'hiatus-dates',
-    component: HiatusDatesComponent,
+    component: HiatusDatesListComponent,
     ...canActivate(redirectUnauthorizedToLogin),
   },
 ];

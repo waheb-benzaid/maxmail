@@ -40,6 +40,10 @@ export class NavBarComponent implements OnInit {
     this.router.navigate(['/drops']);
   }
 
+  redirectToHiatusDatesPage() {
+    this.router.navigate(['/hiatus-dates']);
+  }
+
   currentUserProfile() {
     return this.authService.currentUser$;
   }

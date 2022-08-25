@@ -58,7 +58,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { CampaignDetailComponent } from './components/campaign/campaign-detail/campaign-detail.component';
 import { DropDetalComponent } from './components/drop/drop-detail/drop-detal.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { HiatusDatesComponent } from './components/hiatus-dates/hiatus-dates.component';
+import { NewHiatusDatesComponent } from './components/hiatus-dates/new-hiatus-dates/new-hiatus-dates.component';
+import { HiatusDatesListComponent } from './components/hiatus-dates/hiatus-dates-list/hiatus-dates-list.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { HiatusDatesComponent } from './components/hiatus-dates/hiatus-dates.com
     DropsListComponent,
     CampaignDetailComponent,
     DropDetalComponent,
-    HiatusDatesComponent,
+    NewHiatusDatesComponent,
+    HiatusDatesListComponent,
   ],
   imports: [
     BrowserModule,
