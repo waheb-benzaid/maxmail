@@ -20,9 +20,7 @@ import { Campaign } from 'src/app/models/Campaign.model';
 })
 export class DropService {
   dropsList: any[] = [];
-  constructor(private firestoreDB: Firestore, private months: Months) {}
-
-  hiatusDates: number[] = [1, 2, 4, 10, 11, 16, 19, 20, 23, 25, 29];
+  constructor(private firestoreDB: Firestore) {}
 
   currentCampaignId: string = '';
   public drops: Drop[] = [
