@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
+import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
 import { openForms } from 'src/app/utils/Functions/openForm';
 import { NewHiatusDatesComponent } from '../new-hiatus-dates/new-hiatus-dates.component';
 
@@ -27,11 +28,17 @@ export class HiatusDatesListComponent implements OnInit {
   allcampaigns: any;
   constructor(
     public dialog: MatDialog,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private hiatusDateService: HiatusDatesService
   ) {
     // Assign the data to the data source for the table to render
     campaignService.getAllCampaignsNames();
     this.dataSource = new MatTableDataSource();
+    console.log(hiatusDateService.hiatusDatesArray, 'hiaus dates array');
+    let todaDate = new Date();
+    if (hiatusDateService.hiatusDatesArray.includes(todaDate)) {
+      console.log('hey');
+    }
   }
 
   ngAfterViewInit() {

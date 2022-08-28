@@ -35,7 +35,7 @@ export class NewHiatusDatesComponent implements OnInit {
 
   addHiatusDate() {
     if (!this.hiatusDatesForm.valid) {
-      window.alert('fields are not valid! please confirm  before saving');
+      window.alert('fields are not valid! please confirm before saving');
       return;
     }
     this.hiatusDateService

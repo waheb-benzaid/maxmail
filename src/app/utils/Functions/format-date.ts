@@ -1,6 +1,4 @@
 import { DatePipe, DATE_PIPE_DEFAULT_TIMEZONE } from '@angular/common';
-import { Timezone } from '@syncfusion/ej2-angular-schedule';
-import { retry } from 'rxjs';
 
 export function formatDate(date: any, datePipe: DatePipe) {
   if (typeof date === 'string') {
@@ -30,3 +28,16 @@ export function getYear(date: Date) {
   }
   return date.getFullYear();
 }
+
+export function getDateWithoutTime(date: any) {
+  // let dateToPrint = date.toDateString();
+  // return dateToPrint;
+  // return [
+  //   date.getFullYear(),
+  //   padTo2Digits(date.getMonth() + 1),
+  //   padTo2Digits(date.getDate()),
+  // ].join('-');
+}
+// function padTo2Digits(num: any) {
+//   return num.toString().padStart(2, '0');
+// }

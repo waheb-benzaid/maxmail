@@ -9,6 +9,7 @@ import {
   formatDate,
   getDay,
   getMonth,
+  getDateWithoutTime,
 } from '../../../utils/Functions/format-date';
 import { DropService } from 'src/app/services/drop/drop.service';
 import { Drop } from '../../../models/Drop.model';
@@ -168,7 +169,7 @@ export class CampaignComponent implements OnInit {
       // /
       // /campaignID: '',
       campaignName,
-      firstDropDate, //: formatDate(firstDropDate, this.datePipe),
+      firstDropDate, //: getDateWithoutTime(firstDropDate), //, //: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
       campaignType,
       firstDropVolume,
@@ -214,7 +215,6 @@ export class CampaignComponent implements OnInit {
   updateCampaign(id: string) {
     this.getCampaignObject().campaignID = id;
     console.log(this.getCampaignObject().campaignID, 'log');
-
     this.campaignService
       .updateCampaign(id, this.getCampaignObject())
       .pipe(
