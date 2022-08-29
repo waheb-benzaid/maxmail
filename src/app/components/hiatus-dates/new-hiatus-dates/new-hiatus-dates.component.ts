@@ -1,9 +1,11 @@
+import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HotToastService } from '@ngneat/hot-toast';
 import { HiatusDate } from 'src/app/models/HiatusDates.model';
 import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
+import { formatDate } from 'src/app/utils/Functions/format-date';
 
 @Component({
   selector: 'app-new-hiatus-dates',
@@ -15,6 +17,7 @@ export class NewHiatusDatesComponent implements OnInit {
     private hiatusDateService: HiatusDatesService,
     private toast: HotToastService,
     private dialogRef: MatDialogRef<NewHiatusDatesComponent>,
+    private datePipe: DatePipe,
     @Inject(MAT_DIALOG_DATA) public editData: any
   ) {}
   actionButton: string = 'Save';
@@ -33,13 +36,21 @@ export class NewHiatusDatesComponent implements OnInit {
     return this.hiatusDatesForm.get('hiatusDate');
   }
 
+  setHiatusDatesObject(): HiatusDate {
+    const { hiatusDateDescription, hiatusDate } = this.hiatusDatesForm.value;
+    return {
+      hiatusDateDescription,
+      hiatusDate: formatDate(hiatusDate, this.datePipe),
+    };
+  }
+
   addHiatusDate() {
     if (!this.hiatusDatesForm.valid) {
       window.alert('fields are not valid! please confirm before saving');
       return;
     }
     this.hiatusDateService
-      .saveHiatusDate(this.hiatusDatesForm.value as HiatusDate)
+      .saveHiatusDate(this.setHiatusDatesObject())
       .pipe(
         this.toast.observe({
           success: 'Hiatus date saved successfuly',

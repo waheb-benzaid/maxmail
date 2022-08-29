@@ -13,6 +13,7 @@ import {
 } from '../../../utils/Functions/format-date';
 import { DropService } from 'src/app/services/drop/drop.service';
 import { Drop } from '../../../models/Drop.model';
+import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
 //campaignsName: [] = [];
 @Component({
   selector: 'app-campaign',
@@ -27,7 +28,8 @@ export class CampaignComponent implements OnInit {
     private dialogRef: MatDialogRef<CampaignComponent>,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private datePipe: DatePipe,
-    private dropService: DropService
+    private dropService: DropService,
+    private hiatusDatesService: HiatusDatesService
   ) {
     campaignService.getAllCampaigns();
   }
@@ -169,7 +171,7 @@ export class CampaignComponent implements OnInit {
       // /
       // /campaignID: '',
       campaignName,
-      firstDropDate, //: getDateWithoutTime(firstDropDate), //, //: formatDate(firstDropDate, this.datePipe),
+      firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
       campaignType,
       firstDropVolume,
@@ -194,6 +196,13 @@ export class CampaignComponent implements OnInit {
       //   alert('some required fields are empty!');
       //   return;
       // }
+      let isHiatusDate = this.hiatusDatesService.hiatusDatesArray.includes(
+        this.getCampaignObject().firstDropDate
+      );
+      if (isHiatusDate) {
+        window.alert('date not available');
+        return;
+      }
       this.campaignService
         .saveCampaign(this.getCampaignObject())
         .pipe(

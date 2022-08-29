@@ -32,13 +32,8 @@ export class HiatusDatesListComponent implements OnInit {
     private hiatusDateService: HiatusDatesService
   ) {
     // Assign the data to the data source for the table to render
-    campaignService.getAllCampaignsNames();
     this.dataSource = new MatTableDataSource();
     console.log(hiatusDateService.hiatusDatesArray, 'hiaus dates array');
-    let todaDate = new Date();
-    if (hiatusDateService.hiatusDatesArray.includes(todaDate)) {
-      console.log('hey');
-    }
   }
 
   ngAfterViewInit() {

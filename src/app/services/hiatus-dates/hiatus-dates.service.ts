@@ -18,10 +18,11 @@ import { Conditional } from '@angular/compiler';
   providedIn: 'root',
 })
 export class HiatusDatesService {
-  public hiatusDatesArray: any[] = [];
+  public hiatusDatesArray: string[] = [];
 
   constructor(private afs: AngularFirestore, private firestoreDB: Firestore) {
     this.getHiatusDates();
+    console.log(this.hiatusDatesArray, 'array');
   }
 
   saveHiatusDate(hiatusDateFields: HiatusDate) {
@@ -33,7 +34,7 @@ export class HiatusDatesService {
   getHiatusDates() {
     const hiatus_dates = collection(this.firestoreDB, 'hiatus_dates');
     let hiatusDatesData = collectionData(hiatus_dates, {
-      idField: 'id',
+      //  idField: 'id',
     }) as Observable<HiatusDate[]>;
     hiatusDatesData.subscribe((res) => {
       for (let index = 0; index < res.length; index++) {
