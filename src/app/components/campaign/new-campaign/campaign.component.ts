@@ -9,7 +9,6 @@ import {
   formatDate,
   getDay,
   getMonth,
-  getDateWithoutTime,
 } from '../../../utils/Functions/format-date';
 import { DropService } from 'src/app/services/drop/drop.service';
 import { Drop } from '../../../models/Drop.model';

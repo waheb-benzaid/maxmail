@@ -28,15 +28,6 @@ export function getYear(date: Date) {
   return date.getFullYear();
 }
 
-export function getDateWithoutTime(date: any) {
-  // let dateToPrint = date.toDateString();
-  // return dateToPrint;
-  // return [
-  //   date.getFullYear(),
-  //   padTo2Digits(date.getMonth() + 1),
-  //   padTo2Digits(date.getDate()),
-  // ].join('-');
-}
-// function padTo2Digits(num: any) {
-//   return num.toString().padStart(2, '0');
+// export function name(params:type) {
+
 // }

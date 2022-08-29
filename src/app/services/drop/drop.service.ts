@@ -10,17 +10,27 @@ import {
 } from '@angular/fire/firestore';
 import { from } from 'rxjs';
 import { Drop } from 'src/app/models/Drop.model';
-
-import { getDay, getMonth, getYear } from '../../utils/Functions/format-date';
+import {
+  formatDate,
+  getDay,
+  getMonth,
+  getYear,
+} from '../../utils/Functions/format-date';
 import { Months } from '../../utils/Enums/months';
 import { Campaign } from 'src/app/models/Campaign.model';
+import { HiatusDatesService } from '../hiatus-dates/hiatus-dates.service';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DropService {
   dropsList: any[] = [];
-  constructor(private firestoreDB: Firestore) {}
+  constructor(
+    private firestoreDB: Firestore,
+    private hiatusDatesService: HiatusDatesService,
+    private datePipe: DatePipe
+  ) {}
   currentCampaignId: string = '';
   public drops: Drop[] = [
     {
@@ -42,9 +52,7 @@ export class DropService {
     id?: string
   ) {
     this.drops.length = 0;
-    let day = isEditMode
-      ? getDay(campaignObject.firstDropDate as Date)
-      : getDay(campaignObject.firstDropDate as Date) + 1;
+    let day = getDay(campaignObject.firstDropDate as Date);
     let month = getMonth(campaignObject.firstDropDate as Date) + 1;
     let year = getYear(campaignObject.firstDropDate as Date);
 
@@ -60,27 +68,45 @@ export class DropService {
       dropDate: '',
       nextAvailableDates: '',
     };
+    let dropDate = `${year}-${month}-${day}`;
     objectToInsert.campaignId = this.currentCampaignId;
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
       objectToInsert = new Object() as any;
+      let date = new Date();
       objectToInsert.campaignId = this.currentCampaignId;
       objectToInsert.campaignName = campaignObject.campaignName;
       objectToInsert.dropNumber = i;
-      objectToInsert.dropDate = `${year}/${month}/${day}`;
+      objectToInsert.dropDate = dropDate;
       objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
       objectToInsert.dropVolume = campaignObject.firstDropVolume;
       objectToInsert.isDropCompleted = false;
       objectToInsert.isLastDrop = false;
       objectToInsert.isSeededReceived = false;
       this.drops.push(objectToInsert);
-      month++;
-      if (month === 7) {
-        month++;
+      date = new Date(dropDate);
+      if (campaignObject.campaignType === 'magazine') {
+        date = new Date(date.setMonth(date.getMonth() + 3));
+      } else {
+        date = new Date(date.setDate(date.getDate() + 21));
+        console.log(date, 'date after adding 21 days');
       }
-      if (month > 12) {
-        month = 1;
-        year++;
+      day = getDay(date);
+      month = getMonth(date) + 1;
+      year = getYear(date);
+      dropDate = `${year}-${month}-${day}`;
+      dropDate = formatDate(dropDate, this.datePipe) || '';
+      let isHiatusDate =
+        this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
+      while (isHiatusDate) {
+        date = new Date(date.setDate(date.getDate() + 1));
+        day = getDay(date);
+        month = getMonth(date) + 1;
+        year = getYear(date);
+        dropDate = `${year}-${month}-${day}`;
+        isHiatusDate =
+          this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
       }
+      dropDate = `${year}-${month}-${day}`;
     }
     return this.drops;
   }
