@@ -27,7 +27,7 @@ export class NewDropComponent implements OnInit {
     private datePipe: DatePipe,
     private campaignService: CampaignService
   ) {
-    dropService.getAllDrops();
+    // dropService.getAllDrops();
     this.options = campaignService.getAllCampaignsNames();
     console.log('options');
   }

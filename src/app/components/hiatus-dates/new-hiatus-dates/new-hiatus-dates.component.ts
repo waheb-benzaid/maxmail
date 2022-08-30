@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HotToastService } from '@ngneat/hot-toast';
 import { HiatusDate } from 'src/app/models/HiatusDates.model';
+import { DropService } from 'src/app/services/drop/drop.service';
 import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
 import { formatDate } from 'src/app/utils/Functions/format-date';
 
@@ -18,12 +19,13 @@ export class NewHiatusDatesComponent implements OnInit {
     private toast: HotToastService,
     private dialogRef: MatDialogRef<NewHiatusDatesComponent>,
     private datePipe: DatePipe,
+    private dropServive: DropService,
     @Inject(MAT_DIALOG_DATA) public editData: any
   ) {}
   actionButton: string = 'Save';
   hiatusDatesForm = new FormGroup({
     hiatusDateDescription: new FormControl('', Validators.required),
-    hiatusDate: new FormControl(Date, Validators.required),
+    hiatusDate: new FormControl('', Validators.required),
   });
 
   ngOnInit(): void {}
@@ -49,8 +51,20 @@ export class NewHiatusDatesComponent implements OnInit {
       window.alert('fields are not valid! please confirm before saving');
       return;
     }
+
+    let _hiatusDate = '';
+    _hiatusDate = this.setHiatusDatesObject().hiatusDate;
+    _hiatusDate = _hiatusDate.replace(/-0+/g, '-');
+    const hiatusDatesObject = {
+      hiatusDateDescription: this.setHiatusDatesObject().hiatusDateDescription,
+      hiatusDate: _hiatusDate,
+    };
+    if (this.dropServive.isDropDateHiatus(hiatusDatesObject.hiatusDate)) {
+      window.alert('there is one or more drops in this date');
+      return;
+    }
     this.hiatusDateService
-      .saveHiatusDate(this.setHiatusDatesObject())
+      .saveHiatusDate(hiatusDatesObject)
       .pipe(
         this.toast.observe({
           success: 'Hiatus date saved successfuly',

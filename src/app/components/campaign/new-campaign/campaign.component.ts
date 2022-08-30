@@ -215,6 +215,7 @@ export class CampaignComponent implements OnInit {
           this.campaignForm.reset();
           this.dialogRef.close('save');
         });
+      this.hiatusDatesService.hiatusDatesArray = [];
       return;
     }
     this.updateCampaign(this.editData.id);

@@ -27,7 +27,7 @@ export class DropDetalComponent implements OnInit {
     private datePipe: DatePipe,
     private campaignService: CampaignService
   ) {
-    dropService.getAllDrops();
+    // dropService.getAllDrops();
     this.options = campaignService.getAllCampaignsNames();
   }
   // isDropCompleted = false;
@@ -44,13 +44,14 @@ export class DropDetalComponent implements OnInit {
     isSeededReceived: new FormControl('', Validators.required),
     nextAvailableDates: new FormControl('', Validators.required),
   });
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.options.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
   }
+
   ngOnInit(): void {
     this.filteredOptions = this.dropForm.controls[
       'campaignName'
@@ -58,7 +59,6 @@ export class DropDetalComponent implements OnInit {
       startWith(''),
       map((value) => this._filter(value || ''))
     );
-
     this.dropForm.controls['campaignName'].setValue(this.editMode.campaignName);
     this.dropForm.controls['dropDate'].setValue(this.editMode.dropDate);
     this.dropForm.controls['dropNumber'].setValue(this.editMode.dropNumber);
@@ -74,36 +74,4 @@ export class DropDetalComponent implements OnInit {
       this.editMode.nextAvailableDates
     );
   }
-
-  // get campaignName() {
-  //   return this.dropForm.get('campaignName');
-  // }
-
-  // get dropDate() {
-  //   return this.dropForm.get('dropDate');
-  // }
-
-  // get dropNumber() {
-  //   return this.dropForm.get('dropNumber');
-  // }
-
-  // get dropVolume() {
-  //   return this.dropForm.get('dropVolume');
-  // }
-
-  // get _isLastDrop() {
-  //   return this.dropForm.get('isLastDrop');
-  // }
-
-  // get _isDropCompleted() {
-  //   return this.dropForm.get('isDropCompleted');
-  // }
-
-  // get _isSeededReceived() {
-  //   return this.dropForm.get('isSeededReceived');
-  // }
-
-  // get nextAvailableDates() {
-  //   return this.dropForm.get('nextAvailableDates');
-  // }
 }

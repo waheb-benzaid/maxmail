@@ -30,21 +30,15 @@ export class CampaignService {
     mailerSize: '',
   };
 
-  constructor(
-    private firestoreDB: Firestore,
-    private afs: AngularFirestore,
-    private dropService: DropService
-  ) {
+  constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {
     this.isCampaignCollectionEmpty();
     console.log(this.campaignId, 'campaignID');
   }
 
-  items: Observable<any[]> | undefined;
-
   saveCampaign(campaignFields: Campaign) {
     let id = this.afs.createId();
     campaignFields.campaignID = id;
-    this.dropService.getCurrentCampaignID(id);
+    //this.dropService.getCurrentCampaignID(id);
     return from(
       this.afs.collection('mail_campaign').doc(id).set(campaignFields)
     );

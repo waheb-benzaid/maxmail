@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  addDoc,
   Firestore,
-  collection,
   doc,
   updateDoc,
   deleteDoc,
@@ -16,10 +14,10 @@ import {
   getMonth,
   getYear,
 } from '../../utils/Functions/format-date';
-import { Months } from '../../utils/Enums/months';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { HiatusDatesService } from '../hiatus-dates/hiatus-dates.service';
 import { DatePipe } from '@angular/common';
+import { CampaignService } from '../campaign/campaign.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,9 +26,12 @@ export class DropService {
   constructor(
     private firestoreDB: Firestore,
     private hiatusDatesService: HiatusDatesService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private campaignService: CampaignService
   ) {}
+
   currentCampaignId: string = '';
+
   public drops: Drop[] = [
     {
       campaignId: '',
@@ -45,6 +46,7 @@ export class DropService {
       nextAvailableDates: '',
     },
   ];
+
   createAutoDropsObject(
     campaignObject: Campaign,
     isEditMode: boolean,
@@ -54,7 +56,6 @@ export class DropService {
     let day = getDay(campaignObject.firstDropDate as Date);
     let month = getMonth(campaignObject.firstDropDate as Date) + 1;
     let year = getYear(campaignObject.firstDropDate as Date);
-
     let objectToInsert = {
       campaignId: '',
       campaignName: '',
@@ -67,12 +68,14 @@ export class DropService {
       dropDate: '',
       nextAvailableDates: '',
     };
+
     let dropDate = `${year}-${month}-${day}`;
-    objectToInsert.campaignId = this.currentCampaignId;
+    // objectToInsert.campaignId = this.currentCampaignId;
+
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
       objectToInsert = new Object() as any;
       let date = new Date();
-      objectToInsert.campaignId = this.currentCampaignId;
+      // objectToInsert.campaignId = this.currentCampaignId;
       objectToInsert.campaignName = campaignObject.campaignName;
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = dropDate;
@@ -93,6 +96,7 @@ export class DropService {
       month = getMonth(date) + 1;
       year = getYear(date);
       dropDate = `${year}-${month}-${day}`;
+
       dropDate = formatDate(dropDate, this.datePipe) || '';
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
@@ -112,38 +116,38 @@ export class DropService {
     return this.drops;
   }
 
-  getCurrentCampaignID(campaignId: string) {
-    this.currentCampaignId = campaignId;
-    console.log(this.currentCampaignId);
-  }
+  // getCurrentCampaignID(campaignId: string) {
+  //   this.currentCampaignId = campaignId;
+  //   console.log(this.currentCampaignId);
+  // }
 
   saveDrop(dropFields: Drop) {
     // dropFields.dropId = doc(collection(this.firestoreDB, 'dropId')).id;
     // return from(addDoc(collection(this.firestoreDB, 'mail_drop'), dropFields));
   }
 
-  getAllDrops() {
-    const db = collection(this.firestoreDB, 'mail_drop');
-    return from(
-      getDocs(db).then((response) => {
-        return response.docs.map((item) => {
-          return { ...item.data(), id: item.id };
-        });
-      })
-    );
-  }
+  // getAllDrops() {
+  //   const db = collection(this.firestoreDB, 'mail_drop');
+  //   return from(
+  //     getDocs(db).then((response) => {
+  //       return response.docs.map((item) => {
+  //         return { ...item.data(), id: item.id };
+  //       });
+  //     })
+  //   );
+  // }
 
-  getDropByCampaignName(_campaignName: string) {
-    let drop: Drop[] = [];
-    this.getAllDrops().subscribe((res) => {
-      for (const iterator of <Drop[]>(<unknown>res)) {
-        if (iterator.campaignName === _campaignName) {
-          drop.push(iterator);
-        }
-      }
-    });
-    return drop;
-  }
+  // getDropByCampaignName(_campaignName: string) {
+  //   let drop: Drop[] = [];
+  //   this.getAllDrops().subscribe((res) => {
+  //     for (const iterator of <Drop[]>(<unknown>res)) {
+  //       if (iterator.campaignName === _campaignName) {
+  //         drop.push(iterator);
+  //       }
+  //     }
+  //   });
+  //   return drop;
+  // }
 
   updateDrop(id: string, dataToUpdate: any) {
     const dropToUpdate = doc(this.firestoreDB, 'mail_drop', id);
@@ -165,14 +169,29 @@ export class DropService {
 
   getAllDropsVolume(date: string) {
     let dropVolume = 0;
-    this.getAllDrops().subscribe((res) => {
-      for (const drop of <Drop[]>(<unknown>res)) {
-        if (date === drop.dropDate) {
-          dropVolume = dropVolume + drop.dropVolume;
-        }
-      }
+    this.campaignService.getAllCampaigns().subscribe((res) => {
+      res.forEach((campaign) => {
+        campaign.drops.forEach((drop) => {
+          if (drop.dropDate === date) {
+            dropVolume = dropVolume + drop.dropVolume;
+          }
+        });
+      });
     });
     return dropVolume;
+  }
+
+  isDropDateHiatus(hiatusDate: string): boolean {
+    let dropsDates: any[] = [];
+    this.campaignService.getAllCampaigns().subscribe((res) => {
+      res.forEach((campaign) => {
+        console.log('heyholla');
+        campaign.drops.forEach((drop) => {
+          dropsDates.push(drop.dropDate);
+        });
+      });
+    });
+    return dropsDates.includes(hiatusDate);
   }
 
   deleteDropsByCampaignName(_campaignName: string) {
