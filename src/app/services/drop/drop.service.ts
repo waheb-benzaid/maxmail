@@ -25,7 +25,6 @@ import { DatePipe } from '@angular/common';
   providedIn: 'root',
 })
 export class DropService {
-  dropsList: any[] = [];
   constructor(
     private firestoreDB: Firestore,
     private hiatusDatesService: HiatusDatesService,
@@ -97,7 +96,8 @@ export class DropService {
       dropDate = formatDate(dropDate, this.datePipe) || '';
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
-      while (isHiatusDate) {
+      let dropsVolume = this.getAllDropsVolume(dropDate);
+      while (isHiatusDate || dropsVolume >= 50000) {
         date = new Date(date.setDate(date.getDate() + 1));
         day = getDay(date);
         month = getMonth(date) + 1;
@@ -105,6 +105,7 @@ export class DropService {
         dropDate = `${year}-${month}-${day}`;
         isHiatusDate =
           this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
+        dropsVolume = this.getAllDropsVolume(dropDate);
       }
       dropDate = `${year}-${month}-${day}`;
     }
@@ -160,6 +161,18 @@ export class DropService {
   deleteDrop(id: string) {
     const dropToDelete = doc(this.firestoreDB, 'mail_drop', id);
     return from(deleteDoc(dropToDelete));
+  }
+
+  getAllDropsVolume(date: string) {
+    let dropVolume = 0;
+    this.getAllDrops().subscribe((res) => {
+      for (const drop of <Drop[]>(<unknown>res)) {
+        if (date === drop.dropDate) {
+          dropVolume = dropVolume + drop.dropVolume;
+        }
+      }
+    });
+    return dropVolume;
   }
 
   deleteDropsByCampaignName(_campaignName: string) {
