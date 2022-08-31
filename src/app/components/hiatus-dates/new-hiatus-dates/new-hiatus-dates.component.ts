@@ -4,10 +4,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HotToastService } from '@ngneat/hot-toast';
+import { Drop } from 'src/app/models/Drop.model';
 import { HiatusDate } from 'src/app/models/HiatusDates.model';
 import { DropService } from 'src/app/services/drop/drop.service';
 import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
 import { formatDate } from 'src/app/utils/Functions/format-date';
+import { LoginComponent } from '../../login/login.component';
 
 @Component({
   selector: 'app-new-hiatus-dates',
@@ -20,9 +22,11 @@ export class NewHiatusDatesComponent implements OnInit {
     private toast: HotToastService,
     private dialogRef: MatDialogRef<NewHiatusDatesComponent>,
     private datePipe: DatePipe,
-    private dropServive: DropService,
+    private dropService: DropService,
     @Inject(MAT_DIALOG_DATA) public editData: any
-  ) {}
+  ) {
+    this.dropService.isDropDateHiatus();
+  }
   actionButton: string = 'Save';
   hiatusDatesForm = new FormGroup({
     hiatusDateDescription: new FormControl('', Validators.required),
@@ -59,7 +63,6 @@ export class NewHiatusDatesComponent implements OnInit {
       hiatusDateDescription: this.setHiatusDatesObject().hiatusDateDescription,
       hiatusDate: _hiatusDate,
     };
-    this.dropServive.isDropDateHiatus(hiatusDatesObject.hiatusDate);
 
     if (
       this.hiatusDateService.hiatusDatesArray.includes(
@@ -69,10 +72,15 @@ export class NewHiatusDatesComponent implements OnInit {
       window.alert('this date exists yet');
       return;
     }
-    if (this.dropServive.dropsDates.includes(hiatusDatesObject.hiatusDate)) {
-      window.alert('there is one or more drops in this date');
+
+    let array = this.dropService.isDropDateHiatus();
+
+    if (array.includes(hiatusDatesObject.hiatusDate)) {
+      window.alert('it is not possible to create a this hiatus date');
+      array.length = 0;
       return;
     }
+
     this.hiatusDateService
       .saveHiatusDate(hiatusDatesObject)
       .pipe(
@@ -85,7 +93,7 @@ export class NewHiatusDatesComponent implements OnInit {
       .subscribe(() => {
         this.hiatusDatesForm.reset();
         this.dialogRef.close('save');
-        //window.location.reload();
+        window.location.reload();
       });
   }
 }

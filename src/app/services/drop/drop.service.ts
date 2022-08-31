@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import {
+  Firestore,
+  doc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  collectionData,
+} from '@angular/fire/firestore';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { from, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, Observable } from 'rxjs';
 import { Drop } from 'src/app/models/Drop.model';
 import {
   formatDate,
@@ -163,6 +170,7 @@ export class DropService {
     const dropToDelete = doc(this.firestoreDB, 'mail_drop', id);
     return from(deleteDoc(dropToDelete));
   }
+
   getAllDropsVolume(date: string) {
     let dropVolume = 0;
     this.campaignService.getAllCampaigns().subscribe((res) => {
@@ -176,8 +184,20 @@ export class DropService {
     });
     return dropVolume;
   }
-  dropsDates: any[] = [];
-  isDropDateHiatus(hiatusDate: string) {}
+
+  dropsDates: string[] = [];
+
+  isDropDateHiatus(): string[] {
+    this.campaignService.getAllCampaigns().subscribe((res) => {
+      res.forEach((campaign) => {
+        campaign.drops.forEach((drop) => {
+          this.dropsDates.push(drop.dropDate);
+        });
+        return this.dropsDates;
+      });
+    });
+    return this.dropsDates;
+  }
 
   deleteDropsByCampaignName(_campaignName: string) {
     // this.itemDoc = this.afs.doc<Drop>('items/1');
