@@ -105,7 +105,7 @@ export class DropService {
       dropDate = formatDate(dropDate, this.datePipe) || '';
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
-      let dropsVolume = this.getAllDropsVolume(dropDate);
+      let dropsVolume = this.getAllDropsVolumePerDay(dropDate);
       while (isHiatusDate || dropsVolume >= 50000) {
         date = new Date(date.setDate(date.getDate() + 1));
         day = getDay(date);
@@ -114,44 +114,17 @@ export class DropService {
         dropDate = `${year}-${month}-${day}`;
         isHiatusDate =
           this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
-        dropsVolume = this.getAllDropsVolume(dropDate);
+        dropsVolume = this.getAllDropsVolumePerDay(dropDate);
       }
       dropDate = `${year}-${month}-${day}`;
     }
     return this.drops;
   }
 
-  // getCurrentCampaignID(campaignId: string) {
-  //   this.currentCampaignId = campaignId;
-  // }
-
   saveDrop(dropFields: Drop) {
     // dropFields.dropId = doc(collection(this.firestoreDB, 'dropId')).id;
     // return from(addDoc(collection(this.firestoreDB, 'mail_drop'), dropFields));
   }
-
-  // getAllDrops() {
-  //   const db = collection(this.firestoreDB, 'mail_drop');
-  //   return from(
-  //     getDocs(db).then((response) => {
-  //       return response.docs.map((item) => {
-  //         return { ...item.data(), id: item.id };
-  //       });
-  //     })
-  //   );
-  // }
-
-  // getDropByCampaignName(_campaignName: string) {
-  //   let drop: Drop[] = [];
-  //   this.getAllDrops().subscribe((res) => {
-  //     for (const iterator of <Drop[]>(<unknown>res)) {
-  //       if (iterator.campaignName === _campaignName) {
-  //         drop.push(iterator);
-  //       }
-  //     }
-  //   });
-  //   return drop;
-  // }
 
   updateDrop(id: string, dataToUpdate: any) {
     const dropToUpdate = doc(this.firestoreDB, 'mail_drop', id);
@@ -171,7 +144,7 @@ export class DropService {
     return from(deleteDoc(dropToDelete));
   }
 
-  getAllDropsVolume(date: string) {
+  getAllDropsVolumePerDay(date: string) {
     let dropVolume = 0;
     this.campaignService.getAllCampaigns().subscribe((res) => {
       res.forEach((campaign) => {
