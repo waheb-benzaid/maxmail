@@ -63,6 +63,14 @@ export class NewHiatusDatesComponent implements OnInit {
       window.alert('there is one or more drops in this date');
       return;
     }
+    if (
+      this.hiatusDateService.hiatusDatesArray.includes(
+        hiatusDatesObject.hiatusDate
+      )
+    ) {
+      window.alert('this date exists yet');
+      return;
+    }
     this.hiatusDateService
       .saveHiatusDate(hiatusDatesObject)
       .pipe(
