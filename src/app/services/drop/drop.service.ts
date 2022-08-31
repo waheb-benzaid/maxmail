@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Firestore, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import {
-  Firestore,
-  doc,
-  updateDoc,
-  deleteDoc,
-  getDocs,
-} from '@angular/fire/firestore';
-import { from } from 'rxjs';
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
+import { from, Observable } from 'rxjs';
 import { Drop } from 'src/app/models/Drop.model';
 import {
   formatDate,
@@ -25,6 +23,7 @@ import { CampaignService } from '../campaign/campaign.service';
 export class DropService {
   constructor(
     private firestoreDB: Firestore,
+    private afs: AngularFirestore,
     private hiatusDatesService: HiatusDatesService,
     private datePipe: DatePipe,
     private campaignService: CampaignService
@@ -90,7 +89,6 @@ export class DropService {
         date = new Date(date.setMonth(date.getMonth() + 3));
       } else {
         date = new Date(date.setDate(date.getDate() + 21));
-        console.log(date, 'date after adding 21 days');
       }
       day = getDay(date);
       month = getMonth(date) + 1;
@@ -118,7 +116,6 @@ export class DropService {
 
   // getCurrentCampaignID(campaignId: string) {
   //   this.currentCampaignId = campaignId;
-  //   console.log(this.currentCampaignId);
   // }
 
   saveDrop(dropFields: Drop) {
@@ -166,7 +163,6 @@ export class DropService {
     const dropToDelete = doc(this.firestoreDB, 'mail_drop', id);
     return from(deleteDoc(dropToDelete));
   }
-
   getAllDropsVolume(date: string) {
     let dropVolume = 0;
     this.campaignService.getAllCampaigns().subscribe((res) => {
@@ -180,19 +176,8 @@ export class DropService {
     });
     return dropVolume;
   }
-
-  isDropDateHiatus(hiatusDate: string): boolean {
-    let dropsDates: any[] = [];
-    this.campaignService.getAllCampaigns().subscribe((res) => {
-      res.forEach((campaign) => {
-        console.log('heyholla');
-        campaign.drops.forEach((drop) => {
-          dropsDates.push(drop.dropDate);
-        });
-      });
-    });
-    return dropsDates.includes(hiatusDate);
-  }
+  dropsDates: any[] = [];
+  isDropDateHiatus(hiatusDate: string) {}
 
   deleteDropsByCampaignName(_campaignName: string) {
     // this.itemDoc = this.afs.doc<Drop>('items/1');

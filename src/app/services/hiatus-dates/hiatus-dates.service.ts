@@ -14,7 +14,6 @@ export class HiatusDatesService {
   constructor(private afs: AngularFirestore, private firestoreDB: Firestore) {
     this.hiatusDatesArray = [];
     this.getHiatusDates();
-    console.log(this.hiatusDatesArray, 'array');
   }
 
   saveHiatusDate(hiatusDateFields: HiatusDate) {

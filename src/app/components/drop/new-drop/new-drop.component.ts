@@ -29,7 +29,6 @@ export class NewDropComponent implements OnInit {
   ) {
     // dropService.getAllDrops();
     this.options = campaignService.getAllCampaignsNames();
-    console.log('options');
   }
   searchText: any;
   actionButton: string = 'Save';
@@ -177,7 +176,6 @@ export class NewDropComponent implements OnInit {
     //     this.dropForm.reset();
     //     this.dialogRef.close('update');
     //   });
-    console.log(id, 'this is the ID');
   }
 
   deletedrop() {

@@ -32,7 +32,6 @@ export class CampaignService {
 
   constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {
     this.isCampaignCollectionEmpty();
-    console.log(this.campaignId, 'campaignID');
   }
 
   saveCampaign(campaignFields: Campaign) {

@@ -223,7 +223,6 @@ export class CampaignComponent implements OnInit {
 
   updateCampaign(id: string) {
     this.getCampaignObject().campaignID = id;
-    console.log(this.getCampaignObject().campaignID, 'log');
     this.campaignService
       .updateCampaign(id, this.getCampaignObject())
       .pipe(

@@ -33,7 +33,6 @@ export class HiatusDatesListComponent implements OnInit {
   ) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
-    console.log(hiatusDateService.hiatusDatesArray, 'hiaus dates array');
   }
 
   ngAfterViewInit() {

@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -51,7 +52,6 @@ export class NewHiatusDatesComponent implements OnInit {
       window.alert('fields are not valid! please confirm before saving');
       return;
     }
-
     let _hiatusDate = '';
     _hiatusDate = this.setHiatusDatesObject().hiatusDate;
     _hiatusDate = _hiatusDate.replace(/-0+/g, '-');
@@ -59,16 +59,18 @@ export class NewHiatusDatesComponent implements OnInit {
       hiatusDateDescription: this.setHiatusDatesObject().hiatusDateDescription,
       hiatusDate: _hiatusDate,
     };
-    if (this.dropServive.isDropDateHiatus(hiatusDatesObject.hiatusDate)) {
-      window.alert('there is one or more drops in this date');
-      return;
-    }
+    this.dropServive.isDropDateHiatus(hiatusDatesObject.hiatusDate);
+
     if (
       this.hiatusDateService.hiatusDatesArray.includes(
         hiatusDatesObject.hiatusDate
       )
     ) {
       window.alert('this date exists yet');
+      return;
+    }
+    if (this.dropServive.dropsDates.includes(hiatusDatesObject.hiatusDate)) {
+      window.alert('there is one or more drops in this date');
       return;
     }
     this.hiatusDateService
@@ -83,6 +85,7 @@ export class NewHiatusDatesComponent implements OnInit {
       .subscribe(() => {
         this.hiatusDatesForm.reset();
         this.dialogRef.close('save');
+        //window.location.reload();
       });
   }
 }

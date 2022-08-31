@@ -86,13 +86,10 @@ export class CampaignListComponent implements OnInit {
   }
 
   editCampaign(rowData: any) {
-    console.log(rowData, 'rowdata');
     this.openCompaignDialog(rowData);
-    console.log(rowData, 'rowdata');
   }
 
   deleteCampaign(id: string) {
-    console.log(id);
     this.campaignService.deleteCampaign(id).subscribe(() => {
       this.getAllCampaigns();
     });
