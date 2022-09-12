@@ -9,11 +9,12 @@ import {
   formatDate,
   getDay,
   getMonth,
+  getYear,
 } from '../../../utils/Functions/format-date';
 import { DropService } from 'src/app/services/drop/drop.service';
 import { Drop } from '../../../models/Drop.model';
 import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
-//campaignsName: [] = [];
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-campaign',
   templateUrl: './campaign.component.html',
@@ -28,14 +29,13 @@ export class CampaignComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private datePipe: DatePipe,
     private dropService: DropService,
-    private hiatusDatesService: HiatusDatesService
-  ) {
-    campaignService.getAllCampaigns();
-  }
+    private hiatusDatesService: HiatusDatesService,
+    private router: Router
+  ) {}
   actionButton: string = 'Save';
   campaignForm = new FormGroup({
     campaignName: new FormControl('', Validators.required),
-    firstDropDate: new FormControl(Date, Validators.required),
+    firstDropDate: new FormControl('', Validators.required),
     campaignStatus: new FormControl('', Validators.required),
     campaignType: new FormControl('', Validators.required),
     firstDropVolume: new FormControl('', Validators.required),
@@ -143,11 +143,58 @@ export class CampaignComponent implements OnInit {
     return this.campaignForm.get('accountName');
   }
 
+  public drops: Drop[] = [];
+
+  createAutoDropsObject(
+    campaignObject: Campaign,
+    isEditMode: boolean,
+    id?: string
+  ) {
+    this.drops.length = 0;
+    let day = getDay(campaignObject.firstDropDate as Date);
+    let month = getMonth(campaignObject.firstDropDate as Date) + 1;
+    let year = getYear(campaignObject.firstDropDate as Date);
+    let dropDate = `${year}-${month}-${day}`;
+    for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
+      let objectToInsert = new Object() as Drop;
+      let date = new Date();
+      objectToInsert.campaignName = campaignObject.campaignName;
+      objectToInsert.dropNumber = i;
+      objectToInsert.dropDate = dropDate;
+      objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
+      objectToInsert.dropVolume = campaignObject.firstDropVolume;
+      objectToInsert.isDropCompleted = false;
+      objectToInsert.isLastDrop = false;
+      objectToInsert.isSeededReceived = false;
+      this.drops.push(objectToInsert);
+      date = new Date(dropDate);
+      if (campaignObject.campaignType === 'magazine') {
+        date = new Date(date.setMonth(date.getMonth() + 3));
+      } else {
+        date = new Date(date.setDate(date.getDate() + 21));
+      }
+      day = getDay(date);
+      month = getMonth(date) + 1;
+      year = getYear(date);
+      dropDate = `${year}-${month}-${day}`;
+      dropDate = formatDate(dropDate, this.datePipe) || '';
+      let isHiatusDate =
+        this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
+      while (isHiatusDate) {
+        date = new Date(date.setDate(date.getDate() + 1));
+        day = getDay(date);
+        month = getMonth(date) + 1;
+        year = getYear(date);
+        dropDate = `${year}-${month}-${day}`;
+        isHiatusDate =
+          this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
+      }
+      dropDate = `${year}-${month}-${day}`;
+    }
+    return this.drops;
+  }
+
   getCampaignObject(): Campaign {
-    let campaignDrops = this.dropService.createAutoDropsObject(
-      <Campaign>this.campaignForm.value,
-      this.editData
-    );
     const {
       campaignName,
       firstDropDate,
@@ -165,10 +212,7 @@ export class CampaignComponent implements OnInit {
       contactName,
       attachments,
     } = this.campaignForm.value;
-    let dropsArray: Drop[];
     const campaignObject = {
-      // /
-      // /campaignID: '',
       campaignName,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
@@ -183,7 +227,7 @@ export class CampaignComponent implements OnInit {
       accountName,
       ownerName,
       contactName,
-      drops: campaignDrops,
+      drops: this.drops,
       attachments,
     };
     return campaignObject;
@@ -195,9 +239,14 @@ export class CampaignComponent implements OnInit {
       //   alert('some required fields are empty!');
       //   return;
       // }
-      let isHiatusDate = this.hiatusDatesService.hiatusDatesArray.includes(
-        this.getCampaignObject().firstDropDate
-      );
+      const { firstDropDate } = this.campaignForm.value;
+      let date = new Date(firstDropDate!);
+      let day = getDay(date);
+      let month = getMonth(date) + 1;
+      let year = getYear(date);
+      let _firstDropDate = `${year}-${month}-${day}`;
+      let isHiatusDate =
+        this.hiatusDatesService.hiatusDatesArray.includes(_firstDropDate);
       if (isHiatusDate) {
         window.alert('date not available');
         return;

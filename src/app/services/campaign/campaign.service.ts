@@ -30,9 +30,7 @@ export class CampaignService {
     mailerSize: '',
   };
 
-  constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {
-    this.isCampaignCollectionEmpty();
-  }
+  constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {}
 
   saveCampaign(campaignFields: Campaign) {
     let id = this.afs.createId();
@@ -44,9 +42,10 @@ export class CampaignService {
   }
 
   getAllCampaigns() {
-    const campaigns = collection(this.firestoreDB, 'mail_campaign');
     return from(
-      collectionData(campaigns, { idField: 'id' }) as Observable<Campaign[]>
+      collectionData(collection(this.firestoreDB, 'mail_campaign'), {
+        idField: 'id',
+      }) as Observable<Campaign[]>
     );
   }
 
@@ -58,32 +57,6 @@ export class CampaignService {
       }
     });
     return names;
-  }
-
-  // getCampaignInformations(_campaignName: string) {
-  //   this.getAllCampaigns().subscribe((campaigns) => {
-  //     for (const campaign of <Campaign[]>campaigns) {
-  //       if (campaign.campaignName === _campaignName) {
-  //         this.campaignInformation.CampaignCompany = campaign.contactName;
-  //         this.campaignInformation.CampaignContact = campaign.contactName;
-  //         this.campaignInformation.CampaignStatus = campaign.campaignStatus;
-  //         this.campaignInformation.campaignType = campaign.campaignType;
-  //         this.campaignInformation.mailerSize = campaign.mailerSize;
-  //       }
-  //     }
-  //   });
-  // }
-
-  getCampaignIdByName(_campaignName: string) {
-    let id: string = '';
-    this.getAllCampaigns().subscribe((campaigns) => {
-      for (const campaign of <Campaign[]>campaigns) {
-        if (campaign.campaignName === _campaignName) {
-          //doc('campaign'.data)
-        }
-      }
-    });
-    return id;
   }
 
   updateCampaign(id: string, dataToUpdate: any) {
@@ -103,7 +76,4 @@ export class CampaignService {
     let campaignToDelete = doc(this.firestoreDB, `mail_campaign/${id}`);
     return from(deleteDoc(campaignToDelete));
   }
-
-  async isCampaignCollectionEmpty() {}
 }
-//

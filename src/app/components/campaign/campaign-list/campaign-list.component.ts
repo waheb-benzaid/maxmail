@@ -72,6 +72,7 @@ export class CampaignListComponent implements OnInit {
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.ngOnInit();
     });
   }
 

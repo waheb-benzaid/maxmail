@@ -4,14 +4,11 @@ import {
   doc,
   updateDoc,
   deleteDoc,
-  collection,
   collectionData,
+  collection,
 } from '@angular/fire/firestore';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-} from '@angular/fire/compat/firestore';
-import { BehaviorSubject, combineLatest, from, Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { from, map, Observable, reduce, take } from 'rxjs';
 import { Drop } from 'src/app/models/Drop.model';
 import {
   formatDate,
@@ -38,88 +35,61 @@ export class DropService {
 
   currentCampaignId: string = '';
 
-  public drops: Drop[] = [
-    {
-      campaignId: '',
-      campaignName: '',
-      dropName: '',
-      isSeededReceived: false,
-      isLastDrop: false,
-      isDropCompleted: false,
-      dropNumber: 0,
-      dropVolume: '',
-      dropDate: '',
-      nextAvailableDates: '',
-    },
-  ];
+  // public drops: Drop[] = [];
 
-  createAutoDropsObject(
-    campaignObject: Campaign,
-    isEditMode: boolean,
-    id?: string
-  ) {
-    this.drops.length = 0;
-    let day = getDay(campaignObject.firstDropDate as Date);
-    let month = getMonth(campaignObject.firstDropDate as Date) + 1;
-    let year = getYear(campaignObject.firstDropDate as Date);
-    let objectToInsert = {
-      campaignId: '',
-      campaignName: '',
-      dropName: '',
-      isSeededReceived: false,
-      isLastDrop: false,
-      isDropCompleted: false,
-      dropNumber: 0,
-      dropVolume: '',
-      dropDate: '',
-      nextAvailableDates: '',
-    };
+  // createAutoDropsObject(
+  //   campaignObject: Campaign,
+  //   isEditMode: boolean,
+  //   id?: string
+  // ) {
+  //   this.drops.length = 0;
+  //   let day = getDay(campaignObject.firstDropDate as Date);
+  //   let month = getMonth(campaignObject.firstDropDate as Date) + 1;
+  //   let year = getYear(campaignObject.firstDropDate as Date);
 
-    let dropDate = `${year}-${month}-${day}`;
-    // objectToInsert.campaignId = this.currentCampaignId;
+  //   let dropDate = `${year}-${month}-${day}`;
+  //   //objectToInsert.campaignId = this.currentCampaignId;
 
-    for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
-      objectToInsert = new Object() as any;
-      let date = new Date();
-      // objectToInsert.campaignId = this.currentCampaignId;
-      objectToInsert.campaignName = campaignObject.campaignName;
-      objectToInsert.dropNumber = i;
-      objectToInsert.dropDate = dropDate;
-      objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
-      objectToInsert.dropVolume = campaignObject.firstDropVolume;
-      objectToInsert.isDropCompleted = false;
-      objectToInsert.isLastDrop = false;
-      objectToInsert.isSeededReceived = false;
-      this.drops.push(objectToInsert);
-      date = new Date(dropDate);
-      if (campaignObject.campaignType === 'magazine') {
-        date = new Date(date.setMonth(date.getMonth() + 3));
-      } else {
-        date = new Date(date.setDate(date.getDate() + 21));
-      }
-      day = getDay(date);
-      month = getMonth(date) + 1;
-      year = getYear(date);
-      dropDate = `${year}-${month}-${day}`;
+  //   for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
+  //     let objectToInsert = new Object() as Drop;
+  //     let date = new Date();
+  //     //objectToInsert.campaignId = this.currentCampaignId;
+  //     objectToInsert.campaignName = campaignObject.campaignName;
+  //     objectToInsert.dropNumber = i;
+  //     objectToInsert.dropDate = dropDate;
+  //     objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
+  //     objectToInsert.dropVolume = campaignObject.firstDropVolume;
+  //     objectToInsert.isDropCompleted = false;
+  //     objectToInsert.isLastDrop = false;
+  //     objectToInsert.isSeededReceived = false;
+  //     this.drops.push(objectToInsert);
 
-      dropDate = formatDate(dropDate, this.datePipe) || '';
-      let isHiatusDate =
-        this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
-      let dropsVolume = this.getAllDropsVolumePerDay(dropDate);
-      while (isHiatusDate || dropsVolume >= 50000) {
-        date = new Date(date.setDate(date.getDate() + 1));
-        day = getDay(date);
-        month = getMonth(date) + 1;
-        year = getYear(date);
-        dropDate = `${year}-${month}-${day}`;
-        isHiatusDate =
-          this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
-        dropsVolume = this.getAllDropsVolumePerDay(dropDate);
-      }
-      dropDate = `${year}-${month}-${day}`;
-    }
-    return this.drops;
-  }
+  //     date = new Date(dropDate);
+  //     if (campaignObject.campaignType === 'magazine') {
+  //       date = new Date(date.setMonth(date.getMonth() + 3));
+  //     } else {
+  //       date = new Date(date.setDate(date.getDate() + 21));
+  //     }
+  //     day = getDay(date);
+  //     month = getMonth(date) + 1;
+  //     year = getYear(date);
+  //     dropDate = `${year}-${month}-${day}`;
+  //     dropDate = formatDate(dropDate, this.datePipe) || '';
+  //     let isHiatusDate =
+  //       this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
+  //     while (isHiatusDate) {
+  //       date = new Date(date.setDate(date.getDate() + 1));
+  //       day = getDay(date);
+  //       month = getMonth(date) + 1;
+  //       year = getYear(date);
+  //       dropDate = `${year}-${month}-${day}`;
+  //       isHiatusDate =
+  //         this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
+  //     }
+  //     dropDate = `${year}-${month}-${day}`;
+  //   }
+  //   return this.drops;
+  // }
 
   saveDrop(dropFields: Drop) {
     // dropFields.dropId = doc(collection(this.firestoreDB, 'dropId')).id;
@@ -144,22 +114,7 @@ export class DropService {
     return from(deleteDoc(dropToDelete));
   }
 
-  getAllDropsVolumePerDay(date: string) {
-    let dropVolume = 0;
-    this.campaignService.getAllCampaigns().subscribe((res) => {
-      res.forEach((campaign) => {
-        campaign.drops.forEach((drop) => {
-          if (drop.dropDate === date) {
-            dropVolume = dropVolume + drop.dropVolume;
-          }
-        });
-      });
-    });
-    return dropVolume;
-  }
-
   dropsDates: string[] = [];
-
   isDropDateHiatus(): string[] {
     this.campaignService.getAllCampaigns().subscribe((res) => {
       res.forEach((campaign) => {
@@ -170,10 +125,5 @@ export class DropService {
       });
     });
     return this.dropsDates;
-  }
-
-  deleteDropsByCampaignName(_campaignName: string) {
-    // this.itemDoc = this.afs.doc<Drop>('items/1');
-    //this.drop = this.itemDoc.valueChanges();
   }
 }
