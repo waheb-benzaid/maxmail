@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/auth/authentication.service';
 import { HotToastService } from '@ngneat/hot-toast';
 
@@ -10,6 +10,7 @@ import { HotToastService } from '@ngneat/hot-toast';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  hide = true;
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),

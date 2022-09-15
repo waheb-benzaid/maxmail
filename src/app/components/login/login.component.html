@@ -4,19 +4,33 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>MaxMAil</title>
   </head>
   <body>
-    <div class="global-container">
-      <div class="form-container mat-elevation-z5">
-        <h1>Login</h1>
-        <form [formGroup]="loginForm" (ngSubmit)="submit()">
-          <mat-form-field>
+    <img
+      src="../../../assets/images/NPILogo.png"
+      style="position: absolute; width: 38px; height: 44; left: 51px; top: 34px"
+    />
+    <div class="NPI">NewPatients inc.</div>
+    <div class="center">
+      <span class="dot">
+        <img src="../../../assets/images/Ellipse.png" />
+      </span>
+      <span class="vector">
+        <img src="../../../assets/images/Vector.png" />
+      </span>
+      <h1>Login</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="submit()">
+        <div class="form-field">
+          <mat-form-field class="matInputField">
             <input
               matInput
               placeholder="Email address"
               formControlName="email"
             />
+            <span matSuffix>
+              <img src="../../../assets/images/username.png" />
+            </span>
             <mat-error *ngIf="email?.errors?.['required']">
               Email address is required
             </mat-error>
@@ -24,22 +38,40 @@
               Please enter a valid email address
             </mat-error>
           </mat-form-field>
-          <mat-form-field>
+        </div>
+        <div class="form-field">
+          <mat-form-field class="matInputField">
             <input
               matInput
-              type="password"
+              [type]="hide ? 'password' : 'text'"
               placeholder="Password"
               formControlName="password"
             />
+            <mat-icon
+              class="show-password"
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+              >{{ hide ? "visibility_off" : "visibility" }}</mat-icon
+            >
             <mat-error *ngIf="password?.errors?.['required']">
               Password is required
             </mat-error>
           </mat-form-field>
-          <div class="margin-top">
-            <button type="submit" mat-raised-button color="basic">Login</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="matInputField">
+          <button
+            class="login-button"
+            type="submit"
+            mat-raised-button
+            color="basic"
+          >
+            Login
+          </button>
+        </div>
+      </form>
     </div>
   </body>
 </html>
