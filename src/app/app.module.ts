@@ -60,6 +60,8 @@ import { DropDetalComponent } from './components/drop/drop-detail/drop-detal.com
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NewHiatusDatesComponent } from './components/hiatus-dates/new-hiatus-dates/new-hiatus-dates.component';
 import { HiatusDatesListComponent } from './components/hiatus-dates/hiatus-dates-list/hiatus-dates-list.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -105,6 +107,8 @@ import { HiatusDatesListComponent } from './components/hiatus-dates/hiatus-dates
     MatMenuModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatSidenavModule,
+    MatDividerModule,
     MatAutocompleteModule,
     NgxMatSelectSearchModule,
     HotToastModule.forRoot(),

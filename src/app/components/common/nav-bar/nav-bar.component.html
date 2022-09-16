@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <p>
     <mat-toolbar>
       <button mat-button>MaxMail</button>
@@ -28,3 +28,31 @@
   <button mat-menu-item (click)="redirectToProfilePage()">Profile</button>
   <button mat-menu-item (click)="logout()">Log out</button>
 </mat-menu>
+ -->
+
+<!-- <div class="sidenav">
+  <div class="logo-container">
+    <button class="logo"></button>
+    <div class="logo-text">/</div>
+    <button class="btn-close"></button>
+  </div>
+  <ul class="sidenav-nav">
+    <li class="sidenav-nav-">
+      <a href="" class="sidenav-nav-link"></a>
+      i
+    </li>item
+  </ul>
+</div> -->
+<mat-toolbar>
+  MaxMail
+  <div>
+    <button mat-menu-item (click)="logout()">Log out</button>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened> </mat-sidenav>
+  <mat-sidenav-content>
+    <div>Main</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
