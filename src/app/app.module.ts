@@ -22,7 +22,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { UsersListComponent } from './components/users/users-list/users-list.component';
-import { NavBarComponent } from './components/common/nav-bar/nav-bar.component';
 import { RecordsTableComponent } from './components/common/records-table/records-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -71,7 +70,6 @@ import { MatDividerModule } from '@angular/material/divider';
     UserRegisterComponent,
     ZipcodesLookupComponent,
     UsersListComponent,
-    NavBarComponent,
     RecordsTableComponent,
     ProfileComponent,
     CampaignComponent,

@@ -1,7 +1,8 @@
+import { from } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { from } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/auth/authentication.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-home',
@@ -9,19 +10,41 @@ import { AuthenticationService } from 'src/app/services/auth/authentication.serv
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor() // private authService: AuthenticationService,
-  // private router: Router
-  {}
+  user$ = this.authService.currentUser$;
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router,
+    public userService: UserService
+  ) {}
 
   ngOnInit(): void {}
+  logout() {
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['']);
+    });
+  }
 
-  // logout() {
-  //   this.authService.logout().subscribe(() => {
-  //     this.router.navigate(['']);
-  //   });
-  // }
+  redirecttoUsersList() {
+    this.router.navigate(['/users']);
+  }
 
-  // redirecttoUsersList() {
-  //   this.router.navigate(['/users']);
-  // }
+  redirectToProfilePage() {
+    this.router.navigate(['/profile']);
+  }
+
+  redirectToCampaignsPage() {
+    this.router.navigate(['/campaigns']);
+  }
+
+  redirectToDropsPage() {
+    this.router.navigate(['/drops']);
+  }
+
+  redirectToHiatusDatesPage() {
+    this.router.navigate(['/hiatus-dates']);
+  }
+
+  currentUserProfile() {
+    return this.authService.currentUser$;
+  }
 }
