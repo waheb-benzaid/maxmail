@@ -1,4 +1,12 @@
 <mat-toolbar class="mat-elevation-z4">
+  <button
+    mat-icon-button
+    *ngIf="sidenav.mode === 'over'"
+    (click)="sidenav.toggle()"
+  >
+    <mat-icon *ngIf="!sidenav.opened"> menu</mat-icon>
+    <mat-icon *ngIf="sidenav.opened"> close</mat-icon>
+  </button>
   <img src="../../../../assets/images/NPILogo.png" alt="" />
   <span> New Patients Inc.</span>
   <div>
@@ -9,7 +17,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav mode="side" opened class="mat-elevation-z4">
+  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z4">
     <button mat-button class="menu-button">
       <mat-icon>home</mat-icon>
       <span>Home</span>
