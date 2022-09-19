@@ -32,9 +32,11 @@ export class CampaignService {
 
   constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {}
 
-  saveCampaign(campaignFields: Campaign) {
+  saveCampaign(campaignFields: Campaign, createdAt: any) {
     let id = this.afs.createId();
     campaignFields.campaignID = id;
+    campaignFields.createdAt = createdAt;
+
     //this.dropService.getCurrentCampaignID(id);
     return from(
       this.afs.collection('mail_campaign').doc(id).set(campaignFields)

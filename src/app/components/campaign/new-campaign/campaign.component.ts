@@ -229,17 +229,17 @@ export class CampaignComponent implements OnInit {
       contactName,
       drops: this.drops,
       attachments,
-      campaignDate: formatDate(new Date(), this.datePipe),
+      createdAt: '',
     };
     return campaignObject;
   }
-
   addCampaign() {
     if (!this.editData) {
       // if (!this.campaignForm.valid) {
       //   alert('some required fields are empty!');
       //   return;
       // }
+
       const { firstDropDate } = this.campaignForm.value;
       let date = new Date(firstDropDate!);
       let day = getDay(date);
@@ -252,8 +252,10 @@ export class CampaignComponent implements OnInit {
         window.alert('date not available');
         return;
       }
+      let createdAt = formatDate(new Date(), this.datePipe);
+
       this.campaignService
-        .saveCampaign(this.getCampaignObject())
+        .saveCampaign(this.getCampaignObject(), createdAt)
         .pipe(
           this.toast.observe({
             success: 'Campaign saved successfuly',
