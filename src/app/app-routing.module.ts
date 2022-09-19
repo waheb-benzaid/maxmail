@@ -14,6 +14,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { CampaignListComponent } from './components/campaign/campaign-list/campaign-list.component';
 import { DropsListComponent } from './components/drop/drops-list/drops-list.component';
 import { HiatusDatesListComponent } from './components/hiatus-dates/hiatus-dates-list/hiatus-dates-list.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ZipcodesLookupComponent } from './components/zipcodes-lookup/zipcodes-lookup.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
@@ -21,6 +24,7 @@ const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: LoginComponent,
     ...canActivate(redirectLoggedInToHome),
   },
@@ -28,35 +32,53 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     ...canActivate(redirectUnauthorizedToLogin),
+    children: [
+      {
+        path: 'users',
+        component: UsersListComponent,
+        ...canActivate(redirectUnauthorizedToLogin),
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        ...canActivate(redirectUnauthorizedToLogin),
+      },
+      {
+        path: 'campaigns',
+        component: CampaignListComponent,
+        ...canActivate(redirectUnauthorizedToLogin),
+      },
+      {
+        path: 'drops',
+        component: DropsListComponent,
+        ...canActivate(redirectUnauthorizedToLogin),
+      },
+      {
+        path: 'hiatus-dates',
+        component: HiatusDatesListComponent,
+        ...canActivate(redirectUnauthorizedToLogin),
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        ...canActivate(redirectUnauthorizedToLogin),
+      },
+      {
+        path: 'calendar',
+        component: CalendarComponent,
+        ...canActivate(redirectUnauthorizedToLogin),
+      },
+      {
+        path: 'zip-codes',
+        component: ZipcodesLookupComponent,
+        ...canActivate(redirectUnauthorizedToLogin),
+      },
+    ],
   },
-  {
-    path: 'users',
-    component: UsersListComponent,
-    ...canActivate(redirectUnauthorizedToLogin),
-  },
+
   {
     path: 'new-user',
     component: UserRegisterComponent,
-    ...canActivate(redirectUnauthorizedToLogin),
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent,
-    ...canActivate(redirectUnauthorizedToLogin),
-  },
-  {
-    path: 'campaigns',
-    component: CampaignListComponent,
-    ...canActivate(redirectUnauthorizedToLogin),
-  },
-  {
-    path: 'drops',
-    component: DropsListComponent,
-    ...canActivate(redirectUnauthorizedToLogin),
-  },
-  {
-    path: 'hiatus-dates',
-    component: HiatusDatesListComponent,
     ...canActivate(redirectUnauthorizedToLogin),
   },
 ];

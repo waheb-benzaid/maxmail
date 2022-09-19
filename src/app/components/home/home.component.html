@@ -18,35 +18,31 @@
 
 <mat-sidenav-container>
   <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z4">
-    <button mat-button class="menu-button">
-      <mat-icon>home</mat-icon>
-      <span>Home</span>
-    </button>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" routerLink="/home/dashboard">
       <mat-icon>insert_chart_outlined</mat-icon>
       <span>Dashboard</span>
     </button>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" routerLink="/home/users">
       <mat-icon>contacts</mat-icon>
       <span>Users</span>
     </button>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" routerLink="/home/hiatus-dates">
       <mat-icon>today</mat-icon>
       <span>Hiatus Dates</span>
     </button>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" routerLink="/home/campaigns">
       <mat-icon>mail</mat-icon>
       <span>Mail Campaigns</span>
     </button>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" routerLink="/home/drops">
       <mat-icon>list_alt</mat-icon>
       <span>Drops</span>
     </button>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" routerLink="/home/calendar">
       <mat-icon>date_range</mat-icon>
       <span>Mail Drop Calendar</span>
     </button>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" routerLink="/home/zip-codes">
       <mat-icon>search</mat-icon>
       <span>Zip Code Lookup</span>
     </button>
@@ -54,7 +50,7 @@
 
   <mat-sidenav-content>
     <div class="content mat-elevation-z4">
-      <h1>Main Content</h1>
+      <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -61,6 +61,8 @@ import { NewHiatusDatesComponent } from './components/hiatus-dates/new-hiatus-da
 import { HiatusDatesListComponent } from './components/hiatus-dates/hiatus-dates-list/hiatus-dates-list.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -81,10 +83,11 @@ import { MatDividerModule } from '@angular/material/divider';
     DropDetalComponent,
     NewHiatusDatesComponent,
     HiatusDatesListComponent,
+    DashboardComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,

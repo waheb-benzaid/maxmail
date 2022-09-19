@@ -39,26 +39,6 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  redirecttoUsersList() {
-    this.router.navigate(['/users']);
-  }
-
-  redirectToProfilePage() {
-    this.router.navigate(['/profile']);
-  }
-
-  redirectToCampaignsPage() {
-    this.router.navigate(['/campaigns']);
-  }
-
-  redirectToDropsPage() {
-    this.router.navigate(['/drops']);
-  }
-
-  redirectToHiatusDatesPage() {
-    this.router.navigate(['/hiatus-dates']);
-  }
-
   currentUserProfile() {
     return this.authService.currentUser$;
   }
