@@ -229,6 +229,7 @@ export class CampaignComponent implements OnInit {
       contactName,
       drops: this.drops,
       attachments,
+      campaignDate: formatDate(new Date(), this.datePipe),
     };
     return campaignObject;
   }

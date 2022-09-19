@@ -58,6 +58,7 @@ mat-toolbar span {
 .menu-button:hover {
   background-color: #e5f1ff;
   color: #0177fd;
+  font-size: 15.5px;
 }
 
 .menu-button mat-icon {

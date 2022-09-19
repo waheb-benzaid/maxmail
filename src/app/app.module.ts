@@ -63,6 +63,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     MatDividerModule,
     MatAutocompleteModule,
     NgxMatSelectSearchModule,
+    MatSortModule,
     HotToastModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

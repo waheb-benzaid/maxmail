@@ -18,4 +18,5 @@ export interface Campaign {
   contactName: any;
   drops: Drop[];
   attachments: any;
+  campaignDate: any;
 }

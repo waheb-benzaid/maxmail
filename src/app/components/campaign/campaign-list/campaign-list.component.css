@@ -1,7 +1,10 @@
 table {
   width: 100%;
 }
-
+/* .table-container {
+  max-width: 100%;
+  overflow-y: scroll;
+} */
 .mat-form-field {
   font-size: 14px;
   width: 100%;
@@ -46,4 +49,23 @@ th {
   line-height: 36px;
   margin-left: 0;
   color: #343744;
+}
+
+.table-container {
+  overflow-y: scroll;
+  flex: 1 1 auto;
+  height: 400px;
+  white-space: nowrap;
+}
+
+.mat-cell,
+.mat-header-cell {
+  word-wrap: initial;
+  display: table-cell;
+  padding: 0px 10px;
+}
+
+.mat-row,
+.mat-header-row {
+  display: table-row;
 }
