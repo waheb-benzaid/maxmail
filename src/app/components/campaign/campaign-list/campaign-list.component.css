@@ -32,23 +32,24 @@ th {
   padding-top: 10px;
 }
 
-.container h1 {
-  width: 202px;
-  height: 36px;
+.container .page-title {
   font-family: "Poppins";
-  font-style: normal;
+  font-style: italic;
   font-weight: 600;
   font-size: 24px;
   line-height: 36px;
-  margin-left: 0;
-  color: #343744;
+  color: #000000;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 40px 0 40px 0;
 }
 
 .table-container {
   overflow-y: auto;
   flex: 1 1 auto;
   height: 400px;
-  /* white-space: nowrap; */
+  white-space: nowrap;
 }
 
 .mat-cell,

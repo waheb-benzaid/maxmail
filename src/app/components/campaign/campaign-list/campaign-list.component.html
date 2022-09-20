@@ -1,19 +1,58 @@
 <div class="container">
-  <h1 style="margin-top: 40px">Mail Campaigns</h1>
-  <div class="demo-button-container" style="margin: 0 auto">
-    <button mat-raised-button (click)="openCompaignDialog()">New</button>
-  </div>
-  <mat-form-field appearance="standard" style="margin: 0 auto">
-    <mat-label>Filter</mat-label>
+  <div class="page-title">Mail Campaigns</div>
+  <mat-form-field
+    appearance="outline"
+    style="
+      width: 290px;
+      height: 30px;
+
+      border: 1px solid #f3f5f9;
+      border-radius: 20px;
+    "
+  >
     <input
       matInput
       (keyup)="applyFilter($event)"
-      placeholder="Ex. Campaign Name"
       #input
+      placeholder="Search"
+      style="margin-bottom: 3px"
     />
+    <mat-icon mat-icon-button matPrefix> search </mat-icon>
   </mat-form-field>
+  <div class="demo-button-container" style="margin: 0 auto">
+    <button mat-raised-button (click)="openCompaignDialog()">New</button>
+  </div>
+  <div class="filters">
+    <mat-form-field appearance="outline" style="width: 203px">
+      <mat-label>Campaign Type</mat-label>
+      <mat-select formControlName="campaignType">
+        <mat-option value="mailer">Mailer</mat-option>
+        <mat-option value="postcard">Postcard</mat-option>
+        <mat-option value="magazine">Magazine</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 203px">
+      <mat-label>Campaign Status</mat-label>
+      <mat-select formControlName="campaignStatus">
+        <mat-option value="active">Active</mat-option>
+        <mat-option value="suspended">suspended</mat-option>
+        <mat-option value="cancelled">cancelled</mat-option>
+        <mat-option value="completed">completed</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 203px">
+      <mat-label>Owner</mat-label>
+      <mat-select formControlName="ownerName"> </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 203px">
+      <mat-label>Date</mat-label>
+      <mat-select formControlName="campaignStatus">
+        <mat-option value="">Past 30 days</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-  <section class="table-container">
+  <section class="table-container" style="margin-top: 80px">
     <div class="mat-elevation-z8">
       <table
         mat-table
