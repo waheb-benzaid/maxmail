@@ -21,13 +21,12 @@ export class CampaignListComponent implements OnInit {
     'campaignName',
     'campaignStatus',
     'campaignType',
-    'campaignDate',
     'totalDropsNumber',
+    'campaignDate',
     'action',
   ];
   dataSource!: MatTableDataSource<any>;
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
+
   @ViewChild(MatSort) sort!: MatSort;
   allcampaigns: any;
   constructor(
@@ -42,7 +41,6 @@ export class CampaignListComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
@@ -86,7 +84,6 @@ export class CampaignListComponent implements OnInit {
   getAllCampaigns() {
     return this.campaignService.getAllCampaigns().subscribe((res) => {
       this.dataSource = new MatTableDataSource(res);
-      this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.ngOnInit();
     });

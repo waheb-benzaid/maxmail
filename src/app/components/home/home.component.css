@@ -3,7 +3,8 @@
 }
 
 mat-toolbar {
-  background: #f5f7f7;
+  background: white;
+
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
