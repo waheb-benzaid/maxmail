@@ -53,12 +53,7 @@ export class CampaignListComponent implements OnInit {
     }
   }
 
-  /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
@@ -66,8 +61,15 @@ export class CampaignListComponent implements OnInit {
     }
   }
 
-  openCompaignDialog(data?: string, width: string = '30%') {
-    openForms(this.dialog, CampaignComponent, '30%', data, 'borderless-dialog');
+  openCompaignDialog(data?: string) {
+    openForms(
+      this.dialog,
+      CampaignComponent,
+      '1000px',
+      '800px',
+      data,
+      'borderless-dialog'
+    );
   }
 
   getCampaignDetail(rowData: any) {
@@ -75,7 +77,8 @@ export class CampaignListComponent implements OnInit {
     openForms(
       this.dialog,
       CampaignDetailComponent,
-      '30%',
+      '1000px',
+      '800px',
       rowData,
       'borderless-dialog'
     );

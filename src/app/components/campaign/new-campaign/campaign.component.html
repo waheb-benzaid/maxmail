@@ -1,7 +1,6 @@
-<div class="form-container mat-elevation-z5">
-  <h1 mat-dialog-title>Campaign Form</h1>
-  <div class="mat-dialog-content">
-    <form [formGroup]="campaignForm" (ngSubmit)="addCampaign()">
+<form [formGroup]="campaignForm" (ngSubmit)="addCampaign()">
+  <div class="main-form-div">
+    <div class="part-one" style="margin-right: 20px">
       <mat-form-field appearance="outline">
         <mat-label>Campaign Name</mat-label>
         <input
@@ -76,6 +75,7 @@
           Total Drops Number is required</mat-error
         >
       </mat-form-field>
+      <!-- ------------------------------------------ -->
       <mat-form-field appearance="outline">
         <mat-label>Total Campaign Volume</mat-label>
         <input
@@ -88,6 +88,9 @@
           Total Campaign Volume is required</mat-error
         >
       </mat-form-field>
+    </div>
+    <!-- ############################################################################################################ -->
+    <div class="part-two">
       <mat-form-field appearance="outline">
         <mat-label>Mailer Size</mat-label>
         <mat-select formControlName="mailerSize">
@@ -165,24 +168,20 @@
           formControlName="attachments"
         />
       </mat-form-field>
-    </form>
+    </div>
+    <!-- ############################################################################################################ -->
   </div>
-  <div mat-dialog-actions align="end">
-    <button
-      mat-raised-button
-      color="warm"
-      mat-dialog-close
-      style="background-color: coral"
-    >
-      Close
-    </button>
-    <button
-      style="margin-left: 8px"
-      mat-raised-button
-      color="primary"
-      (click)="addCampaign()"
-    >
-      {{ actionButton }}
-    </button>
-  </div>
+</form>
+<div mat-dialog-actions align="end">
+  <button class="close-button" mat-raised-button color="warm" mat-dialog-close>
+    Cancel
+  </button>
+  <button
+    class="action-button"
+    style="margin-left: 8px"
+    mat-raised-button
+    (click)="addCampaign()"
+  >
+    {{ actionButton }}
+  </button>
 </div>

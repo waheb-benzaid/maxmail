@@ -50,6 +50,7 @@ export class CampaignComponent implements OnInit {
     contactName: new FormControl(''),
     attachments: new FormControl(''),
   });
+
   ngOnInit(): void {
     if (this.editData) {
       this.actionButton = 'Edit';
@@ -253,7 +254,6 @@ export class CampaignComponent implements OnInit {
         return;
       }
       let createdAt = formatDate(new Date(), this.datePipe);
-
       this.campaignService
         .saveCampaign(this.getCampaignObject(), createdAt)
         .pipe(
