@@ -1,8 +1,8 @@
-mat-form-field {
-  /* width: 100%; */
-  display: flex;
-  flex-direction: row;
+.mat-form-field {
+  width: 300px;
+  display: inline;
 }
+
 .form-container {
   background-color: whitesmoke;
   padding: 48px;
@@ -13,11 +13,9 @@ mat-form-field {
 
 .main-form-div {
   display: flex;
-  flex-direction: row;
-  /* Auto layout */
+  /* flex-direction: row; */
   gap: 10px;
   background: whitesmoke;
-  /* border: 1px solid #587cfb; */
   border-radius: 4px;
   padding: 30px;
 }
@@ -52,4 +50,58 @@ mat-form-field {
   width: 119px;
   height: 44px;
   border-radius: 10px;
+}
+
+.demo-button-container {
+  box-sizing: border-box;
+  position: absolute;
+  width: 113px;
+  height: 44px;
+  left: 995px;
+  top: 67px;
+  border: 1px solid #eff2f7;
+  border-radius: 8px;
+}
+
+.library {
+  box-sizing: border-box;
+
+  left: 73.45%;
+  right: 5.74%;
+  top: 21%;
+  bottom: 16.36%;
+  width: 200px;
+
+  background: #ffffff;
+  border: 1px solid #ededed;
+  border-radius: 12px;
+  border: 1px solid black;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 18px;
+  /* identical to box height */
+  color: #343744;
+  margin-left: 100px;
+}
+
+.library-title {
+  background-color: #e5f1ff;
+  display: inline-block;
+  height: 30px;
+  width: 197px;
+  border-radius: 12px;
+  text-align: center;
+  padding-top: 15px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 18px;
+  color: #343744;
+}
+
+.part-two {
+  margin-left: 80px;
 }

@@ -20,8 +20,12 @@
     <mat-icon mat-icon-button matPrefix> search </mat-icon>
   </mat-form-field>
   <div class="demo-button-container" style="margin: 0 auto">
-    <button mat-raised-button (click)="openCompaignDialog()">New</button>
+    <button mat-raised-button (click)="openCompaignDialog()">
+      <img src="../../../../assets/images/new-campaign.png" alt="" />
+      New
+    </button>
   </div>
+
   <div class="filters">
     <mat-form-field appearance="outline" style="width: 203px">
       <mat-label>Campaign Type</mat-label>
