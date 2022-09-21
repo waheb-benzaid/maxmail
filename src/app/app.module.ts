@@ -64,6 +64,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { MatSortModule } from '@angular/material/sort';
+import { FileUploadLibraryComponent } from './components/file-upload-library/file-upload-library.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { MatSortModule } from '@angular/material/sort';
     HiatusDatesListComponent,
     DashboardComponent,
     CalendarComponent,
+    FileUploadLibraryComponent,
   ],
   imports: [
     BrowserModule,
