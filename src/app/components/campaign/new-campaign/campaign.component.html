@@ -1,196 +1,225 @@
-<form [formGroup]="campaignForm" (ngSubmit)="addCampaign()">
-  <div class="main-form-div">
-    <div class="part-one" style="margin-right: 40px">
-      <span style="background-color: red">
+<div class="container">
+  <form [formGroup]="campaignForm" (ngSubmit)="addCampaign()">
+    <div class="main-form-div">
+      <div class="part-one" style="margin-right: 40px">
+        <span style="background-color: red">
+          <mat-form-field appearance="outline">
+            <mat-label>Campaign Name</mat-label>
+            <input
+              matInput
+              placeholder="Campaign Name"
+              formControlName="campaignName"
+            />
+            <mat-error *ngIf="campaignName?.errors?.['required']">
+              Campaign name is required</mat-error
+            >
+          </mat-form-field>
+        </span>
+        <!----------------------------------------------------->
         <mat-form-field appearance="outline">
-          <mat-label>Campaign Name</mat-label>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-label>Choose a date </mat-label>
           <input
             matInput
-            placeholder="Campaign Name"
-            formControlName="campaignName"
+            [matDatepicker]="picker"
+            placeholder="First Drop Date"
+            formControlName="firstDropDate"
           />
-          <mat-error *ngIf="campaignName?.errors?.['required']">
-            Campaign name is required</mat-error
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker #picker> </mat-datepicker>
+          <mat-error *ngIf="firstDropDate?.hasError('required')">
+            First Drop Date is required</mat-error
           >
         </mat-form-field>
-      </span>
-
-      <!--------------------------------------------------  -->
-      <mat-form-field appearance="outline">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-label>Choose a date </mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          placeholder="First Drop Date"
-          formControlName="firstDropDate"
-        />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-
-        <mat-datepicker #picker> </mat-datepicker>
-        <mat-error *ngIf="firstDropDate?.hasError('required')">
-          First Drop Date is required</mat-error
-        >
-      </mat-form-field>
-      <!--------------------------------------------------  -->
-      <mat-form-field appearance="outline">
-        <mat-label>Campaign Status</mat-label>
-        <mat-select formControlName="campaignStatus">
-          <mat-option value="active">Active</mat-option>
-          <mat-option value="suspended">suspended</mat-option>
-          <mat-option value="cancelled">cancelled</mat-option>
-          <mat-option value="completed">completed</mat-option>
-        </mat-select>
-        <mat-error *ngIf="campaignStatus?.hasError('required')">
-          Campaign Status required</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Campaign Type</mat-label>
-        <mat-select formControlName="campaignType">
-          <mat-option value="mailer">Mailer</mat-option>
-          <mat-option value="postcard">Postcard</mat-option>
-          <mat-option value="magazine">Magazine</mat-option>
-        </mat-select>
-        <mat-error *ngIf="campaignType?.errors?.['required']">
-          Campaign Type is required</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>First Drop Volume</mat-label>
-        <input
-          matInput
-          type="number"
-          placeholder="First Drop Volume"
-          formControlName="firstDropVolume"
-        />
-        <mat-error *ngIf="firstDropVolume?.errors?.['required']">
-          First Drop Volume is required</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Total number of Drops</mat-label>
-        <input
-          matInput
-          type="number"
-          placeholder="Total number of Drops"
-          formControlName="totalDropsNumber"
-        />
-        <mat-error *ngIf="totalDropsNumber?.errors?.['required']">
-          Total Drops Number is required</mat-error
-        >
-      </mat-form-field>
-      <!-- ------------------------------------------ -->
-      <mat-form-field appearance="outline">
-        <mat-label>Total Campaign Volume</mat-label>
-        <input
-          matInput
-          type="number"
-          placeholder="Total Campaign Volume"
-          formControlName="totalCampaignVolume"
-        />
-        <mat-error *ngIf="totalCampaignVolume?.errors?.['required']">
-          Total Campaign Volume is required</mat-error
-        >
-      </mat-form-field>
-    </div>
-    <!-- ############################################################################################################ -->
-    <div class="part-two">
-      <mat-form-field appearance="outline">
-        <mat-label>Mailer Size</mat-label>
-        <mat-select formControlName="mailerSize">
-          <mat-option value="8.5 x 17">8.5 x 17</mat-option>
-          <mat-option value="10 x 18">10 x 18</mat-option>
-          <mat-option value="5.5 x 8.5">5.5 x 8.5</mat-option>
-          <mat-option value="6 x 11">6 x 11</mat-option>
-          <mat-option value="8.5 x 14">8.5 x 14</mat-option>
-          <mat-option value="8.5 x 11">8.5 x 11</mat-option>
-          <mat-error *ngIf="mailerSize?.errors?.['required']">
-            Mailer Size is required</mat-error
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Campaign Status</mat-label>
+          <mat-select formControlName="campaignStatus">
+            <mat-option value="active">Active</mat-option>
+            <mat-option value="suspended">suspended</mat-option>
+            <mat-option value="cancelled">cancelled</mat-option>
+            <mat-option value="completed">completed</mat-option>
+          </mat-select>
+          <mat-error *ngIf="campaignStatus?.hasError('required')">
+            Campaign Status required</mat-error
           >
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Total Households</mat-label>
-        <input
-          matInput
-          type="number"
-          placeholder="Total Households"
-          formControlName="totalHouseholds"
-        />
-        <mat-error *ngIf="totalHouseholds?.errors?.['required']">
-          totalHouseholds is required</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Total Contract Amount</mat-label>
-        <input
-          matInput
-          type="number"
-          placeholder="Total Contract Amount"
-          formControlName="totalcontractAmount"
-        />
-        <mat-error *ngIf="totalcontractAmount?.errors?.['required']">
-          total contract Amount is required</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Print Order ID</mat-label>
-        <input
-          matInput
-          placeholder="Print Order ID"
-          formControlName="printOrderID"
-        />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Account Name</mat-label>
-        <input
-          matInput
-          placeholder="Account Name"
-          formControlName="accountName"
-        />
-        <mat-error *ngIf="accountName?.errors?.['required']">
-          Account Name is required</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Owner Name</mat-label>
-        <input matInput placeholder="Owner Name" formControlName="ownerName" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Contact Name</mat-label>
-        <input
-          matInput
-          placeholder="Contact Name"
-          formControlName="contactName"
-        />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Notes & Attachments</mat-label>
-        <input
-          matInput
-          placeholder="Notes & Attachments"
-          formControlName="attachments"
-        />
-      </mat-form-field>
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Campaign Type</mat-label>
+          <mat-select formControlName="campaignType">
+            <mat-option value="mailer">Mailer</mat-option>
+            <mat-option value="postcard">Postcard</mat-option>
+            <mat-option value="magazine">Magazine</mat-option>
+          </mat-select>
+          <mat-error *ngIf="campaignType?.errors?.['required']">
+            Campaign Type is required</mat-error
+          >
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>First Drop Volume</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="First Drop Volume"
+            formControlName="firstDropVolume"
+          />
+          <mat-error *ngIf="firstDropVolume?.errors?.['required']">
+            First Drop Volume is required</mat-error
+          >
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Total number of Drops</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Total number of Drops"
+            formControlName="totalDropsNumber"
+          />
+          <mat-error *ngIf="totalDropsNumber?.errors?.['required']">
+            Total Drops Number is required</mat-error
+          >
+        </mat-form-field>
+        <!-- ------------------------------------------ -->
+        <mat-form-field appearance="outline">
+          <mat-label>Total Campaign Volume</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Total Campaign Volume"
+            formControlName="totalCampaignVolume"
+          />
+          <mat-error *ngIf="totalCampaignVolume?.errors?.['required']">
+            Total Campaign Volume is required</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <!-- ############################################################################################################ -->
+      <div class="part-two">
+        <mat-form-field appearance="outline">
+          <mat-label>Mailer Size</mat-label>
+          <mat-select formControlName="mailerSize">
+            <mat-option value="8.5 x 17">8.5 x 17</mat-option>
+            <mat-option value="10 x 18">10 x 18</mat-option>
+            <mat-option value="5.5 x 8.5">5.5 x 8.5</mat-option>
+            <mat-option value="6 x 11">6 x 11</mat-option>
+            <mat-option value="8.5 x 14">8.5 x 14</mat-option>
+            <mat-option value="8.5 x 11">8.5 x 11</mat-option>
+            <mat-error *ngIf="mailerSize?.errors?.['required']">
+              Mailer Size is required</mat-error
+            >
+          </mat-select>
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Total Households</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Total Households"
+            formControlName="totalHouseholds"
+          />
+          <mat-error *ngIf="totalHouseholds?.errors?.['required']">
+            totalHouseholds is required</mat-error
+          >
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Total Contract Amount</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Total Contract Amount"
+            formControlName="totalcontractAmount"
+          />
+          <mat-error *ngIf="totalcontractAmount?.errors?.['required']">
+            total contract Amount is required</mat-error
+          >
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Print Order ID</mat-label>
+          <input
+            matInput
+            placeholder="Print Order ID"
+            formControlName="printOrderID"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Account Name</mat-label>
+          <input
+            matInput
+            placeholder="Account Name"
+            formControlName="accountName"
+          />
+          <mat-error *ngIf="accountName?.errors?.['required']">
+            Account Name is required</mat-error
+          >
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Owner Name</mat-label>
+          <input
+            matInput
+            placeholder="Owner Name"
+            formControlName="ownerName"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Name</mat-label>
+          <input
+            matInput
+            placeholder="Contact Name"
+            formControlName="contactName"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Notes & Attachments </mat-label>
+          <button
+            mat-icon-button
+            color="primary"
+            style="position: absolute; right: 0; bottom: 19%"
+          >
+            <mat-icon matSuffix>upload</mat-icon>
+          </button>
+          <input
+            matInput
+            placeholder="Notes & Attachments"
+            formControlName="attachments"
+          />
+        </mat-form-field>
+      </div>
+      <!-- ############################################################################################################ -->
+      <div>
+        <app-file-upload-library></app-file-upload-library>
+      </div>
+      <!-- ############################################################################################################ -->
     </div>
-    <!-- ############################################################################################################ -->
-    <div>
-      <app-file-upload-library></app-file-upload-library>
-    </div>
-    <!-- ############################################################################################################ -->
+  </form>
+  <div mat-dialog-actions align="end">
+    <button
+      class="close-button"
+      mat-raised-button
+      color="warm"
+      mat-dialog-close
+    >
+      Cancel
+    </button>
+    <button
+      class="action-button"
+      style="margin-left: 8px"
+      mat-raised-button
+      (click)="addCampaign()"
+    >
+      {{ actionButton }}
+    </button>
   </div>
-</form>
-<div mat-dialog-actions align="end">
-  <button class="close-button" mat-raised-button color="warm" mat-dialog-close>
-    Cancel
-  </button>
-  <button
-    class="action-button"
-    style="margin-left: 8px"
-    mat-raised-button
-    (click)="addCampaign()"
-  >
-    {{ actionButton }}
-  </button>
 </div>

@@ -47,7 +47,6 @@ th {
 
 .table-container {
   overflow-y: auto;
-  flex: 1 1 auto;
   height: 400px;
   white-space: nowrap;
 }
@@ -56,7 +55,6 @@ th {
 .mat-header-cell {
   word-wrap: initial;
   display: table-cell;
-  /* padding: 0px 10px; */
 }
 
 .mat-row,
