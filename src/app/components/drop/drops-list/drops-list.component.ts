@@ -1,7 +1,8 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -22,9 +23,10 @@ export class DropsListComponent implements OnInit {
   isDetailDialog: boolean = false;
   ngOnInit(): void {}
   displayedColumns: string[] = [
-    // 'campaignId',
-    'campaignName',
     'dropName',
+    'campaignStatus',
+    'campaignType',
+    'dropVolume',
     'isLastDrop',
     'isDropCompleted',
     'isSeededReceived',
@@ -40,7 +42,8 @@ export class DropsListComponent implements OnInit {
     private dropService: DropService,
     private router: Router,
     private toast: HotToastService,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private _liveAnnouncer: LiveAnnouncer
   ) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
@@ -58,6 +61,14 @@ export class DropsListComponent implements OnInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
     }
   }
 
