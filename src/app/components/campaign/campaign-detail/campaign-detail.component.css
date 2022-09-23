@@ -1,15 +1,37 @@
-mat-form-field {
-  width: 100%;
-  cursor: not-allowed;
-  pointer-events: none;
+.mat-form-field {
+  width: 300px;
+  display: inline;
 }
+
 .form-container {
-  display: block;
   background-color: whitesmoke;
   padding: 48px;
   border-radius: 16px;
-  margin-top: 20%;
   margin: auto;
-  width: 85%;
-  height: 80%;
+  overflow: hidden;
+}
+
+.main-form-div {
+  display: flex;
+  /* flex-direction: row; */
+  gap: 10px;
+  background: whitesmoke;
+  border-radius: 4px;
+  padding: 30px;
+}
+
+.close-button {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15.3647px;
+  line-height: 18px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #0177fd;
+  background: rgba(0, 120, 240, 0.1);
+  border: 1px solid #0177fd;
+  width: 119px;
+  height: 44px;
+  border-radius: 10px;
 }

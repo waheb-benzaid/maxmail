@@ -29,7 +29,7 @@ th {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding-top: 10px;
+  padding-top: 1px;
 }
 
 .container .page-title {
@@ -71,7 +71,6 @@ th {
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  /* line-height: 24px; */
   color: #587cfb;
   background-color: #e8f3ff;
 }
@@ -101,7 +100,6 @@ th {
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  /* identical to box height */
   color: #ffda58;
 }
 
@@ -127,7 +125,7 @@ td .mat-cell {
   width: 100px;
 }
 
-th {
+.mat-header-cell {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
@@ -135,4 +133,10 @@ th {
   line-height: 24px;
   /* identical to box height */
   color: #343744;
+  z-index: 5000;
+}
+
+.table-container th {
+  width: 20%;
+  position: relative;
 }
