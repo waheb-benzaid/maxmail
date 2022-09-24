@@ -73,17 +73,14 @@ export class DropsListComponent implements OnInit {
   }
 
   openDropDialog(data?: string) {
-    this.dialog
-      .open(NewDropComponent, {
-        width: '30%',
-        panelClass: 'borderless-dialog',
-        data: data,
-        disableClose: true,
-      })
-      .afterClosed()
-      .subscribe(() => {
-        this.getAllDrops();
-      });
+    openForms(
+      this.dialog,
+      NewDropComponent,
+      '700px',
+      '700px',
+      data,
+      'borderless-dialog'
+    );
   }
 
   getAllDrops() {
