@@ -34,18 +34,17 @@ export class NewDropComponent implements OnInit {
   actionButton: string = 'Save';
   dropForm = new FormGroup({
     campaignName: new FormControl('', Validators.required),
-    searchCampaignName: new FormControl('', Validators.required),
+    // searchCampaignName: new FormControl('', Validators.required),
     dropDate: new FormControl('', Validators.required),
     dropNumber: new FormControl(0, Validators.required),
     dropVolume: new FormControl('', Validators.required),
-    isLastDrop: new FormControl('', Validators.required),
-    isDropCompleted: new FormControl('', Validators.required),
-    isSeededReceived: new FormControl('', Validators.required),
+    isLastDrop: new FormControl(),
+    isDropCompleted: new FormControl(),
+    isSeededReceived: new FormControl(),
     nextAvailableDates: new FormControl('', Validators.required),
   });
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.options.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );

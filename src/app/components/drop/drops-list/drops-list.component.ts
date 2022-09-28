@@ -1,5 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -22,6 +23,19 @@ import { NewDropComponent } from '../new-drop/new-drop.component';
 export class DropsListComponent implements OnInit {
   isDetailDialog: boolean = false;
   ngOnInit(): void {}
+  //Filters
+  dropListFilters = new FormGroup({
+    campaignName: new FormControl(),
+    // searchCampaignName: new FormControl('', Validators.required),
+    dropDate: new FormControl(),
+    dropNumber: new FormControl(),
+    dropVolume: new FormControl(),
+    isLastDrop: new FormControl(),
+    isDropCompleted: new FormControl(),
+    isSeededReceived: new FormControl(),
+    nextAvailableDates: new FormControl(),
+  });
+
   displayedColumns: string[] = [
     'dropName',
     'campaignStatus',

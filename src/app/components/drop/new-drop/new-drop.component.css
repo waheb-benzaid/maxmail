@@ -13,11 +13,9 @@
 
 .main-form-div {
   display: flex;
-  /* flex-direction: row; */
-  gap: 10px;
   background: whitesmoke;
   border-radius: 4px;
-  padding: 30px;
+  padding-top: 20px;
 }
 
 .action-button {
@@ -34,6 +32,7 @@
   width: 119px;
   height: 44px;
   border-radius: 10px;
+  margin-top: 40px;
 }
 
 .close-button {
@@ -50,8 +49,12 @@
   width: 119px;
   height: 44px;
   border-radius: 10px;
+  margin-top: 40px;
 }
 
+/* .action-button .close-button {
+  margin-top: 80px;
+} */
 .demo-button-container {
   box-sizing: border-box;
   position: absolute;
@@ -64,5 +67,5 @@
 }
 
 .part-two {
-  margin-left: 80px;
+  margin-left: 90px;
 }

@@ -26,7 +26,6 @@ import { RecordsTableComponent } from './components/common/records-table/records
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
   FirestoreModule,
@@ -65,6 +64,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { MatSortModule } from '@angular/material/sort';
 import { FileUploadLibraryComponent } from './components/file-upload-library/file-upload-library.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
