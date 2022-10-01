@@ -3,13 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-zipcodes-lookup',
   templateUrl: './zipcodes-lookup.component.html',
-  styleUrls: ['./zipcodes-lookup.component.css']
+  styleUrls: ['./zipcodes-lookup.component.css'],
 })
 export class ZipcodesLookupComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

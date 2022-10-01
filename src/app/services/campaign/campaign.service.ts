@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {
-  addDoc,
   collection,
   Firestore,
   doc,
@@ -11,8 +10,6 @@ import {
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { from, Observable } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
-
-import { DropService } from '../drop/drop.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +33,6 @@ export class CampaignService {
     let id = this.afs.createId();
     campaignFields.campaignID = id;
     campaignFields.createdAt = createdAt;
-
     //this.dropService.getCurrentCampaignID(id);
     return from(
       this.afs.collection('mail_campaign').doc(id).set(campaignFields)

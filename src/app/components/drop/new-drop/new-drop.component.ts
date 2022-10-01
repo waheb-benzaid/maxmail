@@ -19,6 +19,7 @@ export class NewDropComponent implements OnInit {
   options: string[] = [];
   filteredOptions: Observable<string[]> | undefined;
   public data: any;
+
   constructor(
     private dropService: DropService,
     private toast: HotToastService,
@@ -43,12 +44,14 @@ export class NewDropComponent implements OnInit {
     isSeededReceived: new FormControl(),
     nextAvailableDates: new FormControl('', Validators.required),
   });
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.options.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
   }
+
   ngOnInit(): void {
     this.filteredOptions = this.dropForm.controls[
       'campaignName'
@@ -77,6 +80,7 @@ export class NewDropComponent implements OnInit {
       );
     }
   }
+
   onKey(value: any) {
     this.options = this._filter(value);
   }
@@ -86,6 +90,7 @@ export class NewDropComponent implements OnInit {
   //     let filter = value.toLowerCase();
   //     return this.states.filter(option => option.toLowerCase().startsWith(filter));
   //   }
+
   get campaignName() {
     return this.dropForm.get('campaignName');
   }
