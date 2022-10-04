@@ -65,6 +65,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { MatSortModule } from '@angular/material/sort';
 import { FileUploadLibraryComponent } from './components/file-upload-library/file-upload-library.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatAutocompleteModule,
     NgxMatSelectSearchModule,
     MatSortModule,
+    MatChipsModule,
     HotToastModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

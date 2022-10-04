@@ -98,7 +98,32 @@
             Total Campaign Volume is required</mat-error
           >
         </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Favorite Fruits</mat-label>
+          <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip *ngFor="let fruit of ''">
+              {{ fruit }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+              placeholder="New fruit..."
+              #fruitInput
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+            />
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let fruit of '' | async" [value]="fruit">
+              {{ fruit }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
       </div>
+
+      <!-- ------------------------------------------ -->
+
       <!-- ############################################################################################################ -->
       <div class="part-two">
         <mat-form-field appearance="outline">
