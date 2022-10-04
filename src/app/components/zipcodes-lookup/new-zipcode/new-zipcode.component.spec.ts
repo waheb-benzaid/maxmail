@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ZipcodesLookupComponent } from './zipcodes-lookup.component';
+import { NewZipcodeComponent } from './new-zipcode.component';
 
-describe('ZipcodesLookupComponent', () => {
-  let component: ZipcodesLookupComponent;
-  let fixture: ComponentFixture<ZipcodesLookupComponent>;
+describe('NewZipcodeComponent', () => {
+  let component: NewZipcodeComponent;
+  let fixture: ComponentFixture<NewZipcodeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ZipcodesLookupComponent ]
+      declarations: [ NewZipcodeComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ZipcodesLookupComponent);
+    fixture = TestBed.createComponent(NewZipcodeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

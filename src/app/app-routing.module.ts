@@ -15,7 +15,7 @@ import { CampaignListComponent } from './components/campaign/campaign-list/campa
 import { DropsListComponent } from './components/drop/drops-list/drops-list.component';
 import { HiatusDatesListComponent } from './components/hiatus-dates/hiatus-dates-list/hiatus-dates-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ZipcodesLookupComponent } from './components/zipcodes-lookup/zipcodes-lookup.component';
+import { ZipcodesLookupComponent } from './components/zipcodes-lookup/zipcodes-lookup-list/zipcodes-lookup.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);

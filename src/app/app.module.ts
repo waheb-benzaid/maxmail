@@ -15,7 +15,7 @@ import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { HomeComponent } from './components/home/home.component';
 import { UserRegisterComponent } from './components/users/user-register/user-register.component';
-import { ZipcodesLookupComponent } from './components/zipcodes-lookup/zipcodes-lookup.component';
+import { ZipcodesLookupComponent } from './components/zipcodes-lookup/zipcodes-lookup-list/zipcodes-lookup.component';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
@@ -66,6 +66,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { FileUploadLibraryComponent } from './components/file-upload-library/file-upload-library.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { NewZipcodeComponent } from './components/zipcodes-lookup/new-zipcode/new-zipcode.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { MatChipsModule } from '@angular/material/chips';
     DashboardComponent,
     CalendarComponent,
     FileUploadLibraryComponent,
+    NewZipcodeComponent,
   ],
   imports: [
     BrowserModule,
