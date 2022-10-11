@@ -1,4 +1,5 @@
 import { Drop } from './Drop.model';
+import { ZipCode } from './Zipcode.model';
 
 export interface Campaign {
   campaignID?: any;
@@ -8,6 +9,7 @@ export interface Campaign {
   campaignType: any;
   firstDropVolume: any;
   totalCampaignVolume: any;
+  zipcodes: ZipCode[];
   totalDropsNumber: any;
   mailerSize: any;
   totalHouseholds: any;

@@ -15,6 +15,14 @@ import { DropService } from 'src/app/services/drop/drop.service';
 import { Drop } from '../../../models/Drop.model';
 import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
 import { Router } from '@angular/router';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { ZipCode } from 'src/app/models/Zipcode.model';
+
+export interface Fruit {
+  name: string;
+}
+
 @Component({
   selector: 'app-campaign',
   templateUrl: './campaign.component.html',
@@ -32,6 +40,65 @@ export class CampaignComponent implements OnInit {
     private hiatusDatesService: HiatusDatesService,
     private router: Router
   ) {}
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  zipCodes: ZipCode[] = [];
+
+  zipCodeManager(zipNumber: string, CampaignType: string) {
+    let zipcodesObject = new Object() as ZipCode;
+    zipcodesObject.zipNumber = zipNumber;
+    switch (CampaignType) {
+      case 'mailer':
+        zipcodesObject.anavailableExternalMail = true;
+        zipcodesObject.anavailablePostCard = false;
+        zipcodesObject.anavailableMagazine = false;
+        break;
+      case 'postcard':
+        zipcodesObject.anavailableExternalMail = false;
+        zipcodesObject.anavailablePostCard = true;
+        zipcodesObject.anavailableMagazine = false;
+        break;
+      case 'magazine':
+        zipcodesObject.anavailableExternalMail = false;
+        zipcodesObject.anavailablePostCard = false;
+        zipcodesObject.anavailableMagazine = true;
+        break;
+    }
+    return zipcodesObject;
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      if (
+        this.campaignService.isCampaignZipcodeUnavailable(
+          value,
+          this.campaignForm.value.campaignType!
+        )
+      ) {
+        window.alert(
+          'this zipcode is unvailable for ' +
+            this.campaignForm.value.campaignType
+        );
+        event.chipInput!.clear();
+        return;
+      }
+      this.zipCodes.push(
+        this.zipCodeManager(value, this.campaignForm.value.campaignType!)
+      );
+    }
+    event.chipInput!.clear();
+    console.log(this.zipCodes, 'zip codes when adding the value');
+  }
+
+  remove(zipCode: ZipCode): void {
+    const index = this.zipCodes.indexOf(zipCode);
+    if (index >= 0) {
+      this.zipCodes.splice(index, 1);
+    }
+  }
+
   actionButton: string = 'Save';
   campaignForm = new FormGroup({
     campaignName: new FormControl('', Validators.required),
@@ -44,6 +111,7 @@ export class CampaignComponent implements OnInit {
     mailerSize: new FormControl('', Validators.required),
     totalHouseholds: new FormControl('', Validators.required),
     totalcontractAmount: new FormControl('', Validators.required),
+    zipcodes: new FormControl(),
     printOrderID: new FormControl(''),
     accountName: new FormControl('', Validators.required),
     ownerName: new FormControl(''),
@@ -144,6 +212,10 @@ export class CampaignComponent implements OnInit {
     return this.campaignForm.get('accountName');
   }
 
+  get zipcodes() {
+    return this.campaignForm.get('zipcodes');
+  }
+
   public drops: Drop[] = [];
 
   createAutoDropsObject(
@@ -205,6 +277,7 @@ export class CampaignComponent implements OnInit {
       firstDropVolume,
       totalDropsNumber,
       mailerSize,
+
       totalHouseholds,
       totalcontractAmount,
       printOrderID,
@@ -223,6 +296,7 @@ export class CampaignComponent implements OnInit {
       totalDropsNumber,
       mailerSize,
       totalHouseholds,
+      zipcodes: this.zipCodes,
       totalcontractAmount,
       printOrderID,
       accountName,
@@ -234,12 +308,14 @@ export class CampaignComponent implements OnInit {
     };
     return campaignObject;
   }
+
   addCampaign() {
     if (!this.editData) {
       // if (!this.campaignForm.valid) {
       //   alert('some required fields are empty!');
       //   return;
       // }
+      console.log(this.zipCodes, 'zipcodes');
 
       const { firstDropDate } = this.campaignForm.value;
       let date = new Date(firstDropDate!);

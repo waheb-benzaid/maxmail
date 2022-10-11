@@ -1,1 +1,51 @@
-<p>new-zipcode works!</p>
+<div class="container">
+  <form [formGroup]="zipcodeForm" (ngSubmit)="addZipcode()">
+    <div class="main-form-div">
+      <div class="part-one" style="margin-right: 40px">
+        <mat-form-field appearance="outline">
+          <mat-label>Campaign Name</mat-label>
+          <input
+            matInput
+            placeholder="Campaign Name"
+            formControlName="campaignName"
+          />
+          <mat-error *ngIf="campaignName?.errors?.['required']">
+            Campaign name is required</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <!-- ############################################################################################################ -->
+      <div class="part-two">
+        <mat-form-field appearance="outline">
+          <mat-label>Campaign Name</mat-label>
+          <input
+            matInput
+            placeholder="Campaign Name"
+            formControlName="campaignName"
+          />
+          <mat-error *ngIf="campaignName?.errors?.['required']">
+            Campaign name is required</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+  <div mat-dialog-actions align="end">
+    <button
+      class="close-button"
+      mat-raised-button
+      color="warm"
+      mat-dialog-close
+    >
+      Cancel
+    </button>
+    <button
+      class="action-button"
+      style="margin-left: 8px"
+      mat-raised-button
+      (click)="addZipcode()"
+    >
+      {{ actionButton }}
+    </button>
+  </div>
+</div>
