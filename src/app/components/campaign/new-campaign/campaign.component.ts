@@ -15,13 +15,11 @@ import { DropService } from 'src/app/services/drop/drop.service';
 import { Drop } from '../../../models/Drop.model';
 import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
 import { Router } from '@angular/router';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, P } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ZipCode } from 'src/app/models/Zipcode.model';
-
-export interface Fruit {
-  name: string;
-}
+import { limitToLast } from 'firebase/firestore';
+import { ZipCodeService } from 'src/app/services/zip-code/zip-code.service';
 
 @Component({
   selector: 'app-campaign',
@@ -33,6 +31,7 @@ export class CampaignComponent implements OnInit {
   constructor(
     private campaignService: CampaignService,
     private toast: HotToastService,
+    private zipCodeService: ZipCodeService,
     private dialogRef: MatDialogRef<CampaignComponent>,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private datePipe: DatePipe,
@@ -44,10 +43,35 @@ export class CampaignComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   zipCodes: ZipCode[] = [];
 
-  zipCodeManager(zipNumber: string, CampaignType: string) {
+  addZipCode(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      // if (
+      //   this.campaignService.isCampaignZipcodeUnavailable(
+      //     value,
+      //     this.campaignForm.value.campaignType!
+      //   )
+      // ) {
+      //   window.alert(
+      //     'this zipcode is unvailable for ' +
+      //       this.campaignForm.value.campaignType
+      //   );
+      //   event.chipInput!.clear();
+      //   return;
+      // }
+      this.zipCodes.push(this.zipCodeManager(value));
+    }
+    event.chipInput!.clear();
+    console.log(this.zipCodes, 'zip codes when adding the value');
+  }
+
+  zipCodeManager(zipNumber: string) {
     let zipcodesObject = new Object() as ZipCode;
+    let campaignType = this.campaignForm.value.campaignType!;
     zipcodesObject.zipNumber = zipNumber;
-    switch (CampaignType) {
+    zipcodesObject.campaignStatus = this.campaignForm.value.campaignStatus!;
+    zipcodesObject.accountName = this.campaignForm.value.accountName;
+    switch (campaignType) {
       case 'mailer':
         zipcodesObject.anavailableExternalMail = true;
         zipcodesObject.anavailablePostCard = false;
@@ -65,31 +89,6 @@ export class CampaignComponent implements OnInit {
         break;
     }
     return zipcodesObject;
-  }
-
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    if (value) {
-      if (
-        this.campaignService.isCampaignZipcodeUnavailable(
-          value,
-          this.campaignForm.value.campaignType!
-        )
-      ) {
-        window.alert(
-          'this zipcode is unvailable for ' +
-            this.campaignForm.value.campaignType
-        );
-        event.chipInput!.clear();
-        return;
-      }
-      this.zipCodes.push(
-        this.zipCodeManager(value, this.campaignForm.value.campaignType!)
-      );
-    }
-    event.chipInput!.clear();
-    console.log(this.zipCodes, 'zip codes when adding the value');
   }
 
   remove(zipCode: ZipCode): void {
@@ -266,7 +265,6 @@ export class CampaignComponent implements OnInit {
     }
     return this.drops;
   }
-
   getCampaignObject(): Campaign {
     const {
       campaignName,
@@ -277,7 +275,6 @@ export class CampaignComponent implements OnInit {
       firstDropVolume,
       totalDropsNumber,
       mailerSize,
-
       totalHouseholds,
       totalcontractAmount,
       printOrderID,
@@ -296,7 +293,7 @@ export class CampaignComponent implements OnInit {
       totalDropsNumber,
       mailerSize,
       totalHouseholds,
-      zipcodes: this.zipCodes,
+      // zipcodes: this.zipCodes,
       totalcontractAmount,
       printOrderID,
       accountName,
@@ -315,7 +312,7 @@ export class CampaignComponent implements OnInit {
       //   alert('some required fields are empty!');
       //   return;
       // }
-      console.log(this.zipCodes, 'zipcodes');
+      // console.log(this.zipCodes, 'zipcodes');
 
       const { firstDropDate } = this.campaignForm.value;
       let date = new Date(firstDropDate!);
@@ -343,7 +340,11 @@ export class CampaignComponent implements OnInit {
           this.campaignForm.reset();
           this.dialogRef.close('save');
         });
+      this.zipCodes.forEach((zipCode) => {
+        this.zipCodeService.saveZipcode(this.zipCodeManager(zipCode.zipNumber));
+      });
       this.hiatusDatesService.hiatusDatesArray = [];
+      this.zipCodes.length = 0;
       return;
     }
     this.updateCampaign(this.editData.id);
@@ -363,22 +364,6 @@ export class CampaignComponent implements OnInit {
       .subscribe(() => {
         this.campaignForm.reset();
         this.dialogRef.close('update');
-      });
-  }
-
-  deleteCampaign() {
-    this.campaignService
-      .deleteCampaign(this.editData.id)
-      .pipe(
-        this.toast.observe({
-          success: 'Campaign deleted successfuly',
-          loading: 'Deleting ...',
-          error: 'There was an error',
-        })
-      )
-      .subscribe(() => {
-        console.log('Campaign deleted');
-        this.dialogRef.close('delete');
       });
   }
 }

@@ -75,19 +75,19 @@ export class CampaignService {
     return from(deleteDoc(campaignToDelete));
   }
 
-  isCampaignZipcodeUnavailable(zipcode: string, campaignType: string): boolean {
-    let isZipcodeUnvailable = false;
-    this.getAllCampaigns().subscribe((res) => {
-      res.forEach((campaign) => {
-        if (campaign.campaignType === campaignType) {
-          campaign.zipcodes.forEach((zip) => {
-            if (zip.zipNumber === zipcode) {
-              isZipcodeUnvailable = true;
-            } else isZipcodeUnvailable = false;
-          });
-        }
-      });
-    });
-    return isZipcodeUnvailable;
-  }
+  // isCampaignZipcodeUnavailable(zipcode: string, campaignType: string): boolean {
+  //   let isZipcodeUnvailable = false;
+  //   this.getAllCampaigns().subscribe((res) => {
+  //     res.forEach((campaign) => {
+  //       if (campaign.campaignType === campaignType) {
+  //         campaign.zipcodes.forEach((zip) => {
+  //           if (zip.zipNumber === zipcode) {
+  //             isZipcodeUnvailable = true;
+  //           } else isZipcodeUnvailable = false;
+  //         });
+  //       }
+  //     });
+  //   });
+  //   return isZipcodeUnvailable;
+  // }
 }

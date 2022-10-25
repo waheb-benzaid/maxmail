@@ -9,7 +9,7 @@ export interface Campaign {
   campaignType: any;
   firstDropVolume: any;
   totalCampaignVolume: any;
-  zipcodes: ZipCode[];
+  //zipcodes: ZipCode[];
   totalDropsNumber: any;
   mailerSize: any;
   totalHouseholds: any;

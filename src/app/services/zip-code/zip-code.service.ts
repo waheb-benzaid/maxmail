@@ -18,7 +18,7 @@ export class ZipCodeService {
   constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {}
 
   saveZipcode(zipcodeFields: ZipCode) {
-    let id = this.afs.createId();
+    let id = zipcodeFields.accountName + '-' + zipcodeFields.zipNumber;
     return from(this.afs.collection('mail_zipcode').doc(id).set(zipcodeFields));
   }
 
@@ -30,14 +30,19 @@ export class ZipCodeService {
     );
   }
 
-  getAllZipcodes() {
-    let zipcodesNumbers: string[] = [];
-    this.getAllZipcodesObjects().subscribe((zipcodeObject) => {
-      for (const zipCode of <ZipCode[]>zipcodeObject) {
-        zipcodesNumbers.push(zipCode.zipNumber);
-      }
-    });
-    return zipcodesNumbers;
+  // getAllZipcodes() {
+  //   let zipcodesNumbers: string[] = [];
+  //   this.getAllZipcodesObjects().subscribe((zipcodeObject) => {
+  //     for (const zipCode of <ZipCode[]>zipcodeObject) {
+  //       zipcodesNumbers.push(zipCode.zipNumber);
+  //     }
+  //   });
+  //   return zipcodesNumbers;
+  // }
+
+  updateZipCodeAfterDeleteMailCampaign(id: string) {
+    const zipCodeToUpdate = doc(this.firestoreDB, `mail_zipcode`, id);
+    return from(updateDoc(zipCodeToUpdate, {}));
   }
 
   updateZipcode(id: string, dataToUpdate: any) {
