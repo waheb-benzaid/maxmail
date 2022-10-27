@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
+import { ZipCodeService } from 'src/app/services/zip-code/zip-code.service';
 import { openForms } from 'src/app/utils/Functions/openForm';
 
 @Component({
@@ -14,11 +15,12 @@ import { openForms } from 'src/app/utils/Functions/openForm';
 export class ZipcodesLookupComponent implements OnInit {
   isDetailDialog = false;
   displayedColumns: string[] = [
-    'campaignName',
+    'zipNumber',
+    'accountName',
     'campaignStatus',
-    'campaignType',
-    'totalDropsNumber',
-    'campaignDate',
+    'unavailablePostCard',
+    'unavailableMagazine',
+    'unavailableExternalMail',
     'action',
   ];
   // zipNumber: any;
@@ -29,9 +31,11 @@ export class ZipcodesLookupComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
     public dialog: MatDialog,
-    private campaignService: CampaignService,
+    private zipCodeService: ZipCodeService,
     private _liveAnnouncer: LiveAnnouncer
-  ) {}
+  ) {
+    this.getAllZipCodes();
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -40,7 +44,6 @@ export class ZipcodesLookupComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -63,6 +66,18 @@ export class ZipcodesLookupComponent implements OnInit {
       data,
       'borderless-dialog'
     );
+  }
+
+  getAllZipCodes() {
+    return this.zipCodeService.getAllZipcodes().subscribe((res) => {
+      console.log(res, 'res');
+
+      this.dataSource = new MatTableDataSource(res);
+      console.log(this.dataSource, 'datasource');
+
+      this.dataSource.sort = this.sort;
+      this.ngOnInit();
+    });
   }
 
   ngOnInit(): void {}

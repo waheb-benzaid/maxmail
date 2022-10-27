@@ -2,7 +2,7 @@ export interface ZipCode {
   zipNumber: any;
   accountName: any;
   campaignStatus: any;
-  anavailablePostCard: boolean;
-  anavailableMagazine: boolean;
-  anavailableExternalMail: boolean;
+  unavailablePostCard: boolean;
+  unavailableMagazine: boolean;
+  unavailableExternalMail: boolean;
 }

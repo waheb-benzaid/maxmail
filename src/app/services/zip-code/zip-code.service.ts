@@ -18,11 +18,11 @@ export class ZipCodeService {
   constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {}
 
   saveZipcode(zipcodeFields: ZipCode) {
-    let id = zipcodeFields.accountName + '-' + zipcodeFields.zipNumber;
+    let id = zipcodeFields.zipNumber;
     return from(this.afs.collection('mail_zipcode').doc(id).set(zipcodeFields));
   }
 
-  getAllZipcodesObjects() {
+  getAllZipcodes() {
     return from(
       collectionData(collection(this.firestoreDB, 'mail_zipcode'), {
         idField: 'id',
@@ -40,22 +40,35 @@ export class ZipCodeService {
   //   return zipcodesNumbers;
   // }
 
-  updateZipCodeAfterDeleteMailCampaign(id: string) {
-    const zipCodeToUpdate = doc(this.firestoreDB, `mail_zipcode`, id);
-    return from(updateDoc(zipCodeToUpdate, {}));
-  }
-
-  updateZipcode(id: string, dataToUpdate: any) {
+  initZipCode(id: string) {
     const zipCodeToUpdate = doc(this.firestoreDB, `mail_zipcode`, id);
     return from(
-      updateDoc(zipCodeToUpdate, dataToUpdate)
-        .then(() => {
-          console.log('Data updated');
-        })
-        .catch((err) => {
-          console.log(err.message);
-        })
+      updateDoc(zipCodeToUpdate, {
+        zipNumber: id,
+        accountName: '',
+        campaignStatus: '',
+        unavailablePostCard: false,
+        unavailableMagazine: false,
+        unavailableExternalMail: false,
+      })
     );
+  }
+
+  updateOrCreateZipcode(id: string, dataToUpdate: any) {
+    const zipCodeToUpdate = doc(this.firestoreDB, `mail_zipcode`, id);
+    if (zipCodeToUpdate) {
+      return from(
+        updateDoc(zipCodeToUpdate, dataToUpdate)
+          .then(() => {
+            console.log('Data updated');
+          })
+          .catch((err) => {
+            console.log(err.message);
+          })
+      );
+    } else {
+      return from(this.saveZipcode(dataToUpdate));
+    }
   }
 
   deleteZipcode(id: string) {

@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="page-title">Mail Campaigns</div>
+  <div class="page-title">Zip Code Lookup</div>
   <mat-form-field
     appearance="outline"
     style="
@@ -64,17 +64,29 @@
         matSort
         (matSortChange)="announceSortChange($event)"
       >
-        <!-- Campaign Name Column -->
-        <ng-container matColumnDef="campaignName">
+        <!-- Zip number column -->
+        <ng-container matColumnDef="zipNumber">
           <th
             mat-header-cell
             *matHeaderCellDef
             mat-sort-header
-            sortActionDescription="Sort by campaign Name"
+            sortActionDescription="Sort Mailing zip"
           >
-            Mail Campaign Name
+            Mailing Zip
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.campaignName }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.zipNumber }}</td>
+        </ng-container>
+        <!-- Account Name column -->
+        <ng-container matColumnDef="accountName">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by Account Name"
+          >
+            Account Name
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.accountName }}</td>
         </ng-container>
 
         <!-- Campaign Status Column -->
@@ -104,28 +116,38 @@
           </td>
         </ng-container>
 
-        <!-- Campaign Type  Column -->
-        <ng-container matColumnDef="campaignType">
+        <ng-container matColumnDef="unavailablePostCard">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Campaign Type
+            Unavailable for PostCard
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.campaignType }}</td>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              [checked]="row.unavailablePostCard ? true : false"
+            ></mat-checkbox>
+          </td>
         </ng-container>
 
-        <!-- Drops Number by campaign -->
-        <ng-container matColumnDef="totalDropsNumber">
+        <ng-container matColumnDef="unavailableMagazine">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Drops Number
+            Unavailable For Magazine
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.totalDropsNumber }}</td>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              [checked]="row.unavailableMagazine ? true : false"
+              [color]="primary"
+            ></mat-checkbox>
+          </td>
         </ng-container>
 
-        <!-- Campaign Date Column -->
-        <ng-container matColumnDef="campaignDate">
+        <ng-container matColumnDef="unavailableExternalMail">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Created Date
+            Unavailable For ExternalMail
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.createdAt }}</td>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              [checked]="row.unavailableExternalMail ? true : false"
+            ></mat-checkbox>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="action">

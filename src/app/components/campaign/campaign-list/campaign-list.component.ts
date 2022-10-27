@@ -4,7 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { RESOURCE_CACHE_PROVIDER } from '@angular/platform-browser-dynamic';
+import { Campaign } from 'src/app/models/Campaign.model';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
+import { ZipCodeService } from 'src/app/services/zip-code/zip-code.service';
 import { openForms } from 'src/app/utils/Functions/openForm';
 import { CampaignDetailComponent } from '../campaign-detail/campaign-detail.component';
 import { CampaignComponent } from '../new-campaign/campaign.component';
@@ -32,6 +35,7 @@ export class CampaignListComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private campaignService: CampaignService,
+    private zipcodeService: ZipCodeService,
     private _liveAnnouncer: LiveAnnouncer
   ) {
     // Assign the data to the data source for the table to render
@@ -106,7 +110,15 @@ export class CampaignListComponent implements OnInit {
     this.openCompaignDialog(rowData);
   }
 
+  campaign: any;
+
   deleteCampaign(id: string) {
+    let campaignById;
+    this.campaignService.getCampaignById(id).subscribe((res) => {
+      res.zipCodeNumbers.forEach((zip) => {
+        this.zipcodeService.initZipCode(zip);
+      });
+    });
     this.campaignService.deleteCampaign(id).subscribe(() => {
       this.getAllCampaigns();
     });

@@ -39,6 +39,13 @@ export class CampaignService {
     );
   }
 
+  getCampaignById(id: string) {
+    return this.afs
+      .collection('mail_campaign')
+      .doc(id)
+      .valueChanges() as Observable<Campaign>;
+  }
+
   getAllCampaigns() {
     return from(
       collectionData(collection(this.firestoreDB, 'mail_campaign'), {
@@ -72,22 +79,7 @@ export class CampaignService {
 
   deleteCampaign(id: string) {
     let campaignToDelete = doc(this.firestoreDB, `mail_campaign/${id}`);
+    console.log(campaignToDelete, 'campaignToDeletee');
     return from(deleteDoc(campaignToDelete));
   }
-
-  // isCampaignZipcodeUnavailable(zipcode: string, campaignType: string): boolean {
-  //   let isZipcodeUnvailable = false;
-  //   this.getAllCampaigns().subscribe((res) => {
-  //     res.forEach((campaign) => {
-  //       if (campaign.campaignType === campaignType) {
-  //         campaign.zipcodes.forEach((zip) => {
-  //           if (zip.zipNumber === zipcode) {
-  //             isZipcodeUnvailable = true;
-  //           } else isZipcodeUnvailable = false;
-  //         });
-  //       }
-  //     });
-  //   });
-  //   return isZipcodeUnvailable;
-  // }
 }

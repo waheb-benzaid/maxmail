@@ -65,7 +65,7 @@ export class CampaignComponent implements OnInit {
     console.log(this.zipCodes, 'zip codes when adding the value');
   }
 
-  zipCodeManager(zipNumber: string) {
+  zipCodeManager(zipNumber: string, campaignID?: string) {
     let zipcodesObject = new Object() as ZipCode;
     let campaignType = this.campaignForm.value.campaignType!;
     zipcodesObject.zipNumber = zipNumber;
@@ -73,19 +73,19 @@ export class CampaignComponent implements OnInit {
     zipcodesObject.accountName = this.campaignForm.value.accountName;
     switch (campaignType) {
       case 'mailer':
-        zipcodesObject.anavailableExternalMail = true;
-        zipcodesObject.anavailablePostCard = false;
-        zipcodesObject.anavailableMagazine = false;
+        zipcodesObject.unavailableExternalMail = true;
+        zipcodesObject.unavailablePostCard = false;
+        zipcodesObject.unavailableMagazine = false;
         break;
       case 'postcard':
-        zipcodesObject.anavailableExternalMail = false;
-        zipcodesObject.anavailablePostCard = true;
-        zipcodesObject.anavailableMagazine = false;
+        zipcodesObject.unavailableExternalMail = false;
+        zipcodesObject.unavailablePostCard = true;
+        zipcodesObject.unavailableMagazine = false;
         break;
       case 'magazine':
-        zipcodesObject.anavailableExternalMail = false;
-        zipcodesObject.anavailablePostCard = false;
-        zipcodesObject.anavailableMagazine = true;
+        zipcodesObject.unavailableExternalMail = false;
+        zipcodesObject.unavailablePostCard = false;
+        zipcodesObject.unavailableMagazine = true;
         break;
     }
     return zipcodesObject;
@@ -266,6 +266,10 @@ export class CampaignComponent implements OnInit {
     return this.drops;
   }
   getCampaignObject(): Campaign {
+    let zipcodes: any[] = [];
+    this.zipCodes.forEach((zip) => {
+      zipcodes.push(zip.zipNumber);
+    });
     const {
       campaignName,
       firstDropDate,
@@ -293,7 +297,7 @@ export class CampaignComponent implements OnInit {
       totalDropsNumber,
       mailerSize,
       totalHouseholds,
-      // zipcodes: this.zipCodes,
+      zipCodeNumbers: zipcodes,
       totalcontractAmount,
       printOrderID,
       accountName,
