@@ -67,10 +67,8 @@ export class ZipcodesLookupComponent implements OnInit {
   getAllZipCodes() {
     return this.zipCodeService.getAllZipcodes().subscribe((res) => {
       console.log(res, 'res');
-
       this.dataSource = new MatTableDataSource(res);
       console.log(this.dataSource, 'datasource');
-
       this.dataSource.sort = this.sort;
       this.ngOnInit();
     });

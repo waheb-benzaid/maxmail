@@ -30,15 +30,12 @@ export class ZipCodeService {
     );
   }
 
-  // getAllZipcodes() {
-  //   let zipcodesNumbers: string[] = [];
-  //   this.getAllZipcodesObjects().subscribe((zipcodeObject) => {
-  //     for (const zipCode of <ZipCode[]>zipcodeObject) {
-  //       zipcodesNumbers.push(zipCode.zipNumber);
-  //     }
-  //   });
-  //   return zipcodesNumbers;
-  // }
+  getZipCodeById(id: string) {
+    return this.afs
+      .collection('mail_zipcode')
+      .doc(id)
+      .valueChanges() as Observable<ZipCode>;
+  }
 
   initZipCode(id: string) {
     const zipCodeToUpdate = doc(this.firestoreDB, `mail_zipcode`, id);
@@ -54,21 +51,17 @@ export class ZipCodeService {
     );
   }
 
-  updateOrCreateZipcode(id: string, dataToUpdate: any) {
+  updateZipCode(id: string, dataToUpdate: any) {
     const zipCodeToUpdate = doc(this.firestoreDB, `mail_zipcode`, id);
-    if (zipCodeToUpdate) {
-      return from(
-        updateDoc(zipCodeToUpdate, dataToUpdate)
-          .then(() => {
-            console.log('Data updated');
-          })
-          .catch((err) => {
-            console.log(err.message);
-          })
-      );
-    } else {
-      return from(this.saveZipcode(dataToUpdate));
-    }
+    return from(
+      updateDoc(zipCodeToUpdate, dataToUpdate)
+        .then(() => {
+          console.log('Data updated');
+        })
+        .catch((err) => {
+          console.log(err.message);
+        })
+    );
   }
 
   deleteZipcode(id: string) {

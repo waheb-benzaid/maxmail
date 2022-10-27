@@ -110,13 +110,12 @@ export class CampaignListComponent implements OnInit {
     this.openCompaignDialog(rowData);
   }
 
-  campaign: any;
-
   deleteCampaign(id: string) {
     let campaignById;
     this.campaignService.getCampaignById(id).subscribe((res) => {
       res.zipCodeNumbers.forEach((zip) => {
-        this.zipcodeService.initZipCode(zip);
+        //this.zipcodeService.initZipCode(zip);
+        this.zipcodeService.deleteZipcode(zip);
       });
     });
     this.campaignService.deleteCampaign(id).subscribe(() => {
