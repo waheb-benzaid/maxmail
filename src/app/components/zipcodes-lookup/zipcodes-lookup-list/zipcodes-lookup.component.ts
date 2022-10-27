@@ -21,14 +21,10 @@ export class ZipcodesLookupComponent implements OnInit {
     'unavailablePostCard',
     'unavailableMagazine',
     'unavailableExternalMail',
-    'action',
   ];
-  // zipNumber: any;
-  // anavailablePostCard: boolean;
-  // anavailableMagazine: boolean;
-  // anavailableExternalMail: boolean;
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatSort) sort!: MatSort;
+
   constructor(
     public dialog: MatDialog,
     private zipCodeService: ZipCodeService,

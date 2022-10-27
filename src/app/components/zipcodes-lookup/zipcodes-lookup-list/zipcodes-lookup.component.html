@@ -150,22 +150,6 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
-          <td mat-cell *matCellDef="let row">
-            <button mat-icon-button color="primary" (click)="editCampaign(row)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              style="color: coral"
-              (click)="deleteCampaign(row.id)"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr
           mat-row
