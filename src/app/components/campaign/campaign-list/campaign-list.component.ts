@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -17,7 +17,7 @@ import { CampaignComponent } from '../new-campaign/campaign.component';
   templateUrl: './campaign-list.component.html',
   styleUrls: ['./campaign-list.component.css'],
 })
-export class CampaignListComponent implements OnInit {
+export class CampaignListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
   isDetailDialog = false;
   displayedColumns: string[] = [
@@ -96,15 +96,15 @@ export class CampaignListComponent implements OnInit {
     });
   }
 
-  getCampaignId(campaignName: string) {
-    let campaign;
-    this.campaignService.getAllCampaigns().subscribe((res) => {
-      res.map((item) => {
-        campaign = item;
-      });
-    });
-    campaign;
-  }
+  // getCampaignId(campaignName: string) {
+  //   let campaign;
+  //   this.campaignService.getAllCampaigns().subscribe((res) => {
+  //     res.map((item) => {
+  //       campaign = item;
+  //     });
+  //   });
+  //   campaign;
+  // }
 
   editCampaign(rowData: any) {
     this.openCompaignDialog(rowData);
@@ -121,5 +121,9 @@ export class CampaignListComponent implements OnInit {
     this.campaignService.deleteCampaign(id).subscribe(() => {
       this.getAllCampaigns();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.getAllCampaigns().unsubscribe();
   }
 }

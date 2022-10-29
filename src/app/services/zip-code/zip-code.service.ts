@@ -18,7 +18,7 @@ export class ZipCodeService {
   constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {}
 
   saveZipcode(zipcodeFields: ZipCode) {
-    let id = zipcodeFields.zipNumber;
+    let id = this.afs.createId();
     return from(this.afs.collection('mail_zipcode').doc(id).set(zipcodeFields));
   }
 
@@ -35,6 +35,14 @@ export class ZipCodeService {
       .collection('mail_zipcode')
       .doc(id)
       .valueChanges() as Observable<ZipCode>;
+  }
+
+  getByZipCodeNumber(zipNumber: string) {
+    return this.afs
+      .collection('mail_zipcode', (ref) =>
+        ref.where('zipNumber', '==', zipNumber)
+      )
+      .snapshotChanges();
   }
 
   initZipCode(id: string) {

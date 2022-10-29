@@ -5,4 +5,5 @@ export interface ZipCode {
   unavailablePostCard: boolean;
   unavailableMagazine: boolean;
   unavailableExternalMail: boolean;
+  campaignID: string;
 }

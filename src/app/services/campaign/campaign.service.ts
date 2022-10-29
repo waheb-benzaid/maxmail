@@ -17,7 +17,7 @@ import { Campaign } from 'src/app/models/Campaign.model';
 export class CampaignService {
   cNames: string[] = [];
   isEmpty: boolean = false;
-  campaignId: string = '';
+  public campaignId: string = '';
 
   public campaignInformation = {
     CampaignContact: '',
@@ -30,12 +30,15 @@ export class CampaignService {
   constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {}
 
   saveCampaign(campaignFields: Campaign, createdAt: any) {
-    let id = this.afs.createId();
-    campaignFields.campaignID = id;
+    this.campaignId = this.afs.createId();
+    campaignFields.campaignID = this.campaignId;
     campaignFields.createdAt = createdAt;
     //this.dropService.getCurrentCampaignID(id);
     return from(
-      this.afs.collection('mail_campaign').doc(id).set(campaignFields)
+      this.afs
+        .collection('mail_campaign')
+        .doc(this.campaignId)
+        .set(campaignFields)
     );
   }
 

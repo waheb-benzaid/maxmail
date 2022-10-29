@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,7 +12,7 @@ import { openForms } from 'src/app/utils/Functions/openForm';
   templateUrl: './zipcodes-lookup.component.html',
   styleUrls: ['./zipcodes-lookup.component.css'],
 })
-export class ZipcodesLookupComponent implements OnInit {
+export class ZipcodesLookupComponent implements OnInit, OnDestroy {
   isDetailDialog = false;
   displayedColumns: string[] = [
     'zipNumber',
@@ -31,7 +31,14 @@ export class ZipcodesLookupComponent implements OnInit {
     private _liveAnnouncer: LiveAnnouncer
   ) {
     this.getAllZipCodes();
+    this.zipCodeService.getByZipCodeNumber('11111').subscribe((res) => {
+      res.map((data) => {
+        console.log(data.payload.doc.id);
+      });
+    });
   }
+
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -73,6 +80,7 @@ export class ZipcodesLookupComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
-  ngOnInit(): void {}
+  ngOnDestroy() {
+    this.getAllZipCodes().unsubscribe();
+  }
 }

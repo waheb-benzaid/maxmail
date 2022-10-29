@@ -18,7 +18,6 @@ import { Router } from '@angular/router';
 import { COMMA, ENTER, P } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ZipCode } from 'src/app/models/Zipcode.model';
-import { limitToLast } from 'firebase/firestore';
 import { ZipCodeService } from 'src/app/services/zip-code/zip-code.service';
 
 @Component({
@@ -88,6 +87,7 @@ export class CampaignComponent implements OnInit {
         zipcodesObject.unavailableMagazine = true;
         break;
     }
+    zipcodesObject.campaignID = campaignID!;
     return zipcodesObject;
   }
 
@@ -265,6 +265,7 @@ export class CampaignComponent implements OnInit {
     }
     return this.drops;
   }
+
   getCampaignObject(): Campaign {
     let zipcodes: any[] = [];
     this.zipCodes.forEach((zip) => {
@@ -317,7 +318,6 @@ export class CampaignComponent implements OnInit {
       //   return;
       // }
       // console.log(this.zipCodes, 'zipcodes');
-
       const { firstDropDate } = this.campaignForm.value;
       let date = new Date(firstDropDate!);
       let day = getDay(date);
@@ -345,7 +345,23 @@ export class CampaignComponent implements OnInit {
           this.dialogRef.close('save');
         });
       this.zipCodes.forEach((zipCode) => {
-        this.zipCodeService.saveZipcode(this.zipCodeManager(zipCode.zipNumber));
+        this.zipCodeService.saveZipcode(
+          this.zipCodeManager(
+            zipCode.zipNumber,
+            this.campaignService.campaignId
+          )
+        );
+        // this.zipCodeService
+        //   .getZipCodeById(zipCode.zipNumber)
+        //   .subscribe((res) => {
+        //     console.log(res, 'before test');
+        //     if (res) {
+        //       this.zipCodeService.updateZipCode(res.zipNumber, zipCode);
+        //     } else
+        //       this.zipCodeService.saveZipcode(
+        //         this.zipCodeManager(zipCode.zipNumber)
+        //       );
+        //   });
       });
       this.hiatusDatesService.hiatusDatesArray = [];
       this.zipCodes.length = 0;
