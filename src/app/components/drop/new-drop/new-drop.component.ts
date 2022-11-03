@@ -28,7 +28,6 @@ export class NewDropComponent implements OnInit {
     private datePipe: DatePipe,
     private campaignService: CampaignService
   ) {
-    // dropService.getAllDrops();
     this.options = campaignService.getAllCampaignsNames();
   }
   searchText: any;

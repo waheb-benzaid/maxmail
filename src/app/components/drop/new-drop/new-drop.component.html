@@ -8,8 +8,14 @@
           matInput
           placeholder="Campaign Name"
           formControlName="campaignName"
+          [matAutocomplete]="auto"
         />
         <mat-icon matSuffix>expand_more</mat-icon>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let option of options" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
         <mat-error *ngIf="campaignName?.errors?.['required']">
           Campaign name is required</mat-error
         >
