@@ -102,6 +102,8 @@ export class DropsListComponent implements OnInit {
     this.campaignService.getAllCampaigns().subscribe((res) => {
       res.forEach((campaign) => {
         campaign.drops.forEach((drop) => {
+          drop.campaignStatus = campaign.campaignStatus;
+          drop.campaignType = campaign.campaignType;
           drops.push(drop);
         });
       });

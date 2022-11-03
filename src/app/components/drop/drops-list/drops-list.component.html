@@ -69,11 +69,11 @@
             mat-header-cell
             *matHeaderCellDef
             mat-sort-header
-            sortActionDescription="Sort by campaign Name"
+            sortActionDescription="Sort by drop Name"
           >
             Drop Name
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.drops.dropName }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.dropName }}</td>
         </ng-container>
         <!-- Campaign Status Column -->
         <ng-container matColumnDef="campaignStatus">
@@ -101,6 +101,7 @@
             </span>
           </td>
         </ng-container>
+
         <!-- Campaign Type  Column -->
         <ng-container matColumnDef="campaignType">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -108,13 +109,14 @@
           </th>
           <td mat-cell *matCellDef="let row">{{ row.campaignType }}</td>
         </ng-container>
+
         <!-- Drop Volume -->
         <ng-container matColumnDef="dropVolume">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Drops Volume
           </th>
           <td mat-cell *matCellDef="let row">
-            {{ row.drops.dropVolume }}
+            {{ row.dropVolume }}
           </td>
         </ng-container>
         <!-- Last Drop Column -->

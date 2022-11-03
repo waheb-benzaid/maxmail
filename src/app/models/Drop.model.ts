@@ -1,6 +1,8 @@
 export interface Drop {
   campaignId: any;
   campaignName: any;
+  campaignStatus: any;
+  campaignType: any;
   dropName: any;
   dropDate: any;
   dropNumber: number;
