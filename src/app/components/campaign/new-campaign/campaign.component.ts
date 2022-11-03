@@ -217,11 +217,7 @@ export class CampaignComponent implements OnInit {
 
   public drops: Drop[] = [];
 
-  createAutoDropsObject(
-    campaignObject: Campaign,
-    isEditMode: boolean,
-    id?: string
-  ) {
+  createAutoDropsObject(campaignObject: any, isEditMode: boolean, id?: string) {
     this.drops.length = 0;
     let day = getDay(campaignObject.firstDropDate as Date);
     let month = getMonth(campaignObject.firstDropDate as Date) + 1;
@@ -263,6 +259,8 @@ export class CampaignComponent implements OnInit {
       }
       dropDate = `${year}-${month}-${day}`;
     }
+    console.log(this.drops, 'drops');
+
     return this.drops;
   }
 
@@ -288,6 +286,16 @@ export class CampaignComponent implements OnInit {
       contactName,
       attachments,
     } = this.campaignForm.value;
+
+    const dropFieldsfromCampaign = {
+      campaignName,
+      firstDropDate,
+      accountName,
+      totalDropsNumber,
+      firstDropVolume,
+      campaignType,
+    };
+    this.createAutoDropsObject(dropFieldsfromCampaign, false);
     const campaignObject = {
       campaignName,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
@@ -344,6 +352,7 @@ export class CampaignComponent implements OnInit {
           this.campaignForm.reset();
           this.dialogRef.close('save');
         });
+
       this.zipCodes.forEach((zipCode) => {
         this.zipCodeService.saveZipcode(
           this.zipCodeManager(
