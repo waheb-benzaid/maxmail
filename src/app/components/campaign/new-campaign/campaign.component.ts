@@ -37,10 +37,13 @@ export class CampaignComponent implements OnInit {
     private dropService: DropService,
     private hiatusDatesService: HiatusDatesService,
     private router: Router
-  ) {}
+  ) {
+    this.campaignNames = this.campaignService.getAllCampaignsNames();
+  }
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   zipCodes: ZipCode[] = [];
+  campaignNames: string[] = [];
 
   addZipCode(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -326,7 +329,9 @@ export class CampaignComponent implements OnInit {
       //   return;
       // }
       // console.log(this.zipCodes, 'zipcodes');
+
       const { firstDropDate } = this.campaignForm.value;
+      const { campaignName } = this.campaignForm.value;
       let date = new Date(firstDropDate!);
       let day = getDay(date);
       let month = getMonth(date) + 1;
@@ -334,6 +339,10 @@ export class CampaignComponent implements OnInit {
       let _firstDropDate = `${year}-${month}-${day}`;
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(_firstDropDate);
+      if (this.campaignNames.includes(campaignName!)) {
+        window.alert('this campaign name exist!');
+        return;
+      }
       if (isHiatusDate) {
         window.alert('date not available');
         return;
