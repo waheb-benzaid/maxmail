@@ -67,6 +67,14 @@ export class CampaignService {
     return names;
   }
 
+  getDropsByDate(date: string) {
+    return this.afs
+      .collection('mail_campaign', (ref) =>
+        ref.where('drops.dropDate', '==', date)
+      )
+      .valueChanges();
+  }
+
   updateCampaign(id: string, dataToUpdate: any) {
     const campaignToUpdate = doc(this.firestoreDB, `mail_campaign`, id);
     return from(

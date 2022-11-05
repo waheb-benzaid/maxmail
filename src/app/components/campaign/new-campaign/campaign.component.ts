@@ -39,12 +39,18 @@ export class CampaignComponent implements OnInit {
     private router: Router
   ) {
     this.campaignNames = this.campaignService.getAllCampaignsNames();
+    this.dropsToPrint.length = 0;
+    let drop = this.campaignService.getDropsByDate('').subscribe((res) => {
+      res.forEach((drop) => {
+        return drop;
+      });
+    });
+    console.log(drop, 'sub drop');
   }
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   zipCodes: ZipCode[] = [];
   campaignNames: string[] = [];
-
   addZipCode(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
@@ -227,8 +233,12 @@ export class CampaignComponent implements OnInit {
     let year = getYear(campaignObject.firstDropDate as Date);
     let dropDate = `${year}-${month}-${day}`;
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
+      console.log(i, 'i');
       let objectToInsert = new Object() as Drop;
       let date = new Date();
+      console.log(dropDate, 'before print');
+      this.getTotalDropsVolumePerDate(dropDate);
+      console.log(this.dropsToPrint, 'drops to print');
       objectToInsert.campaignName = campaignObject.campaignName;
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = dropDate;
@@ -249,6 +259,7 @@ export class CampaignComponent implements OnInit {
       year = getYear(date);
       dropDate = `${year}-${month}-${day}`;
       dropDate = formatDate(dropDate, this.datePipe) || '';
+
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
       while (isHiatusDate) {
@@ -263,8 +274,20 @@ export class CampaignComponent implements OnInit {
       dropDate = `${year}-${month}-${day}`;
     }
     console.log(this.drops, 'drops');
-
     return this.drops;
+  }
+
+  dropVolumeperDay = 0;
+  dropsToPrint: Drop[] = [];
+  getTotalDropsVolumePerDate(date: string) {
+    this.campaignService.getAllCampaigns().subscribe((res) => {
+      res.forEach((campaign) => {
+        campaign.drops.forEach((drop) => {
+          // this.dropsToPrint.push(drop);
+          console.log(drop, 'inside the loop');
+        });
+      });
+    });
   }
 
   getCampaignObject(): Campaign {
