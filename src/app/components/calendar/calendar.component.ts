@@ -23,6 +23,8 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
+import { CampaignService } from 'src/app/services/campaign/campaign.service';
+import { Drop } from 'src/app/models/Drop.model';
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -57,6 +59,13 @@ const colors: Record<string, EventColor> = {
   templateUrl: './calendar.component.html',
 })
 export class CalendarComponent {
+  constructor(
+    private modal: NgbModal,
+    private campaignService: CampaignService
+  ) {
+    this.calendarEventsManager();
+  }
+
   @ViewChild('modalContent', { static: true }) modalContent:
     | TemplateRef<any>
     | undefined;
@@ -91,53 +100,68 @@ export class CalendarComponent {
       },
     },
   ];
-
   refresh = new Subject<void>();
+  events: CalendarEvent[] = [];
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: { ...colors['red'] },
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: { ...colors['blue'] },
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
+  calendarEventsManager() {
+    this.campaignService.getAllCampaigns().subscribe((res) => {
+      res.forEach((campaign) => {
+        campaign.drops.forEach((drop) => {
+          let objectToInsert = new Object() as CalendarEvent;
+          objectToInsert.title = campaign.accountName;
+          objectToInsert.start = subDays(
+            startOfDay(new Date(drop.dropDate)),
+            0
+          );
+          objectToInsert.actions = this.actions;
+          this.events.push(objectToInsert);
+          console.log(this.events, 'events');
+        });
+      });
+    });
+  }
+  //[
+  // {
+  //   start: subDays(startOfDay(new Date()), 1),
+  //   end: addDays(new Date(), 1),
+  //   title: 'A 3 day event',
+  //   color: { ...colors['red'] },
+  //   actions: this.actions,
+  //   allDay: true,
+  //   resizable: {
+  //     beforeStart: true,
+  //     afterEnd: true,
+  //   },
+  //   draggable: true,
+  // },
+  // {
+  //   start: startOfDay(new Date()),
+  //   title: 'An event with no end date',
+  //   color: { ...colors['yellow'] },
+  //   actions: this.actions,
+  // },
+  // {
+  //   start: subDays(endOfMonth(new Date()), 3),
+  //   end: addDays(endOfMonth(new Date()), 3),
+  //   title: 'A long event that spans 2 months',
+  //   color: { ...colors['blue'] },
+  //   allDay: true,
+  // },
+  // {
+  //   start: addHours(startOfDay(new Date()), 2),
+  //   end: addHours(new Date(), 2),
+  //   title: 'A draggable and resizable event',
+  //   color: { ...colors['yellow'] },
+  //   actions: this.actions,
+  //   resizable: {
+  //     beforeStart: true,
+  //     afterEnd: true,
+  //   },
+  //   draggable: true,
+  // },
+  //];
 
   activeDayIsOpen: boolean = true;
-
-  constructor(private modal: NgbModal) {}
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -176,22 +200,22 @@ export class CalendarComponent {
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors['red'],
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
-  }
+  // addEvent(): void {
+  //   this.events = [
+  //     ...this.events,
+  //     {
+  //       title: 'New event',
+  //       start: startOfDay(new Date()),
+  //       end: endOfDay(new Date()),
+  //       color: colors['red'],
+  //       draggable: true,
+  //       resizable: {
+  //         beforeStart: true,
+  //         afterEnd: true,
+  //       },
+  //     },
+  //   ];
+  // }
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
