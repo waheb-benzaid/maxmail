@@ -14,7 +14,7 @@ import {
   isSameMonth,
   addHours,
 } from 'date-fns';
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
@@ -101,24 +101,25 @@ export class CalendarComponent {
     },
   ];
   refresh = new Subject<void>();
-  events: CalendarEvent[] = [];
+  eventsToDisplay: CalendarEvent[] = [];
 
-  calendarEventsManager() {
-    this.campaignService.getAllCampaigns().subscribe((res) => {
-      res.forEach((campaign) => {
-        campaign.drops.forEach((drop) => {
-          let objectToInsert = new Object() as CalendarEvent;
-          objectToInsert.title = campaign.accountName;
-          objectToInsert.start = subDays(
-            startOfDay(new Date(drop.dropDate)),
-            0
-          );
-          objectToInsert.actions = this.actions;
-          this.events.push(objectToInsert);
-          console.log(this.events, 'events');
-        });
+  events: CalendarEvent[] = this.eventsToDisplay;
+
+  async calendarEventsManager() {
+    let asyncOpt = this.campaignService.getAllCampaigns();
+    let dataSync = await firstValueFrom(asyncOpt);
+
+    dataSync.forEach((campaign) => {
+      campaign.drops.forEach((drop) => {
+        let objectToInsert = new Object() as CalendarEvent;
+        objectToInsert.title = drop.campaignId;
+        objectToInsert.start = subDays(startOfDay(new Date(drop.dropDate)), 0);
+        objectToInsert.actions = this.actions;
+        this.eventsToDisplay.push(objectToInsert);
       });
     });
+
+    console.log(this.events, 'events');
   }
 
   activeDayIsOpen: boolean = true;
