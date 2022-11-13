@@ -128,6 +128,8 @@ export class CampaignComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    console.log(this.getAllDropsVolumeByDate());
+
     if (this.editData) {
       this.actionButton = 'Edit';
       this.campaignForm.controls['campaignName'].setValue(
@@ -175,7 +177,9 @@ export class CampaignComponent implements OnInit {
       );
     }
   }
-
+  getAllDropsVolumeByDate() {
+    let allDrops = this.campaignService.getDropsByDate('2022-11-12');
+  }
   get campaignName() {
     return this.campaignForm.get('campaignName');
   }

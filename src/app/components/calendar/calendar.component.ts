@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   ViewChild,
   TemplateRef,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import {
   startOfDay,
@@ -58,13 +60,17 @@ const colors: Record<string, EventColor> = {
   ],
   templateUrl: './calendar.component.html',
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit, OnDestroy {
   constructor(
     private modal: NgbModal,
     private campaignService: CampaignService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.calendarEventsManager();
   }
+
+  ngOnDestroy(): void {}
 
   @ViewChild('modalContent', { static: true }) modalContent:
     | TemplateRef<any>
@@ -118,8 +124,7 @@ export class CalendarComponent {
         this.eventsToDisplay.push(objectToInsert);
       });
     });
-
-    console.log(this.events, 'events');
+    this.events = this.eventsToDisplay;
   }
 
   activeDayIsOpen: boolean = true;

@@ -70,7 +70,7 @@ export class CampaignService {
   getDropsByDate(date: string) {
     return this.afs
       .collection('mail_campaign', (ref) =>
-        ref.where('drops.dropDate', '==', date)
+        ref.where('firstDropVolume', '==', '2222')
       )
       .valueChanges();
   }
