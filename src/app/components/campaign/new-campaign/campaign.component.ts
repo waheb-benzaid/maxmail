@@ -39,13 +39,6 @@ export class CampaignComponent implements OnInit {
     private router: Router
   ) {
     this.campaignNames = this.campaignService.getAllCampaignsNames();
-    this.dropsToPrint.length = 0;
-    let drop = this.campaignService.getDropsByDate('').subscribe((res) => {
-      res.forEach((drop) => {
-        return drop;
-      });
-    });
-    console.log(drop, 'sub drop');
   }
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -241,8 +234,6 @@ export class CampaignComponent implements OnInit {
       let objectToInsert = new Object() as Drop;
       let date = new Date();
       console.log(dropDate, 'before print');
-      this.getTotalDropsVolumePerDate(dropDate);
-      console.log(this.dropsToPrint, 'drops to print');
       objectToInsert.campaignName = campaignObject.campaignName;
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = dropDate;
@@ -279,19 +270,6 @@ export class CampaignComponent implements OnInit {
     }
     console.log(this.drops, 'drops');
     return this.drops;
-  }
-
-  dropVolumeperDay = 0;
-  dropsToPrint: Drop[] = [];
-  getTotalDropsVolumePerDate(date: string) {
-    this.campaignService.getAllCampaigns().subscribe((res) => {
-      res.forEach((campaign) => {
-        campaign.drops.forEach((drop) => {
-          // this.dropsToPrint.push(drop);
-          console.log(drop, 'inside the loop');
-        });
-      });
-    });
   }
 
   getCampaignObject(): Campaign {
