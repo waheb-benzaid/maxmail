@@ -259,8 +259,8 @@ export class CampaignComponent implements OnInit, OnDestroy {
       console.log(i, 'i');
       let objectToInsert = new Object() as Drop;
       let date = new Date();
-      console.log(dropDate, 'before print');
       objectToInsert.campaignName = campaignObject.campaignName;
+      objectToInsert.accountName = campaignObject.accountName;
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = dropDate;
       objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
@@ -277,6 +277,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
         date = new Date(date.setDate(date.getDate() + 21));
       }
       day = getDay(date);
+      console.log(day, 'day to print');
       month = getMonth(date) + 1;
       year = getYear(date);
       dropDate = `${year}-${month}-${day}`;

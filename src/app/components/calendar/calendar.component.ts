@@ -118,8 +118,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
     dataSync.forEach((campaign) => {
       campaign.drops.forEach((drop) => {
         let objectToInsert = new Object() as CalendarEvent;
-        objectToInsert.title = drop.campaignId;
+        objectToInsert.title = `${drop.accountName} : ${drop.dropVolume}`;
         objectToInsert.start = subDays(startOfDay(new Date(drop.dropDate)), 0);
+        objectToInsert.allDay = true;
         objectToInsert.actions = this.actions;
         this.eventsToDisplay.push(objectToInsert);
       });
