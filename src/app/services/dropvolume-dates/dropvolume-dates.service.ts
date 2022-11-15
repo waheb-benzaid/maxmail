@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { collectionData } from '@angular/fire/firestore';
-import { id } from 'date-fns/locale';
-import { collection, doc, Firestore, updateDoc } from 'firebase/firestore';
+import { collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { Campaign } from 'src/app/models/Campaign.model';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
 
 @Injectable({
@@ -15,21 +13,24 @@ export class DropvolumeDatesService {
 
   saveVolume(date: string, volumeFields: VolumeDates) {
     return from(
-      this.afs.collection('mail_drop_volume_dates').doc(date).set(volumeFields)
+      this.afs
+        .collection('mail_drop_volume_dates')
+        .doc(date.trim())
+        .set(volumeFields)
     );
   }
 
-  getVolumeDateByID(date: string) {
+  getVolumeDateByID(id: string) {
     return this.afs
       .collection('mail_drop_volume_dates')
-      .doc(date)
+      .doc(id)
       .valueChanges() as Observable<VolumeDates>;
   }
 
   getAllVolumeDate() {
     return from(
       collectionData(collection(this.firestoreDB, 'mail_drop_volume_dates'), {
-        idField: 'id',
+        idField: 'date',
       }) as Observable<VolumeDates[]>
     );
   }
@@ -43,7 +44,7 @@ export class DropvolumeDatesService {
     return from(
       updateDoc(VolumeDatesToUpdate, dataToUpdate)
         .then(() => {
-          console.log('Data updated');
+          console.log('volume dates Data updated');
         })
         .catch((err) => {
           console.log(err.message);

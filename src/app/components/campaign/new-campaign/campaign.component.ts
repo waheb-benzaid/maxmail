@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
@@ -19,6 +19,9 @@ import { COMMA, ENTER, P } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ZipCode } from 'src/app/models/Zipcode.model';
 import { ZipCodeService } from 'src/app/services/zip-code/zip-code.service';
+import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
+import { VolumeDates } from 'src/app/models/VolumeDates.model';
 
 @Component({
   selector: 'app-campaign',
@@ -26,7 +29,7 @@ import { ZipCodeService } from 'src/app/services/zip-code/zip-code.service';
   styleUrls: ['./campaign.component.css'],
   providers: [DatePipe],
 })
-export class CampaignComponent implements OnInit {
+export class CampaignComponent implements OnInit, OnDestroy {
   constructor(
     private campaignService: CampaignService,
     private toast: HotToastService,
@@ -36,9 +39,13 @@ export class CampaignComponent implements OnInit {
     private datePipe: DatePipe,
     private dropService: DropService,
     private hiatusDatesService: HiatusDatesService,
-    private router: Router
+    private router: Router,
+    private dropVolumeDateService: DropvolumeDatesService //  private dropVolumeDateService: DropvolumeDatesService
   ) {
     this.campaignNames = this.campaignService.getAllCampaignsNames();
+  }
+  ngOnDestroy(): void {
+    //this.volumeDateSubscription.unsubscribe();
   }
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -121,7 +128,10 @@ export class CampaignComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    console.log(this.getAllDropsVolumeByDate());
+    // this.dropVolumeDateService.getAllVolumeDate().subscribe((res) => {
+    //   console.log(res, 'res from ng on init');
+    //   console.log(res.payload.exists, 'data');
+    // });
 
     if (this.editData) {
       this.actionButton = 'Edit';
@@ -170,9 +180,7 @@ export class CampaignComponent implements OnInit {
       );
     }
   }
-  getAllDropsVolumeByDate() {
-    let allDrops = this.campaignService.getDropsByDate('2022-11-12');
-  }
+
   get campaignName() {
     return this.campaignForm.get('campaignName');
   }
@@ -220,6 +228,23 @@ export class CampaignComponent implements OnInit {
   get zipcodes() {
     return this.campaignForm.get('zipcodes');
   }
+  public volumeDate: number = 0;
+  public volumeDateSubscription!: Subscription;
+
+  async saveOrUpdateVolumeDate(date: string, volume: number) {
+    const volumneDate$ = this.dropVolumeDateService.getVolumeDateByID(date);
+    const volumeDate = await firstValueFrom(volumneDate$);
+    console.log(volumeDate, 'by date');
+    if (volumeDate) {
+      volume = volume + volumeDate.volume;
+      this.dropVolumeDateService.updateVolume(date, {
+        date,
+        volume,
+      });
+    } else {
+      this.dropVolumeDateService.saveVolume(date, { date, volume });
+    }
+  }
 
   public drops: Drop[] = [];
 
@@ -229,6 +254,7 @@ export class CampaignComponent implements OnInit {
     let month = getMonth(campaignObject.firstDropDate as Date) + 1;
     let year = getYear(campaignObject.firstDropDate as Date);
     let dropDate = `${year}-${month}-${day}`;
+    let dropDatesArray: any[] = [];
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
       console.log(i, 'i');
       let objectToInsert = new Object() as Drop;
@@ -243,6 +269,7 @@ export class CampaignComponent implements OnInit {
       objectToInsert.isLastDrop = false;
       objectToInsert.isSeededReceived = false;
       this.drops.push(objectToInsert);
+      dropDatesArray.push(dropDate);
       date = new Date(dropDate);
       if (campaignObject.campaignType === 'magazine') {
         date = new Date(date.setMonth(date.getMonth() + 3));
@@ -254,7 +281,6 @@ export class CampaignComponent implements OnInit {
       year = getYear(date);
       dropDate = `${year}-${month}-${day}`;
       dropDate = formatDate(dropDate, this.datePipe) || '';
-
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
       while (isHiatusDate) {
@@ -268,7 +294,9 @@ export class CampaignComponent implements OnInit {
       }
       dropDate = `${year}-${month}-${day}`;
     }
-    console.log(this.drops, 'drops');
+    dropDatesArray.forEach((date) => {
+      this.saveOrUpdateVolumeDate(date, campaignObject.firstDropVolume);
+    });
     return this.drops;
   }
 

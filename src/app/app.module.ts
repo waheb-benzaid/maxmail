@@ -67,6 +67,7 @@ import { FileUploadLibraryComponent } from './components/file-upload-library/fil
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { NewZipcodeComponent } from './components/zipcodes-lookup/new-zipcode/new-zipcode.component';
+import { DropvolumeDatesService } from './services/dropvolume-dates/dropvolume-dates.service';
 
 @NgModule({
   declarations: [
@@ -134,7 +135,12 @@ import { NewZipcodeComponent } from './components/zipcodes-lookup/new-zipcode/ne
     provideFunctions(() => getFunctions()),
     provideMessaging(() => getMessaging()),
   ],
-  providers: [ScreenTrackingService, UserTrackingService, DatePipe],
+  providers: [
+    ScreenTrackingService,
+    UserTrackingService,
+    DatePipe,
+    DropvolumeDatesService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
