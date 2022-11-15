@@ -76,7 +76,9 @@ export class NewHiatusDatesComponent implements OnInit {
     let array = this.dropService.isDropDateHiatus();
 
     if (array.includes(hiatusDatesObject.hiatusDate)) {
-      window.alert('it is not possible to create a this hiatus date');
+      window.alert(
+        'it is not possible to create this hiatus date, there is one or more drops in this date'
+      );
       array.length = 0;
       return;
     }
