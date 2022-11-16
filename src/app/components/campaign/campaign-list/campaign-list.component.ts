@@ -4,13 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { RESOURCE_CACHE_PROVIDER } from '@angular/platform-browser-dynamic';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { ZipCodeService } from 'src/app/services/zip-code/zip-code.service';
 import { openForms } from 'src/app/utils/Functions/openForm';
 import { CampaignDetailComponent } from '../campaign-detail/campaign-detail.component';
 import { CampaignComponent } from '../new-campaign/campaign.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-campaign-list',
@@ -32,6 +32,7 @@ export class CampaignListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort) sort!: MatSort;
   allcampaigns: any;
+  campaigns: any[] = [];
   constructor(
     public dialog: MatDialog,
     private campaignService: CampaignService,
@@ -49,14 +50,12 @@ export class CampaignListComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+    let filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -90,6 +89,7 @@ export class CampaignListComponent implements OnInit, OnDestroy {
 
   getAllCampaigns() {
     return this.campaignService.getAllCampaigns().subscribe((res) => {
+      this.campaigns = res;
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.sort = this.sort;
       this.ngOnInit();
@@ -123,6 +123,36 @@ export class CampaignListComponent implements OnInit, OnDestroy {
     });
   }
 
+  onChangeType($event: any) {
+    let filtredData = _.filter(this.campaigns, (item) => {
+      return item.campaignType.toLowerCase() == $event.value.toLowerCase();
+    });
+    this.dataSource = new MatTableDataSource(filtredData);
+  }
+
+  onChangeStatus($event: any) {
+    let filtredData = _.filter(this.campaigns, (item) => {
+      return item.campaignStatus.toLowerCase() == $event.value.toLowerCase();
+    });
+    this.dataSource = new MatTableDataSource(filtredData);
+  }
+
+  onChangeOwnerName($event: any) {
+    let filtredData = _.filter(this.campaigns, (item) => {
+      return item.ownerName.toLowerCase() == $event.value.toLowerCase();
+    });
+    this.dataSource = new MatTableDataSource(filtredData);
+  }
+
+  //FIXME: make Date Filter works with  {PAST 30 DAYS}
+  onChangeDate($event: any) {
+    let filtredData = _.filter(this.campaigns, (item) => {
+      return item.createdAt.toLowerCase() == $event.value.toLowerCase();
+    });
+    this.dataSource = new MatTableDataSource(filtredData);
+  }
+
+  //TODO: Unserbsribe form all bservables used in this component
   ngOnDestroy(): void {
     this.getAllCampaigns().unsubscribe();
   }

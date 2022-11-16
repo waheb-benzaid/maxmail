@@ -29,7 +29,10 @@
   <div class="filters">
     <mat-form-field appearance="outline" style="width: 203px">
       <mat-label>Campaign Type</mat-label>
-      <mat-select formControlName="campaignType">
+      <mat-select
+        formControlName="campaignType"
+        (selectionChange)="onChangeType($event)"
+      >
         <mat-option value="mailer">Mailer</mat-option>
         <mat-option value="postcard">Postcard</mat-option>
         <mat-option value="magazine">Magazine</mat-option>
@@ -37,7 +40,10 @@
     </mat-form-field>
     <mat-form-field appearance="outline" style="width: 203px">
       <mat-label>Campaign Status</mat-label>
-      <mat-select formControlName="campaignStatus">
+      <mat-select
+        formControlName="campaignStatus"
+        (selectionChange)="onChangeStatus($event)"
+      >
         <mat-option value="active">Active</mat-option>
         <mat-option value="suspended">suspended</mat-option>
         <mat-option value="cancelled">cancelled</mat-option>

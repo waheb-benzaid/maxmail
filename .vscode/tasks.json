@@ -23,7 +23,7 @@
     {
       "type": "npm",
       "script": "test",
-      "isBackground": true,
+      "isBackground": false,
       "problemMatcher": {
         "owner": "typescript",
         "pattern": "$tsc",
