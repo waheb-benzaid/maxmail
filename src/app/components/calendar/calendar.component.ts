@@ -16,7 +16,7 @@ import {
   isSameMonth,
   addHours,
 } from 'date-fns';
-import { firstValueFrom, Subject } from 'rxjs';
+import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
@@ -27,7 +27,9 @@ import {
 import { EventColor } from 'calendar-utils';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { Drop } from 'src/app/models/Drop.model';
-
+import { VolumeDates } from 'src/app/models/VolumeDates.model';
+import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
+volumeDate$: Observable<VolumeDates[]>;
 const colors: Record<string, EventColor> = {
   red: {
     primary: '#ad2121',
@@ -61,10 +63,21 @@ const colors: Record<string, EventColor> = {
   templateUrl: './calendar.component.html',
 })
 export class CalendarComponent implements OnInit, OnDestroy {
+  volumeDates$: Observable<VolumeDates> | undefined;
   constructor(
     private modal: NgbModal,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private dropVolumeDateService: DropvolumeDatesService
   ) {}
+
+  async getVolumePerDay(date: string): Promise<number> {
+    const volumneDate$ = this.dropVolumeDateService.getVolumeDateByID(date);
+    const volumeDate = await firstValueFrom(volumneDate$);
+    if (!volumeDate) {
+      return 0;
+    }
+    return volumeDate.volume;
+  }
 
   ngOnInit(): void {
     this.calendarEventsManager();
