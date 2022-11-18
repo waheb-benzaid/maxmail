@@ -1,6 +1,6 @@
 <div class="row text-center">
   <div class="col-md-4">
-    <div class="btn-group">
+    <div class="btn-group" style="margin-top: 50px; font-family: Roboto">
       <div
         class="btn btn-primary"
         mwlCalendarPreviousView
@@ -28,11 +28,11 @@
       </div>
     </div>
   </div>
-  <div class="col-md-4">
-    <h3>{{ viewDate | calendarDate: view + "ViewTitle":"en" }}</h3>
+  <div class="col-md-4" style="margin-top: 50px; font-family: Roboto">
+    <h1>{{ viewDate | calendarDate: view + "ViewTitle":"en" }}</h1>
   </div>
   <div class="col-md-4">
-    <div class="btn-group">
+    <div class="btn-group" style="margin-top: 50px; font-family: Roboto">
       <div
         class="btn btn-primary"
         (click)="setView(CalendarView.Month)"
