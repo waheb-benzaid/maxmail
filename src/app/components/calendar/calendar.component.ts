@@ -29,6 +29,8 @@ import { Drop } from 'src/app/models/Drop.model';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
 import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
 import { MaxmailCalendarEvent } from '../../models/Maxmail.CalendarEvent.model';
+import { formatDate } from '../../utils/Functions/format-date';
+import { DatePipe } from '@angular/common';
 volumeDate$: Observable<VolumeDates[]>;
 const colors: Record<string, EventColor> = {
   red: {
@@ -48,6 +50,7 @@ const colors: Record<string, EventColor> = {
 @Component({
   selector: 'app-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DatePipe],
   styles: [
     `
       h3 {
@@ -64,19 +67,30 @@ const colors: Record<string, EventColor> = {
 })
 export class CalendarComponent implements OnInit, OnDestroy {
   volumeDates$: Observable<VolumeDates> | undefined;
+  volume = 0;
   constructor(
     private modal: NgbModal,
     private campaignService: CampaignService,
-    private dropVolumeDateService: DropvolumeDatesService
+    private dropVolumeDateService: DropvolumeDatesService,
+    private datePipe: DatePipe
   ) {}
 
-  async getVolumePerDay(date: string): Promise<number> {
-    const volumneDate$ = this.dropVolumeDateService.getVolumeDateByID(date);
-    const volumeDate = await firstValueFrom(volumneDate$);
-    if (!volumeDate) {
-      return 0;
+  //TODO: Unsubscribe from the obserevable
+  getDate(date: Date): number {
+    const _date = formatDate(date, this.datePipe);
+    console.log(_date, 'dates');
+    if (_date) {
+      const volumneDate$ = this.dropVolumeDateService
+        .getVolumeDateByID(_date)
+        .subscribe((res) => {
+          if (res) {
+            this.volume = res.volume;
+          } else {
+            this.volume = 0;
+          }
+        });
     }
-    return volumeDate.volume;
+    return this.volume;
   }
 
   ngOnInit(): void {
