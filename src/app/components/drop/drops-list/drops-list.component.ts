@@ -14,6 +14,7 @@ import { openForms } from 'src/app/utils/Functions/openForm';
 import { DropService } from '../../../services/drop/drop.service';
 import { DropDetalComponent } from '../drop-detail/drop-detal.component';
 import { NewDropComponent } from '../new-drop/new-drop.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-drops-list',
@@ -108,6 +109,7 @@ export class DropsListComponent implements OnInit {
         });
       });
       this.dataSource = new MatTableDataSource(drops);
+      this.drops = drops;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -133,5 +135,34 @@ export class DropsListComponent implements OnInit {
       rowData,
       'borderless-dialog'
     );
+  }
+  drops: any[] = [];
+  onChangeStatus($event: any) {
+    let filtredData = _.filter(this.drops, (item) => {
+      return item.campaignStatus.toLowerCase() == $event.value.toLowerCase();
+    });
+    this.dataSource = new MatTableDataSource(filtredData);
+  }
+
+  onChangeType($event: any) {
+    let filtredData = _.filter(this.drops, (item) => {
+      return item.campaignType.toLowerCase() == $event.value.toLowerCase();
+    });
+    this.dataSource = new MatTableDataSource(filtredData);
+  }
+
+  onChangeOwnerName($event: any) {
+    let filtredData = _.filter(this.drops, (item) => {
+      return item.ownerName.toLowerCase() == $event.value.toLowerCase();
+    });
+    this.dataSource = new MatTableDataSource(filtredData);
+  }
+
+  //FIXME: make Date Filter works with  {PAST 30 DAYS}
+  onChangeDate($event: any) {
+    let filtredData = _.filter(this.drops, (item) => {
+      return item.createdAt.toLowerCase() == $event.value.toLowerCase();
+    });
+    this.dataSource = new MatTableDataSource(filtredData);
   }
 }
