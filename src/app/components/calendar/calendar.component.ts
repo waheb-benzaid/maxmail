@@ -122,7 +122,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   refresh = new Subject<void>();
   eventsToDisplay: CalendarEvent[] = [];
 
-  events: CalendarEvent[] = this.eventsToDisplay;
+  events: CalendarEvent[] = [];
 
   async calendarEventsManager() {
     let asyncOpt = this.campaignService.getAllCampaigns();
@@ -176,8 +176,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    // this.modalData = { event, action };
+    // this.modal.open(this.modalContent, { size: 'lg' });
+    console.log(event.start);
+    console.log(event.title);
+    console.log('hi');
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
