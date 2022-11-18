@@ -19,7 +19,6 @@ import {
 import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
-  CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
@@ -29,6 +28,7 @@ import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { Drop } from 'src/app/models/Drop.model';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
 import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
+import { MaxmailCalendarEvent } from '../../models/Maxmail.CalendarEvent.model';
 volumeDate$: Observable<VolumeDates[]>;
 const colors: Record<string, EventColor> = {
   red: {
@@ -98,7 +98,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   modalData:
     | {
         action: string;
-        event: CalendarEvent;
+        event: MaxmailCalendarEvent;
       }
     | undefined;
 
@@ -106,23 +106,23 @@ export class CalendarComponent implements OnInit, OnDestroy {
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
+      onClick: ({ event }: { event: MaxmailCalendarEvent }): void => {
         this.handleEvent('Edited', event);
       },
     },
     {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
+      onClick: ({ event }: { event: MaxmailCalendarEvent }): void => {
         this.events = this.events.filter((iEvent) => iEvent !== event);
         this.handleEvent('Deleted', event);
       },
     },
   ];
   refresh = new Subject<void>();
-  eventsToDisplay: CalendarEvent[] = [];
+  eventsToDisplay: MaxmailCalendarEvent[] = [];
 
-  events: CalendarEvent[] = [];
+  events: MaxmailCalendarEvent[] = [];
 
   async calendarEventsManager() {
     let asyncOpt = this.campaignService.getAllCampaigns();
@@ -130,7 +130,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     dataSync.forEach((campaign) => {
       campaign.drops.forEach((drop) => {
-        let objectToInsert = new Object() as CalendarEvent;
+        let objectToInsert = new Object() as MaxmailCalendarEvent;
         objectToInsert.title = `${drop.accountName} : ${drop.dropVolume}`;
         objectToInsert.start = subDays(startOfDay(new Date(drop.dropDate)), 0);
         objectToInsert.allDay = true;
@@ -143,7 +143,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   activeDayIsOpen: boolean = true;
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({
+    date,
+    events,
+  }: {
+    date: Date;
+    events: MaxmailCalendarEvent[];
+  }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -175,7 +181,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.handleEvent('Dropped or resized', event);
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
+  handleEvent(action: string, event: MaxmailCalendarEvent): void {
     // this.modalData = { event, action };
     // this.modal.open(this.modalContent, { size: 'lg' });
     console.log(event.start);
@@ -183,7 +189,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     console.log('hi');
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
+  deleteEvent(eventToDelete: MaxmailCalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
