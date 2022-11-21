@@ -67,9 +67,18 @@
       day.date | calendarDate: "monthViewDayNumber":locale
     }}</span>
   </div>
-  <span>{{ getVolume(day.date) }}</span>
-  <small style="margin: 5px" *ngIf="volumeDates$ | async as VolumeDate">
-  </small>
+  <span>
+    <small
+      style="margin: 5px"
+      *ngIf="getVolume(day.date) | async as VolumeDates"
+    >
+      {{ getVolume(day.date).volume }}
+    </small>
+  </span>
+</ng-template>
+
+<ng-template #nothing>
+  <span>hi</span>
 </ng-template>
 
 <div [ngSwitch]="view">

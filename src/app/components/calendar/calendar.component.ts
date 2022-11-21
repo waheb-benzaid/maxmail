@@ -31,6 +31,7 @@ import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvo
 import { MaxmailCalendarEvent } from '../../models/Maxmail.CalendarEvent.model';
 import { formatDate } from '../../utils/Functions/format-date';
 import { DatePipe } from '@angular/common';
+import { JSDocComment } from '@angular/compiler';
 volumeDate$: Observable<VolumeDates[]>;
 const colors: Record<string, EventColor> = {
   red: {
@@ -75,20 +76,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ) {}
 
   //TODO: Unsubscribe from the obserevable
-  getVolume(date: Date) {
+  getVolume(date: Date): Observable<VolumeDates> {
     const _date = formatDate(date, this.datePipe);
     if (_date) {
-      this.volumeDates$ = this.dropVolumeDateService.getVolumeDateByID(_date);
+      return this.dropVolumeDateService.getVolumeDateByID(_date);
     }
+    return this.volumeDates$;
   }
   volumeSubscription!: Subscription;
   ngOnInit(): void {
     this.calendarEventsManager();
-    // this.volumeSubscription = this.dropVolumeDateService
-    //   .getVolumeDateByID('')
-    //   .subscribe((res) => {
-    //     this.volume = res.volume;
-    //   });
   }
 
   ngOnDestroy(): void {}
