@@ -16,7 +16,7 @@ import {
   isSameMonth,
   addHours,
 } from 'date-fns';
-import { firstValueFrom, Observable, Subject } from 'rxjs';
+import { firstValueFrom, Observable, Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEventAction,
@@ -66,35 +66,29 @@ const colors: Record<string, EventColor> = {
   templateUrl: './calendar.component.html',
 })
 export class CalendarComponent implements OnInit, OnDestroy {
-  volumeDates$: Observable<VolumeDates> | undefined;
   volume = 0;
+  volumeDates$!: Observable<VolumeDates>;
   constructor(
-    private modal: NgbModal,
     private campaignService: CampaignService,
     private dropVolumeDateService: DropvolumeDatesService,
     private datePipe: DatePipe
   ) {}
 
   //TODO: Unsubscribe from the obserevable
-  getDate(date: Date): number {
+  getVolume(date: Date) {
     const _date = formatDate(date, this.datePipe);
-    console.log(_date, 'dates');
     if (_date) {
-      const volumneDate$ = this.dropVolumeDateService
-        .getVolumeDateByID(_date)
-        .subscribe((res) => {
-          if (res) {
-            this.volume = res.volume;
-          } else {
-            this.volume = 0;
-          }
-        });
+      this.volumeDates$ = this.dropVolumeDateService.getVolumeDateByID(_date);
     }
-    return this.volume;
   }
-
+  volumeSubscription!: Subscription;
   ngOnInit(): void {
     this.calendarEventsManager();
+    // this.volumeSubscription = this.dropVolumeDateService
+    //   .getVolumeDateByID('')
+    //   .subscribe((res) => {
+    //     this.volume = res.volume;
+    //   });
   }
 
   ngOnDestroy(): void {}
@@ -149,6 +143,17 @@ export class CalendarComponent implements OnInit, OnDestroy {
         objectToInsert.start = subDays(startOfDay(new Date(drop.dropDate)), 0);
         objectToInsert.allDay = true;
         objectToInsert.actions = this.actions;
+        objectToInsert.totalVolume =
+          objectToInsert.totalVolume + drop.dropVolume;
+        // objectToInsert.dropFields!.accountName! = drop.accountName;
+        // objectToInsert.dropFields!.campaignName = drop.campaignName;
+        // objectToInsert.dropFields!.campaignStatus = drop.campaignStatus;
+        // objectToInsert.dropFields!.campaignType = drop.campaignType;
+        // objectToInsert.dropFields!.dropDate = drop.dropDate;
+        // objectToInsert.dropFields!.dropVolume = drop.dropVolume;
+        // objectToInsert.dropFields!.isDropCompleted = drop.isDropCompleted;
+        // objectToInsert.dropFields!.isLastDrop = drop.isLastDrop;
+        // objectToInsert.dropFields!.isDropCompleted = drop.isDropCompleted;
         this.eventsToDisplay.push(objectToInsert);
       });
     });
@@ -195,7 +200,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.handleEvent('Dropped or resized', event);
   }
 
-  handleEvent(action: string, event: MaxmailCalendarEvent): void {
+  handleEvent(_action: string, event: MaxmailCalendarEvent): void {
     // this.modalData = { event, action };
     // this.modal.open(this.modalContent, { size: 'lg' });
     console.log(event.start);

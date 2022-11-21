@@ -1,6 +1,7 @@
 import { CalendarEvent } from 'angular-calendar';
+import { Drop } from './Drop.model';
 
 export interface MaxmailCalendarEvent extends CalendarEvent {
-  campaignId?: string;
-  dropNumber?: number;
+  totalVolume?: number;
+  dropFields?: Drop;
 }
