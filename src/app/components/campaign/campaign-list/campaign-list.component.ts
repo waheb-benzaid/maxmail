@@ -11,6 +11,7 @@ import { openForms } from 'src/app/utils/Functions/openForm';
 import { CampaignDetailComponent } from '../campaign-detail/campaign-detail.component';
 import { CampaignComponent } from '../new-campaign/campaign.component';
 import * as _ from 'lodash';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-campaign-list',
@@ -86,14 +87,17 @@ export class CampaignListComponent implements OnInit, OnDestroy {
       'borderless-dialog'
     );
   }
-
+  campaignsSubscription!: Subscription;
   getAllCampaigns() {
-    return this.campaignService.getAllCampaigns().subscribe((res) => {
-      this.campaigns = res;
-      this.dataSource = new MatTableDataSource(res);
-      this.dataSource.sort = this.sort;
-      this.ngOnInit();
-    });
+    // return
+    this.campaignsSubscription = this.campaignService
+      .getAllCampaigns()
+      .subscribe((res) => {
+        this.campaigns = res;
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.sort = this.sort;
+        this.ngOnInit();
+      });
   }
 
   // getCampaignId(campaignName: string) {
@@ -109,18 +113,23 @@ export class CampaignListComponent implements OnInit, OnDestroy {
   editCampaign(rowData: any) {
     this.openCompaignDialog(rowData);
   }
-
+  campaignByIdSubscription!: Subscription;
+  campaignDeletedSubscription!: Subscription;
   deleteCampaign(id: string) {
     let campaignById;
-    this.campaignService.getCampaignById(id).subscribe((res) => {
-      res.zipCodeNumbers.forEach((zip) => {
-        //this.zipcodeService.initZipCode(zip);
-        this.zipcodeService.deleteZipcode(zip);
+    this.campaignByIdSubscription = this.campaignService
+      .getCampaignById(id)
+      .subscribe((res) => {
+        res.zipCodeNumbers.forEach((zip) => {
+          //this.zipcodeService.initZipCode(zip);
+          this.zipcodeService.deleteZipcode(zip);
+        });
       });
-    });
-    this.campaignService.deleteCampaign(id).subscribe(() => {
-      this.getAllCampaigns();
-    });
+    this.campaignDeletedSubscription = this.campaignService
+      .deleteCampaign(id)
+      .subscribe(() => {
+        this.getAllCampaigns();
+      });
   }
 
   onChangeType($event: any) {
@@ -154,6 +163,8 @@ export class CampaignListComponent implements OnInit, OnDestroy {
 
   //TODO: Unserbsribe form all bservables used in this component
   ngOnDestroy(): void {
-    this.getAllCampaigns().unsubscribe();
+    this.campaignsSubscription.unsubscribe();
+    this.campaignByIdSubscription.unsubscribe();
+    this.campaignDeletedSubscription.unsubscribe();
   }
 }

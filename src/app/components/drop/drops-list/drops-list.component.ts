@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,14 +15,17 @@ import { DropService } from '../../../services/drop/drop.service';
 import { DropDetalComponent } from '../drop-detail/drop-detal.component';
 import { NewDropComponent } from '../new-drop/new-drop.component';
 import * as _ from 'lodash';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-drops-list',
   templateUrl: './drops-list.component.html',
   styleUrls: ['./drops-list.component.css'],
 })
-export class DropsListComponent implements OnInit {
+export class DropsListComponent implements OnInit, OnDestroy {
   isDetailDialog: boolean = false;
+  dropsSubscription!: Subscription;
+
   ngOnInit(): void {}
   //Filters
   dropListFilters = new FormGroup({
@@ -64,6 +67,9 @@ export class DropsListComponent implements OnInit {
     this.dataSource = new MatTableDataSource();
     this.getAllDrops();
   }
+  ngOnDestroy(): void {
+    this.dropsSubscription.unsubscribe();
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -97,22 +103,23 @@ export class DropsListComponent implements OnInit {
       'borderless-dialog'
     );
   }
-
   getAllDrops() {
     let drops: Drop[] = [];
-    this.campaignService.getAllCampaigns().subscribe((res) => {
-      res.forEach((campaign) => {
-        campaign.drops.forEach((drop) => {
-          drop.campaignStatus = campaign.campaignStatus;
-          drop.campaignType = campaign.campaignType;
-          drops.push(drop);
+    this.dropsSubscription = this.campaignService
+      .getAllCampaigns()
+      .subscribe((res) => {
+        res.forEach((campaign) => {
+          campaign.drops.forEach((drop) => {
+            drop.campaignStatus = campaign.campaignStatus;
+            drop.campaignType = campaign.campaignType;
+            drops.push(drop);
+          });
         });
+        this.dataSource = new MatTableDataSource(drops);
+        this.drops = drops;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
-      this.dataSource = new MatTableDataSource(drops);
-      this.drops = drops;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
   }
 
   editDrop(row: any) {
