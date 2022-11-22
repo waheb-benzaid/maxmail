@@ -231,18 +231,24 @@ export class CampaignComponent implements OnInit, OnDestroy {
   public volumeDate: number = 0;
   public volumeDateSubscription!: Subscription;
 
-  async saveOrUpdateVolumeDate(date: string, volume: number) {
+  async saveOrUpdateVolumeDate(
+    date: string,
+    volume: number,
+    campaignStatus?: string
+  ) {
     const volumneDate$ = this.dropVolumeDateService.getVolumeDateByID(date);
     const volumeDate = await firstValueFrom(volumneDate$);
-    console.log(volumeDate, 'by date');
-    if (volumeDate) {
-      volume = volume + volumeDate.volume;
-      this.dropVolumeDateService.updateVolume(date, {
-        date,
-        volume,
-      });
-    } else {
-      this.dropVolumeDateService.saveVolume(date, { date, volume });
+    //TODO: create an enum for the campaignStatus, so the code will be cleaner
+    if (campaignStatus === 'active') {
+      if (volumeDate) {
+        volume = volume + volumeDate.volume;
+        this.dropVolumeDateService.updateVolume(date, {
+          date,
+          volume,
+        });
+      } else {
+        this.dropVolumeDateService.saveVolume(date, { date, volume });
+      }
     }
   }
 
