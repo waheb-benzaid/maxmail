@@ -234,7 +234,8 @@ export class CampaignComponent implements OnInit, OnDestroy {
   async saveOrUpdateVolumeDate(
     date: string,
     volume: number,
-    campaignStatus?: string
+    campaignStatus?: string,
+    crudAction?: string
   ) {
     const volumneDate$ = this.dropVolumeDateService.getVolumeDateByID(date);
     const volumeDate = await firstValueFrom(volumneDate$);
