@@ -67,28 +67,39 @@ const colors: Record<string, EventColor> = {
   templateUrl: './calendar.component.html',
 })
 export class CalendarComponent implements OnInit, OnDestroy {
-  volume = 0;
-  volumeDates$!: Observable<VolumeDates>;
   constructor(
     private campaignService: CampaignService,
     private dropVolumeDateService: DropvolumeDatesService,
     private datePipe: DatePipe
   ) {}
 
-  //TODO: Unsubscribe from the obserevable
-  getVolume(date: Date): Observable<VolumeDates> {
+  volumeDatesList: VolumeDates[] = [];
+  getVolume(date: Date): number {
     const _date = formatDate(date, this.datePipe);
-    if (_date) {
-      return this.dropVolumeDateService.getVolumeDateByID(_date);
+    let volumeDate: VolumeDates[] = [];
+    volumeDate = this.volumeDatesList.filter((vd) => {
+      return vd.date === _date;
+    });
+    if (volumeDate.length > 0) {
+      return volumeDate[0].volume;
     }
-    return this.volumeDates$;
+    return 0;
   }
   volumeSubscription!: Subscription;
   ngOnInit(): void {
     this.calendarEventsManager();
+    this.volumeSubscription = this.dropVolumeDateService
+      .getAllVolumeDate()
+      .subscribe((res) => {
+        res.forEach((vd) => {
+          this.volumeDatesList.push(vd);
+        });
+      });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.volumeSubscription.unsubscribe();
+  }
 
   @ViewChild('modalContent', { static: true }) modalContent:
     | TemplateRef<any>
@@ -142,6 +153,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         objectToInsert.actions = this.actions;
         objectToInsert.totalVolume =
           objectToInsert.totalVolume + drop.dropVolume;
+        //FIXME:fix the issue with drop fields
         // objectToInsert.dropFields!.accountName! = drop.accountName;
         // objectToInsert.dropFields!.campaignName = drop.campaignName;
         // objectToInsert.dropFields!.campaignStatus = drop.campaignStatus;

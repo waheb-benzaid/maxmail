@@ -68,17 +68,10 @@
     }}</span>
   </div>
   <span>
-    <small
-      style="margin: 5px"
-      *ngIf="getVolume(day.date) | async as VolumeDates"
-    >
-      {{ getVolume(day.date).volume }}
-    </small>
+    <h4>
+      Total volume : <b style="color: firebrick">{{ getVolume(day.date) }}</b>
+    </h4>
   </span>
-</ng-template>
-
-<ng-template #nothing>
-  <span>hi</span>
 </ng-template>
 
 <div [ngSwitch]="view">
