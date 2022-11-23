@@ -450,6 +450,11 @@ export class CampaignComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(() => {
+        if (this.getCampaignObject().campaignStatus !== CampaignStatus.ACTIVE) {
+          this.dropVolumeDateService.removeDropVolumeFromCalendar(
+            this.getCampaignObject()
+          );
+        }
         this.campaignForm.reset();
         this.dialogRef.close('update');
       });
