@@ -20,6 +20,8 @@ import { Subscription } from 'rxjs';
 })
 export class CampaignListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
+  campaignByIdSubscription!: Subscription;
+  campaignDeletedSubscription!: Subscription;
   isDetailDialog = false;
   displayedColumns: string[] = [
     'campaignName',
@@ -40,7 +42,7 @@ export class CampaignListComponent implements OnInit, OnDestroy {
     private zipcodeService: ZipCodeService,
     private _liveAnnouncer: LiveAnnouncer
   ) {
-    // Assign the data to the data source for the table to render
+    //NOTE: Assign the data to the data source for the table to render
     campaignService.getAllCampaignsNames();
     //this.dataSource = new MatTableDataSource();
     this.getAllCampaigns();
@@ -113,15 +115,12 @@ export class CampaignListComponent implements OnInit, OnDestroy {
   editCampaign(rowData: any) {
     this.openCompaignDialog(rowData);
   }
-  campaignByIdSubscription!: Subscription;
-  campaignDeletedSubscription!: Subscription;
   deleteCampaign(id: string) {
     let campaignById;
     this.campaignByIdSubscription = this.campaignService
       .getCampaignById(id)
       .subscribe((res) => {
         res.zipCodeNumbers.forEach((zip) => {
-          //this.zipcodeService.initZipCode(zip);
           this.zipcodeService.deleteZipcode(zip);
         });
       });
@@ -161,10 +160,15 @@ export class CampaignListComponent implements OnInit, OnDestroy {
     this.dataSource = new MatTableDataSource(filtredData);
   }
 
-  //TODO: Unserbsribe form all bservables used in this component
   ngOnDestroy(): void {
     this.campaignsSubscription.unsubscribe();
-    this.campaignByIdSubscription.unsubscribe();
-    this.campaignDeletedSubscription.unsubscribe();
+
+    if (this.campaignByIdSubscription) {
+      this.campaignByIdSubscription.unsubscribe();
+    }
+
+    if (this.campaignDeletedSubscription) {
+      this.campaignDeletedSubscription.unsubscribe();
+    }
   }
 }
