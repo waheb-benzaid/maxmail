@@ -32,6 +32,7 @@ import { MaxmailCalendarEvent } from '../../models/Maxmail.CalendarEvent.model';
 import { formatDate } from '../../utils/Functions/format-date';
 import { DatePipe } from '@angular/common';
 import { JSDocComment } from '@angular/compiler';
+import { CampaignStatus } from 'src/app/utils/Enums/Campaign Enums/CampaignStatus';
 volumeDate$: Observable<VolumeDates[]>;
 const colors: Record<string, EventColor> = {
   red: {
@@ -155,9 +156,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
         objectToInsert.title = `${drop.accountName} : ${drop.dropVolume}`;
         objectToInsert.start = subDays(startOfDay(new Date(drop.dropDate)), 0);
         objectToInsert.allDay = true;
-        objectToInsert.actions = this.actions;
+        // objectToInsert.actions = this.actions;
         objectToInsert.totalVolume =
           objectToInsert.totalVolume + drop.dropVolume;
+        objectToInsert.color =
+          campaign.campaignStatus === CampaignStatus.ACTIVE
+            ? { ...colors['blue'] }
+            : { ...colors['red'] };
         //FIXME:fix the issue with drop fields
         // objectToInsert.dropFields!.accountName! = drop.accountName;
         // objectToInsert.dropFields!.campaignName = drop.campaignName;

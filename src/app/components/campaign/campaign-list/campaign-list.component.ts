@@ -11,7 +11,9 @@ import { openForms } from 'src/app/utils/Functions/openForm';
 import { CampaignDetailComponent } from '../campaign-detail/campaign-detail.component';
 import { CampaignComponent } from '../new-campaign/campaign.component';
 import * as _ from 'lodash';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
+import { VolumeDates } from 'src/app/models/VolumeDates.model';
+import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
 
 @Component({
   selector: 'app-campaign-list',
@@ -40,6 +42,8 @@ export class CampaignListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private campaignService: CampaignService,
     private zipcodeService: ZipCodeService,
+    private dropVolumeDateService: DropvolumeDatesService,
+
     private _liveAnnouncer: LiveAnnouncer
   ) {
     //NOTE: Assign the data to the data source for the table to render
@@ -115,20 +119,22 @@ export class CampaignListComponent implements OnInit, OnDestroy {
   editCampaign(rowData: any) {
     this.openCompaignDialog(rowData);
   }
+
   deleteCampaign(id: string) {
-    let campaignById;
-    this.campaignByIdSubscription = this.campaignService
-      .getCampaignById(id)
-      .subscribe((res) => {
-        res.zipCodeNumbers.forEach((zip) => {
-          this.zipcodeService.deleteZipcode(zip);
-        });
-      });
-    this.campaignDeletedSubscription = this.campaignService
-      .deleteCampaign(id)
-      .subscribe(() => {
-        this.getAllCampaigns();
-      });
+    this.campaignService.getCampaignById(id).subscribe((res) => {
+      console.log(res, 'res from original delete');
+      if (res) {
+        if (res.zipCodeNumbers.length > 0) {
+          res.zipCodeNumbers.forEach((zip) => {
+            this.zipcodeService.deleteZipcode(zip);
+          });
+        }
+        this.dropVolumeDateService.removeDropVolumeFromCalendar(res);
+      }
+    });
+    this.campaignService.deleteCampaign(id).subscribe(() => {
+      this.getAllCampaigns();
+    });
   }
 
   onChangeType($event: any) {

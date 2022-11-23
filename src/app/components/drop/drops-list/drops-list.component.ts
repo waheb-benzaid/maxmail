@@ -63,7 +63,6 @@ export class DropsListComponent implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     private _liveAnnouncer: LiveAnnouncer
   ) {
-    // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
     this.getAllDrops();
   }
@@ -79,7 +78,6 @@ export class DropsListComponent implements OnInit, OnDestroy {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

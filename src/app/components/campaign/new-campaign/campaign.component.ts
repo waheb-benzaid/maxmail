@@ -230,6 +230,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
   get zipcodes() {
     return this.campaignForm.get('zipcodes');
   }
+
   public volumeDate: number = 0;
   public volumeDateSubscription!: Subscription;
 
