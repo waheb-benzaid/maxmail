@@ -22,6 +22,8 @@ import { ZipCodeService } from 'src/app/services/zip-code/zip-code.service';
 import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
 import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
+import { CampaignStatus } from 'src/app/utils/Enums/Campaign Enums/CampaignStatus';
+import { CampaignTypes } from 'src/app/utils/Enums/Campaign Enums/CampaignType';
 
 @Component({
   selector: 'app-campaign',
@@ -80,17 +82,17 @@ export class CampaignComponent implements OnInit, OnDestroy {
     zipcodesObject.campaignStatus = this.campaignForm.value.campaignStatus!;
     zipcodesObject.accountName = this.campaignForm.value.accountName;
     switch (campaignType) {
-      case 'mailer':
+      case CampaignTypes.MAILER:
         zipcodesObject.unavailableExternalMail = true;
         zipcodesObject.unavailablePostCard = false;
         zipcodesObject.unavailableMagazine = false;
         break;
-      case 'postcard':
+      case CampaignTypes.POSTCARD:
         zipcodesObject.unavailableExternalMail = false;
         zipcodesObject.unavailablePostCard = true;
         zipcodesObject.unavailableMagazine = false;
         break;
-      case 'magazine':
+      case CampaignTypes.MAGAZINE:
         zipcodesObject.unavailableExternalMail = false;
         zipcodesObject.unavailablePostCard = false;
         zipcodesObject.unavailableMagazine = true;
@@ -233,21 +235,22 @@ export class CampaignComponent implements OnInit, OnDestroy {
 
   async saveOrUpdateVolumeDate(
     date: string,
-    volume: number,
-    campaignStatus?: string,
-    crudAction?: string
+    volumeValue: number,
+    campaignStatus: string
   ) {
     const volumneDate$ = this.dropVolumeDateService.getVolumeDateByID(date);
     const volumeDate = await firstValueFrom(volumneDate$);
-    //TODO: create an enum for the campaignStatus, so the code will be cleaner
-    if (campaignStatus === 'active') {
+    let volume: number[] = [];
+    if (campaignStatus === CampaignStatus.ACTIVE) {
       if (volumeDate) {
-        volume = volume + volumeDate.volume;
+        volume = volumeDate.volume;
+        volume.push(volumeValue);
         this.dropVolumeDateService.updateVolume(date, {
           date,
           volume,
         });
       } else {
+        volume.push(volumeValue);
         this.dropVolumeDateService.saveVolume(date, { date, volume });
       }
     }
@@ -278,7 +281,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       this.drops.push(objectToInsert);
       dropDatesArray.push(dropDate);
       date = new Date(dropDate);
-      if (campaignObject.campaignType === 'magazine') {
+      if (campaignObject.campaignType === CampaignTypes.MAGAZINE) {
         date = new Date(date.setMonth(date.getMonth() + 3));
       } else {
         date = new Date(date.setDate(date.getDate() + 21));
@@ -303,7 +306,11 @@ export class CampaignComponent implements OnInit, OnDestroy {
       dropDate = `${year}-${month}-${day}`;
     }
     dropDatesArray.forEach((date) => {
-      this.saveOrUpdateVolumeDate(date, campaignObject.firstDropVolume);
+      this.saveOrUpdateVolumeDate(
+        date,
+        campaignObject.firstDropVolume,
+        campaignObject.campaignStatus
+      );
     });
     return this.drops;
   }
@@ -338,6 +345,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       totalDropsNumber,
       firstDropVolume,
       campaignType,
+      campaignStatus,
     };
     this.createAutoDropsObject(dropFieldsfromCampaign, false);
     const campaignObject = {

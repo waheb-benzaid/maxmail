@@ -81,10 +81,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
       return vd.date === _date;
     });
     if (volumeDate.length > 0) {
-      return volumeDate[0].volume;
+      let volumeArray: number[] = volumeDate[0].volume;
+      const volume = volumeArray.reduce((a, b) => {
+        return a + b;
+      }, 0);
+      return volume;
     }
     return 0;
   }
+
   volumeSubscription!: Subscription;
   ngOnInit(): void {
     this.calendarEventsManager();
