@@ -2,6 +2,13 @@ import { CalendarEvent } from 'angular-calendar';
 import { Drop } from './Drop.model';
 
 export interface MaxmailCalendarEvent extends CalendarEvent {
-  totalVolume?: number;
-  dropFields?: Drop;
+  campaignName?: any;
+  dropName?: any;
+  dropDate?: any;
+  dropNumber?: number;
+  dropVolume?: any;
+  isLastDrop?: any;
+  isDropCompleted?: any;
+  isSeededReceived?: any;
+  nextAvailableDates?: any;
 }

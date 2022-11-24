@@ -33,6 +33,10 @@ import { formatDate } from '../../utils/Functions/format-date';
 import { DatePipe } from '@angular/common';
 import { JSDocComment } from '@angular/compiler';
 import { CampaignStatus } from 'src/app/utils/Enums/Campaign Enums/CampaignStatus';
+import { CampaignDetailComponent } from '../campaign/campaign-detail/campaign-detail.component';
+import { MatDialog } from '@angular/material/dialog';
+import { openForms } from 'src/app/utils/Functions/openForm';
+import { DropDetalComponent } from '../drop/drop-detail/drop-detal.component';
 volumeDate$: Observable<VolumeDates[]>;
 const colors: Record<string, EventColor> = {
   red: {
@@ -46,6 +50,10 @@ const colors: Record<string, EventColor> = {
   yellow: {
     primary: '#e3bc08',
     secondary: '#FDF1BA',
+  },
+  green: {
+    primary: '#00FF00',
+    secondary: '#099420',
   },
 };
 
@@ -71,7 +79,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   constructor(
     private campaignService: CampaignService,
     private dropVolumeDateService: DropvolumeDatesService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public dialog: MatDialog
   ) {}
 
   volumeDatesList: VolumeDates[] = [];
@@ -145,40 +154,61 @@ export class CalendarComponent implements OnInit, OnDestroy {
   eventsToDisplay: MaxmailCalendarEvent[] = [];
 
   events: MaxmailCalendarEvent[] = [];
-
+  drops: Drop[] = [];
   async calendarEventsManager() {
     let asyncOpt = this.campaignService.getAllCampaigns();
     let dataSync = await firstValueFrom(asyncOpt);
 
     dataSync.forEach((campaign) => {
+      this.drops.push(campaign.drops as unknown as Drop);
+      console.log(this.drops, 'all drops');
+
       campaign.drops.forEach((drop) => {
         let objectToInsert = new Object() as MaxmailCalendarEvent;
         objectToInsert.title = `${drop.accountName} : ${drop.dropVolume}`;
         objectToInsert.start = subDays(startOfDay(new Date(drop.dropDate)), 0);
         objectToInsert.allDay = true;
         // objectToInsert.actions = this.actions;
-        objectToInsert.totalVolume =
-          objectToInsert.totalVolume + drop.dropVolume;
-        objectToInsert.color =
-          campaign.campaignStatus === CampaignStatus.ACTIVE
-            ? { ...colors['blue'] }
-            : { ...colors['red'] };
-        //FIXME:fix the issue with drop fields
-        // objectToInsert.dropFields!.accountName! = drop.accountName;
-        // objectToInsert.dropFields!.campaignName = drop.campaignName;
-        // objectToInsert.dropFields!.campaignStatus = drop.campaignStatus;
-        // objectToInsert.dropFields!.campaignType = drop.campaignType;
-        // objectToInsert.dropFields!.dropDate = drop.dropDate;
-        // objectToInsert.dropFields!.dropVolume = drop.dropVolume;
-        // objectToInsert.dropFields!.isDropCompleted = drop.isDropCompleted;
-        // objectToInsert.dropFields!.isLastDrop = drop.isLastDrop;
-        // objectToInsert.dropFields!.isDropCompleted = drop.isDropCompleted;
+        // objectToInsert.totalVolume =
+        // objectToInsert.totalVolume + drop.dropVolume;
+        objectToInsert.color = this.calendarDropsColors(
+          campaign.campaignStatus
+        );
+        // objectToInsert.accountName = drop.accountName;
+        objectToInsert.campaignName = drop.campaignName;
+        // objectToInsert.campaignStatus = drop.campaignStatus;
+        objectToInsert.dropNumber = drop.dropNumber;
+        // objectToInsert.campaignType = drop.campaignType;
+        objectToInsert.dropDate = drop.dropDate;
+        objectToInsert.dropVolume = drop.dropVolume;
+        objectToInsert.isDropCompleted = drop.isDropCompleted;
+        objectToInsert.isLastDrop = drop.isLastDrop;
+        objectToInsert.isDropCompleted = drop.isDropCompleted;
         this.eventsToDisplay.push(objectToInsert);
       });
     });
     this.events = this.eventsToDisplay;
   }
 
+  calendarDropsColors(campaignStatus: string): EventColor {
+    let color: any;
+    if (campaignStatus === CampaignStatus.ACTIVE) {
+      color = { ...colors['blue'] };
+    }
+
+    if (campaignStatus === CampaignStatus.SUSPENDED) {
+      color = { ...colors['yellow'] };
+    }
+
+    if (campaignStatus === CampaignStatus.CANCELLED) {
+      color = { ...colors['red'] };
+    }
+
+    if (campaignStatus === CampaignStatus.COMPLETED) {
+      color = { ...colors['green'] };
+    }
+    return color;
+  }
   activeDayIsOpen: boolean = true;
 
   dayClicked({
@@ -222,9 +252,28 @@ export class CalendarComponent implements OnInit, OnDestroy {
   handleEvent(_action: string, event: MaxmailCalendarEvent): void {
     // this.modalData = { event, action };
     // this.modal.open(this.modalContent, { size: 'lg' });
-    console.log(event.start);
-    console.log(event.title);
-    console.log('hi');
+    let dropObject: any = {
+      // accountName: event.accountName,
+      // campaignId: event.campaignId,
+      // campaignName: event.accountName,
+      // campaignStatus: event.campaignStatus,
+      // campaignType: event.campaignType,
+      dropName: event.dropName,
+      dropDate: event.dropDate,
+      dropNumber: event.dropNumber!,
+      dropVolume: event.dropVolume,
+      isLastDrop: event.isLastDrop,
+      isDropCompleted: event.isDropCompleted,
+      isSeededReceived: event.isSeededReceived,
+      nextAvailableDates: undefined,
+    };
+    openForms(
+      this.dialog,
+      DropDetalComponent,
+      '30%',
+      dropObject,
+      'borderless-dialog'
+    );
   }
 
   deleteEvent(eventToDelete: MaxmailCalendarEvent) {

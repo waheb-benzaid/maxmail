@@ -23,7 +23,7 @@ export class DropDetalComponent implements OnInit {
     private dropService: DropService,
     private toast: HotToastService,
     private dialogRef: MatDialogRef<NewDropComponent>,
-    @Inject(MAT_DIALOG_DATA) public editMode: any,
+    @Inject(MAT_DIALOG_DATA) public editData: any,
     private datePipe: DatePipe,
     private campaignService: CampaignService
   ) {
@@ -35,14 +35,14 @@ export class DropDetalComponent implements OnInit {
   // isSeededReceived = false;
   actionButton: string = 'Save';
   dropForm = new FormGroup({
-    campaignName: new FormControl('', Validators.required),
-    dropDate: new FormControl('', Validators.required),
-    dropNumber: new FormControl('', Validators.required),
-    dropVolume: new FormControl('', Validators.required),
-    isLastDrop: new FormControl('', Validators.required),
-    isDropCompleted: new FormControl('', Validators.required),
-    isSeededReceived: new FormControl('', Validators.required),
-    nextAvailableDates: new FormControl('', Validators.required),
+    campaignName: new FormControl({ disable: true }),
+    dropDate: new FormControl({ disable: true }),
+    dropNumber: new FormControl({ disable: true }),
+    dropVolume: new FormControl({ disable: true }),
+    isLastDrop: new FormControl({ disable: true }),
+    isDropCompleted: new FormControl({ disable: true }),
+    isSeededReceived: new FormControl({ disable: true }),
+    nextAvailableDates: new FormControl({ disable: true }),
   });
 
   private _filter(value: string): string[] {
@@ -53,25 +53,19 @@ export class DropDetalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filteredOptions = this.dropForm.controls[
-      'campaignName'
-    ].valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value || ''))
-    );
-    this.dropForm.controls['campaignName'].setValue(this.editMode.campaignName);
-    this.dropForm.controls['dropDate'].setValue(this.editMode.dropDate);
-    this.dropForm.controls['dropNumber'].setValue(this.editMode.dropNumber);
-    this.dropForm.controls['dropVolume'].setValue(this.editMode.dropVolume);
-    this.dropForm.controls['isLastDrop'].setValue(this.editMode.isLastDrop);
+    this.dropForm.controls['campaignName'].setValue(this.editData.campaignName);
+    this.dropForm.controls['dropDate'].setValue(this.editData.dropDate);
+    this.dropForm.controls['dropNumber'].setValue(this.editData.dropNumber);
+    this.dropForm.controls['dropVolume'].setValue(this.editData.dropVolume);
+    this.dropForm.controls['isLastDrop'].setValue(this.editData.isLastDrop);
     this.dropForm.controls['isDropCompleted'].setValue(
-      this.editMode.isDropCompleted
+      this.editData.isDropCompleted
     );
     this.dropForm.controls['isSeededReceived'].setValue(
-      this.editMode.isSeededReceived
+      this.editData.isSeededReceived
     );
     this.dropForm.controls['nextAvailableDates'].setValue(
-      this.editMode.nextAvailableDates
+      this.editData.nextAvailableDates
     );
   }
 }

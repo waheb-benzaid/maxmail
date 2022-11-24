@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { HotToastService } from '@ngneat/hot-toast';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CampaignComponent } from '../new-campaign/campaign.component';
 
 @Component({
@@ -14,8 +14,6 @@ import { CampaignComponent } from '../new-campaign/campaign.component';
 export class CampaignDetailComponent implements OnInit {
   constructor(
     private campaignService: CampaignService,
-    private toast: HotToastService,
-    private dialogRef: MatDialogRef<CampaignComponent>,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private datePipe: DatePipe
   ) {
