@@ -55,24 +55,16 @@ export class CampaignComponent implements OnInit, OnDestroy {
   campaignNames: string[] = [];
   addZipCode(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
+
     if (value) {
-      // if (
-      //   this.campaignService.isCampaignZipcodeUnavailable(
-      //     value,
-      //     this.campaignForm.value.campaignType!
-      //   )
-      // ) {
-      //   window.alert(
-      //     'this zipcode is unvailable for ' +
-      //       this.campaignForm.value.campaignType
-      //   );
-      //   event.chipInput!.clear();
-      //   return;
-      // }
+      if (value.length !== 5) {
+        window.alert('zipcode should be 5 degits');
+        event.chipInput!.clear();
+        return;
+      }
       this.zipCodes.push(this.zipCodeManager(value));
     }
     event.chipInput!.clear();
-    console.log(this.zipCodes, 'zip codes when adding the value');
   }
 
   zipCodeManager(zipNumber: string, campaignID?: string) {
