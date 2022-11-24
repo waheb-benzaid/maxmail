@@ -46,16 +46,18 @@ export class CampaignComponent implements OnInit, OnDestroy {
   ) {
     this.campaignNames = this.campaignService.getAllCampaignsNames();
   }
+
   ngOnDestroy(): void {
     //this.volumeDateSubscription.unsubscribe();
   }
+
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   zipCodes: ZipCode[] = [];
   campaignNames: string[] = [];
+
   addZipCode(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-
     if (value) {
       if (value.length !== 5) {
         window.alert('zipcode should be 5 degits');
@@ -97,7 +99,12 @@ export class CampaignComponent implements OnInit, OnDestroy {
   remove(zipCode: ZipCode): void {
     const index = this.zipCodes.indexOf(zipCode);
     if (index >= 0) {
-      this.zipCodes.splice(index, 1);
+      let confirmation = window.confirm(
+        'are you sure to remove this zip code ?'
+      );
+      if (confirmation) {
+        this.zipCodes.splice(index, 1);
+      }
     }
   }
 
@@ -370,8 +377,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
       //   alert('some required fields are empty!');
       //   return;
       // }
-      // console.log(this.zipCodes, 'zipcodes');
-
       const { firstDropDate } = this.campaignForm.value;
       const { campaignName } = this.campaignForm.value;
       let date = new Date(firstDropDate!);
