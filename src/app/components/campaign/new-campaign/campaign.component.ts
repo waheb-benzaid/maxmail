@@ -258,7 +258,11 @@ export class CampaignComponent implements OnInit, OnDestroy {
 
   public drops: Drop[] = [];
 
-  createAutoDropsObject(campaignObject: any, isEditMode: boolean, id?: string) {
+  createAutoDropsObject(
+    campaignObject: Campaign,
+    isEditMode: boolean,
+    id?: string
+  ) {
     this.drops.length = 0;
     let day = getDay(campaignObject.firstDropDate as Date);
     let month = getMonth(campaignObject.firstDropDate as Date) + 1;
@@ -347,7 +351,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       campaignType,
       campaignStatus,
     };
-    this.createAutoDropsObject(dropFieldsfromCampaign, false);
+    this.createAutoDropsObject(dropFieldsfromCampaign as Campaign, false);
     const campaignObject = {
       campaignName,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
