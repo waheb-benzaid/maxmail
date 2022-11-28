@@ -56,6 +56,7 @@ export class NewHiatusDatesComponent implements OnInit {
       window.alert('fields are not valid! please confirm before saving');
       return;
     }
+
     let _hiatusDate = '';
     _hiatusDate = this.setHiatusDatesObject().hiatusDate;
     _hiatusDate = _hiatusDate.replace(/-0+/g, '-');

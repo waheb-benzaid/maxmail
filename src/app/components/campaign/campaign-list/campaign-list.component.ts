@@ -11,7 +11,7 @@ import { openForms } from 'src/app/utils/Functions/openForm';
 import { CampaignDetailComponent } from '../campaign-detail/campaign-detail.component';
 import { CampaignComponent } from '../new-campaign/campaign.component';
 import * as _ from 'lodash';
-import { firstValueFrom, Observable, Subscription } from 'rxjs';
+import { firstValueFrom, Observable, Subscription, window } from 'rxjs';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
 import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
 
@@ -63,6 +63,7 @@ export class CampaignListComponent implements OnInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
+
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -121,20 +122,22 @@ export class CampaignListComponent implements OnInit, OnDestroy {
   }
 
   deleteCampaign(id: string) {
-    this.campaignService.getCampaignById(id).subscribe((res) => {
-      console.log(res, 'res from original delete');
-      if (res) {
-        if (res.zipCodeNumbers.length > 0) {
-          res.zipCodeNumbers.forEach((zip) => {
-            this.zipcodeService.deleteZipcode(zip);
-          });
+    if (confirm('Are you sure to remove this campaign ?')) {
+      this.campaignService.getCampaignById(id).subscribe((res) => {
+        console.log(res, 'res from original delete');
+        if (res) {
+          if (res.zipCodeNumbers.length > 0) {
+            res.zipCodeNumbers.forEach((zip) => {
+              this.zipcodeService.deleteZipcode(zip);
+            });
+          }
+          this.dropVolumeDateService.removeDropVolumeFromCalendar(res);
         }
-        this.dropVolumeDateService.removeDropVolumeFromCalendar(res);
-      }
-    });
-    this.campaignService.deleteCampaign(id).subscribe(() => {
-      this.getAllCampaigns();
-    });
+      });
+      this.campaignService.deleteCampaign(id).subscribe(() => {
+        this.getAllCampaigns();
+      });
+    }
   }
 
   onChangeType($event: any) {
