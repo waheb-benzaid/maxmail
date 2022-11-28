@@ -283,13 +283,15 @@ export class CampaignComponent implements OnInit, OnDestroy {
       objectToInsert.campaignName = campaignObject.campaignName;
       objectToInsert.accountName = campaignObject.accountName;
       objectToInsert.dropNumber = i;
-      objectToInsert.dropDate = dropDate;
+      objectToInsert.dropDate = formatDate(dropDate, this.datePipe);
+
       objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
       objectToInsert.dropVolume = campaignObject.firstDropVolume;
       objectToInsert.isDropCompleted = false;
       objectToInsert.isLastDrop = false;
       objectToInsert.isSeededReceived = false;
       this.drops.push(objectToInsert);
+
       dropDatesArray.push(dropDate);
       date = new Date(dropDate);
       if (campaignObject.campaignType === CampaignTypes.MAGAZINE) {
