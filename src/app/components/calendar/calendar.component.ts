@@ -265,7 +265,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     openForms(
       this.dialog,
       DropDetalComponent,
-      '40%',
+      '',
       '',
       dropObject,
       'borderless-dialog'

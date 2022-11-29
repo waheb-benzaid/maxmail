@@ -43,14 +43,6 @@ export class DropDetalComponent implements OnInit {
     nextAvailableDates: new FormControl({ disable: true }),
   });
 
-  private _filter(value: string) {
-    //: string[] {
-    // const filterValue = value.toLowerCase();
-    // return this.options.filter((option) =>
-    //   option.toLowerCase().includes(filterValue)
-    // );
-  }
-
   ngOnInit(): void {
     this.dropDetailForm.controls['campaignName'].setValue(
       this.editDropData.campaignName
