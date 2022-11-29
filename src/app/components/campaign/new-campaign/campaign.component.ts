@@ -233,6 +233,18 @@ export class CampaignComponent implements OnInit, OnDestroy {
   public volumeDate: number = 0;
   public volumeDateSubscription!: Subscription;
 
+  globaleDropVolume = 0;
+  async getDropVolume(date_: string) {
+    this.globaleDropVolume = 0;
+
+    const dateFormatted = formatDate(date_, this.datePipe);
+    let date = dateFormatted?.toString();
+    const volumneDate$ = this.dropVolumeDateService.getVolumeDateByID(date!);
+    const volumeDate = await firstValueFrom(volumneDate$);
+
+    this.globaleDropVolume = volumeDate.volume[0];
+  }
+
   async saveOrUpdateVolumeDate(
     date_: string,
     volumeValue: number,
@@ -277,7 +289,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
     let dropDate = `${year}-${month}-${day}`;
     let dropDatesArray: any[] = [];
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
-      console.log(i, 'i');
+      this.getDropVolume(dropDate);
       let objectToInsert = new Object() as Drop;
       let date = new Date();
       objectToInsert.campaignName = campaignObject.campaignName;
@@ -291,7 +303,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
       objectToInsert.isLastDrop = false;
       objectToInsert.isSeededReceived = false;
       this.drops.push(objectToInsert);
-
       dropDatesArray.push(dropDate);
       date = new Date(dropDate);
       if (campaignObject.campaignType === CampaignTypes.MAGAZINE) {
@@ -300,7 +311,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
         date = new Date(date.setDate(date.getDate() + 21));
       }
       day = getDay(date);
-      console.log(day, 'day to print');
       month = getMonth(date) + 1;
       year = getYear(date);
       dropDate = `${year}-${month}-${day}`;

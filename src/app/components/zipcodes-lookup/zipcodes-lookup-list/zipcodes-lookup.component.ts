@@ -31,11 +31,6 @@ export class ZipcodesLookupComponent implements OnInit, OnDestroy {
     private _liveAnnouncer: LiveAnnouncer
   ) {
     this.getAllZipCodes();
-    this.zipCodeService.getByZipCodeNumber('11111').subscribe((res) => {
-      res.map((data) => {
-        console.log(data.payload.doc.id);
-      });
-    });
   }
 
   ngOnInit(): void {}
@@ -73,9 +68,7 @@ export class ZipcodesLookupComponent implements OnInit, OnDestroy {
 
   getAllZipCodes() {
     return this.zipCodeService.getAllZipcodes().subscribe((res) => {
-      console.log(res, 'res');
       this.dataSource = new MatTableDataSource(res);
-      console.log(this.dataSource, 'datasource');
       this.dataSource.sort = this.sort;
       this.ngOnInit();
     });

@@ -27,10 +27,8 @@ export class AuthenticationService {
 
   saveUser(firstName: any, lastName: any, email: any, password: any) {
     let signUpApp = this.auth.app.name + '_signUp';
-    console.log(`this is the signUpApp ${signUpApp}`);
     let secondaryApp = initializeApp(this.auth.app.options, signUpApp);
     let secondaryAppAuth = getAuth(secondaryApp);
-    console.log(`this is the SecondaryAuth ${secondaryAppAuth}`);
     return from(
       createUserWithEmailAndPassword(secondaryAppAuth, email, password)
     ).pipe(

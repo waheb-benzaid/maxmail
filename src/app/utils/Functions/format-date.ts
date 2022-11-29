@@ -4,10 +4,6 @@ export function formatDate(date: any, datePipe: DatePipe) {
   if (typeof date === 'string') {
     date = new Date(date);
   }
-  console.log(date, 'date from format date');
-  let date0 = datePipe.transform(date, 'yyyy-MM-dd');
-  console.log(date0, 'date0');
-
   return datePipe.transform(date, 'yyyy-MM-dd');
 }
 

@@ -126,7 +126,6 @@ export class CampaignListComponent implements OnInit, OnDestroy {
   deleteCampaign(id: string) {
     if (confirm('Are you sure to remove this campaign ?')) {
       this.campaignService.getCampaignById(id).subscribe((res) => {
-        console.log(res, 'res from original delete');
         if (res) {
           if (res.zipCodeNumbers.length > 0) {
             res.zipCodeNumbers.forEach((zip) => {

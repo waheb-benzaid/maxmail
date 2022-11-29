@@ -64,7 +64,6 @@ export class DropvolumeDatesService {
       volumeDate = await firstValueFrom(volumeDates$);
       if (volumeDate.volume.includes(drop.dropVolume)) {
         const index = volumeDate.volume.indexOf(drop.dropVolume);
-        console.log(index, 'index');
         if (index !== -1) {
           volumeDate.volume.splice(index, deleteCount);
           this.updateVolume(drop.dropDate, volumeDate);

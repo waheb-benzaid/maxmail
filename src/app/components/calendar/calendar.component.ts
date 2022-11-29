@@ -161,8 +161,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     dataSync.forEach((campaign) => {
       this.drops.push(campaign.drops as unknown as Drop);
-      console.log(this.drops, 'all drops');
-
       campaign.drops.forEach((drop) => {
         let objectToInsert = new Object() as MaxmailCalendarEvent;
         objectToInsert.title = `${drop.accountName} : ${drop.dropVolume}`;

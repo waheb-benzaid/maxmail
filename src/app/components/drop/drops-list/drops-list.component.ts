@@ -121,7 +121,6 @@ export class DropsListComponent implements OnInit, OnDestroy {
   }
 
   editDrop(row: any) {
-    console.log(row);
     this.openDropDialog(row);
   }
 
