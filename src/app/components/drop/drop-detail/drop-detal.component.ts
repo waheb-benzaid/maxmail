@@ -16,25 +16,23 @@ import { NewDropComponent } from '../new-drop/new-drop.component';
   styleUrls: ['./drop-detal.component.css'],
 })
 export class DropDetalComponent implements OnInit {
-  myControl = new FormControl('');
-  options: string[] = [];
-  filteredOptions: Observable<string[]> | undefined;
+  // myControl = new FormControl('');
+  // options: string[] = [];
+  // filteredOptions: Observable<string[]> | undefined;
   constructor(
-    private dropService: DropService,
-    private toast: HotToastService,
-    private dialogRef: MatDialogRef<NewDropComponent>,
-    @Inject(MAT_DIALOG_DATA) public editData: any,
-    private datePipe: DatePipe,
-    private campaignService: CampaignService
+    // private dropService: DropService,
+    // private toast: HotToastService,
+    //private dialogRef: MatDialogRef<NewDropComponent>,
+    @Inject(MAT_DIALOG_DATA) public editDropData: any // private datePipe: DatePipe, // private campaignService: CampaignService
   ) {
     // dropService.getAllDrops();
-    this.options = campaignService.getAllCampaignsNames();
+    // this.options = campaignService.getAllCampaignsNames();
   }
   // isDropCompleted = false;
   // isLastDrop = false;
   // isSeededReceived = false;
-  actionButton: string = 'Save';
-  dropForm = new FormGroup({
+  // actionButton: string = 'Save';
+  dropDetailForm = new FormGroup({
     campaignName: new FormControl({ disable: true }),
     dropDate: new FormControl({ disable: true }),
     dropNumber: new FormControl({ disable: true }),
@@ -45,27 +43,38 @@ export class DropDetalComponent implements OnInit {
     nextAvailableDates: new FormControl({ disable: true }),
   });
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
+  private _filter(value: string) {
+    //: string[] {
+    // const filterValue = value.toLowerCase();
+    // return this.options.filter((option) =>
+    //   option.toLowerCase().includes(filterValue)
+    // );
   }
 
   ngOnInit(): void {
-    this.dropForm.controls['campaignName'].setValue(this.editData.campaignName);
-    this.dropForm.controls['dropDate'].setValue(this.editData.dropDate);
-    this.dropForm.controls['dropNumber'].setValue(this.editData.dropNumber);
-    this.dropForm.controls['dropVolume'].setValue(this.editData.dropVolume);
-    this.dropForm.controls['isLastDrop'].setValue(this.editData.isLastDrop);
-    this.dropForm.controls['isDropCompleted'].setValue(
-      this.editData.isDropCompleted
+    this.dropDetailForm.controls['campaignName'].setValue(
+      this.editDropData.campaignName
     );
-    this.dropForm.controls['isSeededReceived'].setValue(
-      this.editData.isSeededReceived
+    this.dropDetailForm.controls['dropDate'].setValue(
+      this.editDropData.dropDate
     );
-    this.dropForm.controls['nextAvailableDates'].setValue(
-      this.editData.nextAvailableDates
+    this.dropDetailForm.controls['dropNumber'].setValue(
+      this.editDropData.dropNumber
+    );
+    this.dropDetailForm.controls['dropVolume'].setValue(
+      this.editDropData.dropVolume
+    );
+    this.dropDetailForm.controls['isLastDrop'].setValue(
+      this.editDropData.isLastDrop
+    );
+    this.dropDetailForm.controls['isDropCompleted'].setValue(
+      this.editDropData.isDropCompleted
+    );
+    this.dropDetailForm.controls['isSeededReceived'].setValue(
+      this.editDropData.isSeededReceived
+    );
+    this.dropDetailForm.controls['nextAvailableDates'].setValue(
+      this.editDropData.nextAvailableDates
     );
   }
 }

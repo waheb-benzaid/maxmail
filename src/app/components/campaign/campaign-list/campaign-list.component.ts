@@ -94,7 +94,9 @@ export class CampaignListComponent implements OnInit, OnDestroy {
       'borderless-dialog'
     );
   }
+
   campaignsSubscription!: Subscription;
+
   getAllCampaigns() {
     // return
     this.campaignsSubscription = this.campaignService
@@ -171,11 +173,9 @@ export class CampaignListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.campaignsSubscription.unsubscribe();
-
     if (this.campaignByIdSubscription) {
       this.campaignByIdSubscription.unsubscribe();
     }
-
     if (this.campaignDeletedSubscription) {
       this.campaignDeletedSubscription.unsubscribe();
     }

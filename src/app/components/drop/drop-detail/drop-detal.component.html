@@ -1,7 +1,7 @@
 <div class="form-container mat-elevation-z5">
   <h1 mat-dialog-title>Drop Detail</h1>
   <div class="mat-dialog-content">
-    <form [formGroup]="dropForm">
+    <form [formGroup]="dropDetailForm">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Campaign</mat-label>
         <input
@@ -14,12 +14,7 @@
           readonly="true"
         />
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option
-            *ngFor="let option of filteredOptions | async"
-            [value]="option"
-          >
-            {{ option }}
-          </mat-option>
+          <!--  -->
         </mat-autocomplete>
       </mat-form-field>
       <!-- -------------------------------------------- -->
@@ -60,7 +55,7 @@
         <p>
           <mat-checkbox
             formControlName="isDropCompleted"
-            [checked]="this.editData.isDropCompleted"
+            [checked]="this.editDropData.isDropCompleted"
             [disableRipple]="true"
             >Is Drop Completed</mat-checkbox
           >
@@ -68,7 +63,7 @@
         <p>
           <mat-checkbox
             formControlName="isLastDrop"
-            [checked]="this.editData.isLastDrop"
+            [checked]="this.editDropData.isLastDrop"
             [disableRipple]="true"
             >Is Last Drop</mat-checkbox
           >
@@ -76,7 +71,7 @@
         <p>
           <mat-checkbox
             formControlName="isSeededReceived"
-            [checked]="this.editData.isSeededReceived"
+            [checked]="this.editDropData.isSeededReceived"
             [disableRipple]="true"
             >Is Seeded Received</mat-checkbox
           >

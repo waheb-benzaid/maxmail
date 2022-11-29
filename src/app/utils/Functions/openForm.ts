@@ -5,7 +5,7 @@ export function openForms(
   component: any,
   width: string,
   height?: string,
-  data?: string,
+  data?: any,
   componentPanelClass?: string
 ) {
   dialog.open(component, {

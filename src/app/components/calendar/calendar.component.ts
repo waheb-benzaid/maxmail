@@ -82,7 +82,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     private datePipe: DatePipe,
     public dialog: MatDialog
   ) {}
-
+  isDetailDialog = false;
   volumeDatesList: VolumeDates[] = [];
   getVolume(date: Date): number {
     const _date = formatDate(date, this.datePipe);
@@ -250,14 +250,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   handleEvent(_action: string, event: MaxmailCalendarEvent): void {
-    // this.modalData = { event, action };
-    // this.modal.open(this.modalContent, { size: 'lg' });
-    let dropObject: any = {
-      // accountName: event.accountName,
-      // campaignId: event.campaignId,
-      // campaignName: event.accountName,
-      // campaignStatus: event.campaignStatus,
-      // campaignType: event.campaignType,
+    const dropObject: any = {
+      campaignName: event.campaignName,
       dropName: event.dropName,
       dropDate: event.dropDate,
       dropNumber: event.dropNumber!,
@@ -267,10 +261,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
       isSeededReceived: event.isSeededReceived,
       nextAvailableDates: undefined,
     };
+
     openForms(
       this.dialog,
       DropDetalComponent,
-      '30%',
+      '40%',
+      '',
       dropObject,
       'borderless-dialog'
     );
