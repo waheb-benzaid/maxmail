@@ -123,7 +123,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
 
   actionButton: string = 'Save';
   campaignForm = new FormGroup({
-    campaignName: new FormControl('', Validators.required),
     firstDropDate: new FormControl('', Validators.required),
     campaignStatus: new FormControl('', Validators.required),
     campaignType: new FormControl('', Validators.required),
@@ -158,9 +157,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
 
     if (this.editData) {
       this.actionButton = 'Edit';
-      this.campaignForm.controls['campaignName'].setValue(
-        this.editData.campaignName
-      );
+
       this.campaignForm.controls['firstDropDate'].setValue(
         this.editData.firstDropDate
       );
@@ -314,7 +311,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
       let objectToInsert = new Object() as Drop;
       let date = new Date();
-      objectToInsert.campaignName = campaignObject.campaignName;
       objectToInsert.accountName = campaignObject.accountName;
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = formatDate(dropDate, this.datePipe);
@@ -369,7 +365,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
       zipcodes.push(zip.zipNumber);
     });
     const {
-      campaignName,
       firstDropDate,
       campaignStatus,
       campaignType,
@@ -387,7 +382,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
     } = this.campaignForm.value;
 
     const dropFieldsfromCampaign = {
-      campaignName,
       firstDropDate,
       accountName,
       totalDropsNumber,
@@ -397,7 +391,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
     };
     this.createAutoDropsObject(dropFieldsfromCampaign as Campaign, false);
     const campaignObject = {
-      campaignName,
       campaignNumber: this.campaignNumber === 0 ? 1 : this.campaignNumber + 1,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
@@ -428,7 +421,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
       //   return;
       // }
       const { firstDropDate } = this.campaignForm.value;
-      const { campaignName } = this.campaignForm.value;
       let date = new Date(firstDropDate!);
       let day = getDay(date);
       let month = getMonth(date) + 1;
@@ -436,10 +428,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       let _firstDropDate = `${year}-${month}-${day}`;
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(_firstDropDate);
-      if (this.campaignNames.includes(campaignName!)) {
-        window.alert('this campaign name exist!');
-        return;
-      }
+
       if (isHiatusDate) {
         window.alert('date not available');
         return;

@@ -21,7 +21,6 @@ export class CampaignDetailComponent implements OnInit {
   }
   actionButton: string = 'Save';
   campaignDetail = new FormGroup({
-    campaignName: new FormControl({ disable: true }),
     firstDropDate: new FormControl({ disable: true }),
     campaignStatus: new FormControl({ disable: true }),
     campaignType: new FormControl({ disable: true }),
@@ -38,9 +37,6 @@ export class CampaignDetailComponent implements OnInit {
     attachments: new FormControl({ disable: true }),
   });
   ngOnInit(): void {
-    this.campaignDetail.controls['campaignName'].setValue(
-      this.editData.campaignName
-    );
     this.campaignDetail.controls['firstDropDate'].setValue(
       this.editData.firstDropDate
     );

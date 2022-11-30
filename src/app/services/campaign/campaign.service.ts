@@ -61,7 +61,7 @@ export class CampaignService {
     let names: string[] = [];
     this.getAllCampaigns().subscribe((campaigns) => {
       for (const campaign of <Campaign[]>campaigns) {
-        names.push(campaign.campaignName);
+        //names.push(campaign.campaignName);
       }
     });
     return names;
