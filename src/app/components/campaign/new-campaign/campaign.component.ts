@@ -33,6 +33,8 @@ import { drop } from 'lodash';
   providers: [DatePipe],
 })
 export class CampaignComponent implements OnInit, OnDestroy {
+  lastCreatedCampaign!: Subscription;
+  campaignNumber = 0;
   constructor(
     private campaignService: CampaignService,
     private toast: HotToastService,
@@ -46,11 +48,20 @@ export class CampaignComponent implements OnInit, OnDestroy {
     private dropVolumeDateService: DropvolumeDatesService //  private dropVolumeDateService: DropvolumeDatesService
   ) {
     this.campaignNames = this.campaignService.getAllCampaignsNames();
+    this.lastCreatedCampaign = this.campaignService
+      .getLastCreateedCampaignByNumber()
+      .subscribe((res) => {
+        if (res) {
+          res.map((data) => {
+            this.campaignNumber = data.payload.doc.data().campaignNumber;
+          });
+        }
+      });
   }
 
   ngOnDestroy(): void {
-    //this.volumeDateSubscription.unsubscribe();
     this.volumeSubscription.unsubscribe();
+    this.lastCreatedCampaign.unsubscribe();
   }
 
   addOnBlur = true;
@@ -316,9 +327,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       date = new Date(dropDate);
       let maxVolume: number =
         this.getVolume(date) + campaignObject.firstDropVolume;
-
       dropDatesArray.push(dropDate);
-
       if (campaignObject.campaignType === CampaignTypes.MAGAZINE) {
         date = new Date(date.setMonth(date.getMonth() + 3));
       } else {
@@ -389,6 +398,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
     this.createAutoDropsObject(dropFieldsfromCampaign as Campaign, false);
     const campaignObject = {
       campaignName,
+      campaignNumber: this.campaignNumber === 0 ? 1 : this.campaignNumber + 1,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
       campaignType,
@@ -406,6 +416,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       drops: this.drops,
       attachments,
       createdAt: '',
+      campaignTimestamp: '',
     };
     return campaignObject;
   }
@@ -434,6 +445,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
         return;
       }
       let createdAt = formatDate(new Date(), this.datePipe);
+
       this.campaignService
         .saveCampaign(this.getCampaignObject(), createdAt)
         .pipe(

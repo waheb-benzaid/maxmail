@@ -8,8 +8,11 @@ import {
   collectionData,
 } from '@angular/fire/firestore';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { from, Observable } from 'rxjs';
+import { from, Observable, timestamp } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
+import { query } from '@angular/animations';
+import { serverTimestamp, where } from 'firebase/firestore';
+import { orderBy } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -31,9 +34,8 @@ export class CampaignService {
 
   saveCampaign(campaignFields: Campaign, createdAt: any) {
     this.campaignId = this.afs.createId();
-    campaignFields.campaignID = this.campaignId;
     campaignFields.createdAt = createdAt;
-    //this.dropService.getCurrentCampaignID(id);
+    campaignFields.campaignTimestamp = serverTimestamp();
     return from(
       this.afs
         .collection('mail_campaign')
@@ -65,6 +67,20 @@ export class CampaignService {
       }
     });
     return names;
+  }
+
+  getLastCreatedCampaign() {
+    const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
+      ref.orderBy('createdAt', 'desc').limit(1)
+    );
+    return campaignRef.snapshotChanges();
+  }
+
+  getLastCreateedCampaignByNumber() {
+    const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
+      ref.orderBy('campaignNumber', 'desc').limit(1)
+    );
+    return campaignRef.snapshotChanges();
   }
 
   updateCampaign(id: string, dataToUpdate: any) {

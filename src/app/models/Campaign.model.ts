@@ -3,6 +3,7 @@ import { ZipCode } from './Zipcode.model';
 
 export interface Campaign {
   campaignID?: any;
+  campaignNumber: number;
   campaignName: any;
   firstDropDate: any;
   campaignStatus: any;
@@ -21,4 +22,5 @@ export interface Campaign {
   drops: Drop[];
   attachments: any;
   createdAt: any;
+  campaignTimestamp: any;
 }
