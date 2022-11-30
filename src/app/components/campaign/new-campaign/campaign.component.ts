@@ -24,6 +24,7 @@ import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
 import { CampaignStatus } from 'src/app/utils/Enums/Campaign Enums/CampaignStatus';
 import { CampaignTypes } from 'src/app/utils/Enums/Campaign Enums/CampaignType';
+import { drop } from 'lodash';
 
 @Component({
   selector: 'app-campaign',
@@ -49,6 +50,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     //this.volumeDateSubscription.unsubscribe();
+    this.volumeSubscription.unsubscribe();
   }
 
   addOnBlur = true;
@@ -128,11 +130,20 @@ export class CampaignComponent implements OnInit, OnDestroy {
     attachments: new FormControl(''),
   });
 
+  volumeSubscription!: Subscription;
+  volumeDatesList: VolumeDates[] = [];
   ngOnInit(): void {
     // this.dropVolumeDateService.getAllVolumeDate().subscribe((res) => {
     //   console.log(res, 'res from ng on init');
     //   console.log(res.payload.exists, 'data');
     // });
+    this.volumeSubscription = this.dropVolumeDateService
+      .getAllVolumeDate()
+      .subscribe((res) => {
+        res.forEach((vd) => {
+          this.volumeDatesList.push(vd);
+        });
+      });
 
     if (this.editData) {
       this.actionButton = 'Edit';
@@ -230,19 +241,20 @@ export class CampaignComponent implements OnInit, OnDestroy {
     return this.campaignForm.get('zipcodes');
   }
 
-  public volumeDate: number = 0;
-  public volumeDateSubscription!: Subscription;
-
-  globaleDropVolume = 0;
-  async getDropVolume(date_: string) {
-    this.globaleDropVolume = 0;
-
-    const dateFormatted = formatDate(date_, this.datePipe);
-    let date = dateFormatted?.toString();
-    const volumneDate$ = this.dropVolumeDateService.getVolumeDateByID(date!);
-    const volumeDate = await firstValueFrom(volumneDate$);
-
-    this.globaleDropVolume = volumeDate.volume[0];
+  getVolume(date: Date): number {
+    const _date = formatDate(date, this.datePipe);
+    let volumeDate: VolumeDates[] = [];
+    volumeDate = this.volumeDatesList.filter((vd) => {
+      return vd.date === _date;
+    });
+    if (volumeDate.length > 0) {
+      let volumeArray: number[] = volumeDate[0].volume;
+      const volume = volumeArray.reduce((a, b) => {
+        return a + b;
+      }, 0);
+      return volume;
+    }
+    return 0;
   }
 
   async saveOrUpdateVolumeDate(
@@ -289,22 +301,24 @@ export class CampaignComponent implements OnInit, OnDestroy {
     let dropDate = `${year}-${month}-${day}`;
     let dropDatesArray: any[] = [];
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
-      this.getDropVolume(dropDate);
       let objectToInsert = new Object() as Drop;
       let date = new Date();
       objectToInsert.campaignName = campaignObject.campaignName;
       objectToInsert.accountName = campaignObject.accountName;
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = formatDate(dropDate, this.datePipe);
-
       objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
       objectToInsert.dropVolume = campaignObject.firstDropVolume;
       objectToInsert.isDropCompleted = false;
       objectToInsert.isLastDrop = false;
       objectToInsert.isSeededReceived = false;
       this.drops.push(objectToInsert);
-      dropDatesArray.push(dropDate);
       date = new Date(dropDate);
+      let maxVolume: number =
+        this.getVolume(date) + campaignObject.firstDropVolume;
+
+      dropDatesArray.push(dropDate);
+
       if (campaignObject.campaignType === CampaignTypes.MAGAZINE) {
         date = new Date(date.setMonth(date.getMonth() + 3));
       } else {
@@ -317,7 +331,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       dropDate = formatDate(dropDate, this.datePipe) || '';
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
-      while (isHiatusDate) {
+      while (isHiatusDate || maxVolume >= 50000) {
         date = new Date(date.setDate(date.getDate() + 1));
         day = getDay(date);
         month = getMonth(date) + 1;
@@ -325,6 +339,8 @@ export class CampaignComponent implements OnInit, OnDestroy {
         dropDate = `${year}-${month}-${day}`;
         isHiatusDate =
           this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
+        maxVolume =
+          this.getVolume(new Date(dropDate)) + campaignObject.firstDropVolume;
       }
       dropDate = `${year}-${month}-${day}`;
     }
