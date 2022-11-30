@@ -10,9 +10,7 @@ import {
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { from, Observable, timestamp } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
-import { query } from '@angular/animations';
 import { serverTimestamp, where } from 'firebase/firestore';
-import { orderBy } from 'lodash';
 
 @Injectable({
   providedIn: 'root',

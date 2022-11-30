@@ -70,11 +70,15 @@ th {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  /* font-size: 16px; */
+  font-size: large;
   color: #587cfb;
   background-color: #e8f3ff;
 }
-
+.column-header {
+  font-size: large;
+  color: black;
+}
 .suspended {
   width: 92px;
   height: 24px;
@@ -83,7 +87,7 @@ th {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: large;
   line-height: 24px;
   /* identical to box height */
   color: #ffb59d;
@@ -98,7 +102,7 @@ th {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: large;
   line-height: 24px;
   color: #ffda58;
 }
@@ -111,7 +115,7 @@ th {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: large;
   line-height: 24px;
   /* identical to box height */
   color: #88e0a8;
@@ -129,7 +133,8 @@ td .mat-cell {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: large;
+  color: #000000;
   line-height: 24px;
   /* identical to box height */
   color: #343744;

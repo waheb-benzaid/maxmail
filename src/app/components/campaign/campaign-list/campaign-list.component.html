@@ -71,7 +71,7 @@
         (matSortChange)="announceSortChange($event)"
       >
         <!-- Campaign Name Column -->
-        <ng-container matColumnDef="campaignName">
+        <ng-container matColumnDef="campaignName" class="column-header">
           <th
             mat-header-cell
             *matHeaderCellDef
@@ -80,11 +80,21 @@
           >
             Mail Campaign Name
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.campaignName }}</td>
+          <td mat-cell *matCellDef="let row">
+            <br />
+            <span style="color: black; font-size: large">{{
+              "00" + row.campaignNumber
+            }}</span>
+            <br />
+            <span style="color: gray">{{ row.accountName }}</span>
+
+            <br />
+            <span style="color: gray">{{ row.contactName }}</span>
+          </td>
         </ng-container>
 
         <!-- Campaign Status Column -->
-        <ng-container matColumnDef="campaignStatus">
+        <ng-container matColumnDef="campaignStatus" class="column-header">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
           <td class="campaign-status" mat-cell *matCellDef="let row">
             <span *ngIf="row.campaignStatus == 'Active'">
@@ -115,26 +125,30 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Campaign Type
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.campaignType }}</td>
+          <td mat-cell *matCellDef="let row">
+            <span style="font-size: large"> {{ row.campaignType }}</span>
+          </td>
         </ng-container>
 
         <!-- Drops Number by campaign -->
-        <ng-container matColumnDef="totalDropsNumber">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Drops Number
-          </th>
-          <td mat-cell *matCellDef="let row">{{ row.totalDropsNumber }}</td>
+        <ng-container matColumnDef="totalDropsNumber" class="column-header">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Drops Count</th>
+          <td mat-cell *matCellDef="let row">
+            <span style="font-size: large; text-align: center">
+              {{ row.totalDropsNumber }}</span
+            >
+          </td>
         </ng-container>
 
         <!-- Campaign Date Column -->
-        <ng-container matColumnDef="campaignDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Created Date
-          </th>
-          <td mat-cell *matCellDef="let row">{{ row.createdAt }}</td>
+        <ng-container matColumnDef="campaignDate" class="column-header">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Created On</th>
+          <td mat-cell *matCellDef="let row">
+            <span style="font-size: large">{{ row.createdAt }}</span>
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="action">
+        <ng-container matColumnDef="action" class="column-header">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
           <td mat-cell *matCellDef="let row">
             <button mat-icon-button color="primary" (click)="editCampaign(row)">
