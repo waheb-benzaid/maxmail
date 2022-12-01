@@ -79,7 +79,19 @@
           >
             Drop Name
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.dropName }}</td>
+          <td mat-cell *matCellDef="let row">
+            <br />
+            <span style="color: black; font-size: large"
+              >Drop {{ row.dropNumber }}</span
+            >
+
+            <br />
+            <span style="color: gray">{{ row.accountName }}</span>
+
+            <br />
+            <span style="color: gray">{{ row.contactName }}</span>
+            <br />
+          </td>
         </ng-container>
         <!-- Campaign Status Column -->
         <ng-container matColumnDef="campaignStatus">
@@ -113,7 +125,9 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Campaign Type
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.campaignType }}</td>
+          <td mat-cell *matCellDef="let row">
+            <span style="font-size: large"> {{ row.campaignType }}</span>
+          </td>
         </ng-container>
 
         <!-- Drop Volume -->
@@ -121,7 +135,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Drops Volume
           </th>
-          <td mat-cell *matCellDef="let row">
+          <td mat-cell *matCellDef="let row" style="font-size: large">
             {{ row.dropVolume }}
           </td>
         </ng-container>
