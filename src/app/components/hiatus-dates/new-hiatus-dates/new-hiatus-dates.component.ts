@@ -64,8 +64,8 @@ export class NewHiatusDatesComponent implements OnInit {
       hiatusDateDescription: this.setHiatusDatesObject().hiatusDateDescription,
       hiatusDate: _hiatusDate,
     };
-
     if (
+      //FIXME:
       this.hiatusDateService.hiatusDatesArray.includes(
         hiatusDatesObject.hiatusDate
       )
@@ -96,7 +96,6 @@ export class NewHiatusDatesComponent implements OnInit {
       .subscribe(() => {
         this.hiatusDatesForm.reset();
         this.dialogRef.close('save');
-        window.location.reload();
       });
   }
 }

@@ -23,14 +23,10 @@ export class HiatusDatesService {
   }
 
   getHiatusDates() {
-    const hiatus_dates = collection(this.firestoreDB, 'hiatus_dates');
-    let hiatusDatesData = collectionData(hiatus_dates, {}) as Observable<
-      HiatusDate[]
-    >;
-    hiatusDatesData.subscribe((res) => {
-      for (let index = 0; index < res.length; index++) {
-        this.hiatusDatesArray.push(res[index].hiatusDate);
-      }
-    });
+    return from(
+      collectionData(collection(this.firestoreDB, 'hiatus_dates'), {
+        idField: 'id',
+      }) as Observable<HiatusDate[]>
+    );
   }
 }

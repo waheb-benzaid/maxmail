@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
 import { openForms } from 'src/app/utils/Functions/openForm';
@@ -14,7 +15,9 @@ import { NewHiatusDatesComponent } from '../new-hiatus-dates/new-hiatus-dates.co
   styleUrls: ['./hiatus-dates-list.component.css'],
 })
 export class HiatusDatesListComponent implements OnInit {
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getHiatusDates();
+  }
   isDetailDialog = false;
   displayedColumns: string[] = [
     'hiatusDate',
@@ -48,7 +51,16 @@ export class HiatusDatesListComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
+  hiatusDateSubscription!: Subscription;
+  getHiatusDates() {
+    this.hiatusDateSubscription = this.hiatusDateService
+      .getHiatusDates()
+      .subscribe((res) => {
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.sort = this.sort;
+        this.ngOnInit();
+      });
+  }
   openHiatusDateDialog(data?: string, width: string = '30%') {
     openForms(
       this.dialog,
