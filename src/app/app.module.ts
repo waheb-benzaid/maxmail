@@ -68,6 +68,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { NewZipcodeComponent } from './components/zipcodes-lookup/new-zipcode/new-zipcode.component';
 import { DropvolumeDatesService } from './services/dropvolume-dates/dropvolume-dates.service';
+import { CampaignStatusesComponent } from './components/dashboard/campaign-statuses/campaign-statuses.component';
+import { TodaysDropsComponent } from './components/dashboard/todays-drops/todays-drops.component';
+import { MostRecentDropsComponent } from './components/dashboard/most-recent-drops/most-recent-drops.component';
+import { UpCommingDropsComponent } from './components/dashboard/up-comming-drops/up-comming-drops.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +96,10 @@ import { DropvolumeDatesService } from './services/dropvolume-dates/dropvolume-d
     CalendarComponent,
     FileUploadLibraryComponent,
     NewZipcodeComponent,
+    CampaignStatusesComponent,
+    TodaysDropsComponent,
+    MostRecentDropsComponent,
+    UpCommingDropsComponent,
   ],
   imports: [
     BrowserModule,
