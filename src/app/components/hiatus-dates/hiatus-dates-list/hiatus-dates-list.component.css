@@ -42,3 +42,22 @@ th {
   margin: 0 auto;
   padding-top: 10px;
 }
+
+.table-container {
+  overflow-y: auto;
+  height: 800px;
+  white-space: nowrap;
+  width: 1000px;
+  margin: 15%;
+}
+
+.mat-cell,
+.mat-header-cell {
+  word-wrap: initial;
+  display: table-cell;
+}
+
+.mat-row,
+.mat-header-row {
+  display: table-row;
+}

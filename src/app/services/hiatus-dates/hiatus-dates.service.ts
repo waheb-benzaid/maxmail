@@ -17,8 +17,9 @@ export class HiatusDatesService {
   }
 
   saveHiatusDate(hiatusDateFields: HiatusDate) {
+    const id = hiatusDateFields.hiatusDate;
     return from(
-      this.afs.collection('hiatus_dates').doc().set(hiatusDateFields)
+      this.afs.collection('hiatus_dates').doc(id).set(hiatusDateFields)
     );
   }
 
@@ -28,5 +29,12 @@ export class HiatusDatesService {
         idField: 'id',
       }) as Observable<HiatusDate[]>
     );
+  }
+
+  getHiatusDateByID(id: string) {
+    return this.afs
+      .collection('hiatus_dates')
+      .doc(id)
+      .valueChanges() as Observable<HiatusDate>;
   }
 }

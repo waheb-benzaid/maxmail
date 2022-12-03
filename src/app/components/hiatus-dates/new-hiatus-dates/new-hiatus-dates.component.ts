@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { ThisReceiver } from '@angular/compiler';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HotToastService } from '@ngneat/hot-toast';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { Drop } from 'src/app/models/Drop.model';
 import { HiatusDate } from 'src/app/models/HiatusDates.model';
 import { DropService } from 'src/app/services/drop/drop.service';
@@ -16,7 +17,7 @@ import { LoginComponent } from '../../login/login.component';
   templateUrl: './new-hiatus-dates.component.html',
   styleUrls: ['./new-hiatus-dates.component.css'],
 })
-export class NewHiatusDatesComponent implements OnInit {
+export class NewHiatusDatesComponent implements OnInit, OnDestroy {
   constructor(
     private hiatusDateService: HiatusDatesService,
     private toast: HotToastService,
@@ -27,12 +28,16 @@ export class NewHiatusDatesComponent implements OnInit {
   ) {
     this.dropService.isDropDateHiatus();
   }
+  ngOnDestroy(): void {
+    this.hiatusDateExsistsSubscription.unsubscribe();
+  }
   actionButton: string = 'Save';
   hiatusDatesForm = new FormGroup({
     hiatusDateDescription: new FormControl('', Validators.required),
     hiatusDate: new FormControl('', Validators.required),
   });
-
+  hiatusDateExsists: boolean = false;
+  hiatusDateExsistsSubscription!: Subscription;
   ngOnInit(): void {}
 
   get hiatusDateDescription() {
@@ -43,44 +48,27 @@ export class NewHiatusDatesComponent implements OnInit {
     return this.hiatusDatesForm.get('hiatusDate');
   }
 
-  setHiatusDatesObject(): HiatusDate {
-    const { hiatusDateDescription, hiatusDate } = this.hiatusDatesForm.value;
-    return {
-      hiatusDateDescription,
-      hiatusDate: formatDate(hiatusDate, this.datePipe),
-    };
-  }
-
-  addHiatusDate() {
+  async addHiatusDate() {
     if (!this.hiatusDatesForm.valid) {
       window.alert('fields are not valid! please confirm before saving');
       return;
     }
 
-    let _hiatusDate = '';
-    _hiatusDate = this.setHiatusDatesObject().hiatusDate;
-    _hiatusDate = _hiatusDate.replace(/-0+/g, '-');
     const hiatusDatesObject = {
-      hiatusDateDescription: this.setHiatusDatesObject().hiatusDateDescription,
-      hiatusDate: _hiatusDate,
+      hiatusDateDescription: this.hiatusDatesForm.value.hiatusDateDescription,
+      hiatusDate: formatDate(
+        this.hiatusDatesForm.value.hiatusDate,
+        this.datePipe
+      ),
     };
-    if (
-      //FIXME:
-      this.hiatusDateService.hiatusDatesArray.includes(
-        hiatusDatesObject.hiatusDate
-      )
-    ) {
-      window.alert('this date exists yet');
-      return;
-    }
 
-    let array = this.dropService.isDropDateHiatus();
+    const hiatusDate$ = this.hiatusDateService.getHiatusDateByID(
+      hiatusDatesObject.hiatusDate!
+    );
 
-    if (array.includes(hiatusDatesObject.hiatusDate)) {
-      window.alert(
-        'it is not possible to create this hiatus date, there is one or more drops in this date'
-      );
-      array.length = 0;
+    const hiatusDate = await firstValueFrom(hiatusDate$);
+    if (hiatusDate) {
+      window.alert('hiatus date exists yet');
       return;
     }
 

@@ -166,17 +166,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
         objectToInsert.title = `${drop.accountName} : ${drop.dropVolume}`;
         objectToInsert.start = subDays(startOfDay(new Date(drop.dropDate)), 0);
         objectToInsert.allDay = true;
-        // objectToInsert.actions = this.actions;
-        // objectToInsert.totalVolume =
-        // objectToInsert.totalVolume + drop.dropVolume;
+
         objectToInsert.color = this.calendarDropsColors(
           campaign.campaignStatus
         );
-        // objectToInsert.accountName = drop.accountName;
         objectToInsert.campaignName = drop.campaignName;
-        // objectToInsert.campaignStatus = drop.campaignStatus;
         objectToInsert.dropNumber = drop.dropNumber;
-        // objectToInsert.campaignType = drop.campaignType;
         objectToInsert.dropDate = drop.dropDate;
         objectToInsert.dropVolume = drop.dropVolume;
         objectToInsert.isDropCompleted = drop.isDropCompleted;
