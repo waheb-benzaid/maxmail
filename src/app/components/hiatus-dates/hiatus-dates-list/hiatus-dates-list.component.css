@@ -1,26 +1,3 @@
-table {
-  width: 100%;
-}
-
-.container .page-title {
-  font-family: "Poppins";
-  font-style: italic;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 36px;
-  color: #000000;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin: 40px 0 40px 0;
-}
-
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
-  margin-left: 20px;
-}
-
 td,
 th {
   width: 23%;
@@ -35,20 +12,37 @@ th {
   text-align: right;
   margin-right: 20px;
   margin-top: 20px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #343744;
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 900px;
   margin: 0 auto;
-  padding-top: 10px;
+  padding-top: 1px;
+}
+
+.container .page-title {
+  font-family: "Poppins";
+  font-style: italic;
+  font-weight: 600;
+  font-size: large;
+  line-height: 36px;
+  color: #000000;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 40px 0 40px 0;
 }
 
 .table-container {
   overflow-y: auto;
-  height: 800px;
+  height: 600px;
   white-space: nowrap;
-  width: 1000px;
-  margin: 15%;
 }
 
 .mat-cell,
@@ -60,4 +54,31 @@ th {
 .mat-row,
 .mat-header-row {
   display: table-row;
+}
+
+.column-header {
+  font-size: large;
+  color: black;
+}
+
+td .mat-cell {
+  max-width: 100px;
+}
+
+.mat-column {
+  width: 100px;
+}
+
+.mat-header-cell {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: large;
+  line-height: 24px;
+  color: #343744;
+  z-index: 5000;
+}
+
+.table-container th {
+  width: 60%;
 }
