@@ -10,7 +10,6 @@ import { HiatusDate } from 'src/app/models/HiatusDates.model';
 import { DropService } from 'src/app/services/drop/drop.service';
 import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
 import { formatDate } from 'src/app/utils/Functions/format-date';
-import { LoginComponent } from '../../login/login.component';
 
 @Component({
   selector: 'app-new-hiatus-dates',
@@ -29,7 +28,9 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
     this.dropService.isDropDateHiatus();
   }
   ngOnDestroy(): void {
-    this.hiatusDateExsistsSubscription.unsubscribe();
+    if (this.hiatusDateSubscription) {
+      this.hiatusDateSubscription.unsubscribe();
+    }
   }
   actionButton: string = 'Save';
   hiatusDatesForm = new FormGroup({
@@ -37,7 +38,7 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
     hiatusDate: new FormControl('', Validators.required),
   });
   hiatusDateExsists: boolean = false;
-  hiatusDateExsistsSubscription!: Subscription;
+  hiatusDateSubscription!: Subscription;
   ngOnInit(): void {}
 
   get hiatusDateDescription() {
@@ -54,6 +55,18 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const hiatusDate$ = this.hiatusDateService.getHiatusDateByID(
+      formatDate(this.hiatusDatesForm.value.hiatusDate, this.datePipe)!
+    );
+
+    const hiatusDate = await firstValueFrom(hiatusDate$);
+    this.toast.loading('saving');
+    this.toast.close();
+    if (hiatusDate) {
+      window.alert('hiatus date exists yet');
+      return;
+    }
+
     const hiatusDatesObject = {
       hiatusDateDescription: this.hiatusDatesForm.value.hiatusDateDescription,
       hiatusDate: formatDate(
@@ -62,17 +75,7 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
       ),
     };
 
-    const hiatusDate$ = this.hiatusDateService.getHiatusDateByID(
-      hiatusDatesObject.hiatusDate!
-    );
-
-    const hiatusDate = await firstValueFrom(hiatusDate$);
-    if (hiatusDate) {
-      window.alert('hiatus date exists yet');
-      return;
-    }
-
-    this.hiatusDateService
+    this.hiatusDateSubscription = this.hiatusDateService
       .saveHiatusDate(hiatusDatesObject)
       .pipe(
         this.toast.observe({
