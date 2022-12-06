@@ -48,14 +48,14 @@
           </td>
         </ng-container>
 
-        <ng-container
-          matColumnDef="action"
-          class="column-header"
-          style="width: 10px"
-        >
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+        <ng-container matColumnDef="action" class="column-header">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button color="primary" (click)="editCampaign(row)">
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="editHiatusDate(row)"
+            >
               <mat-icon>edit</mat-icon>
             </button>
             <button

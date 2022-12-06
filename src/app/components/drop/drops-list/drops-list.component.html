@@ -94,25 +94,25 @@
           </td>
         </ng-container>
         <!-- Campaign Status Column -->
-        <ng-container matColumnDef="campaignStatus">
+        <ng-container matColumnDef="campaignStatus" class="column-header">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
           <td class="campaign-status" mat-cell *matCellDef="let row">
-            <span *ngIf="row.campaignStatus == 'active'">
+            <span *ngIf="row.campaignStatus == 'Active'">
               <span class="active">
                 {{ row.campaignStatus }}
               </span>
             </span>
-            <span *ngIf="row.campaignStatus == 'suspended'">
+            <span *ngIf="row.campaignStatus == 'Suspended'">
               <span class="suspended">
                 {{ row.campaignStatus }}
               </span>
             </span>
-            <span *ngIf="row.campaignStatus == 'cancelled'">
+            <span *ngIf="row.campaignStatus == 'Cancelled'">
               <span class="cancelled">
                 {{ row.campaignStatus }}
               </span>
             </span>
-            <span *ngIf="row.campaignStatus == 'completed'">
+            <span *ngIf="row.campaignStatus == 'Completed'">
               <span class="completed">
                 {{ row.campaignStatus }}
               </span>

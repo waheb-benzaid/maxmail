@@ -27,19 +27,28 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
   ) {
     this.dropService.isDropDateHiatus();
   }
+
+  actionButton: string = 'Save';
+
+  ngOnInit(): void {
+    if (this.editData) {
+      this.actionButton = 'Edit';
+    }
+  }
+
   ngOnDestroy(): void {
     if (this.hiatusDateSubscription) {
       this.hiatusDateSubscription.unsubscribe();
     }
   }
-  actionButton: string = 'Save';
+
   hiatusDatesForm = new FormGroup({
     hiatusDateDescription: new FormControl('', Validators.required),
     hiatusDate: new FormControl('', Validators.required),
   });
+
   hiatusDateExsists: boolean = false;
   hiatusDateSubscription!: Subscription;
-  ngOnInit(): void {}
 
   get hiatusDateDescription() {
     return this.hiatusDatesForm.get('dateDescription');
@@ -50,43 +59,49 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
   }
 
   async addHiatusDate() {
-    if (!this.hiatusDatesForm.valid) {
-      window.alert('fields are not valid! please confirm before saving');
-      return;
+    if (!this.editData) {
+      if (!this.hiatusDatesForm.valid) {
+        window.alert('fields are not valid! please confirm before saving');
+        return;
+      }
+      const hiatusDate$ = this.hiatusDateService.getHiatusDateByID(
+        formatDate(this.hiatusDatesForm.value.hiatusDate, this.datePipe)!
+      );
+      const hiatusDate = await firstValueFrom(hiatusDate$);
+      this.toast.loading('saving');
+      this.toast.close();
+      if (hiatusDate) {
+        window.alert('hiatus date exists yet');
+        return;
+      }
+      const hiatusDatesObject = {
+        hiatusDateDescription: this.hiatusDatesForm.value.hiatusDateDescription,
+        hiatusDate: formatDate(
+          this.hiatusDatesForm.value.hiatusDate,
+          this.datePipe
+        ),
+      };
+      this.hiatusDateSubscription = this.hiatusDateService
+        .saveHiatusDate(hiatusDatesObject)
+        .pipe(
+          this.toast.observe({
+            success: 'Hiatus date saved successfuly',
+            loading: 'Saving ...',
+            error: ({ message }) => `${message}`,
+          })
+        )
+        .subscribe(() => {
+          this.hiatusDatesForm.reset();
+          this.dialogRef.close('save');
+        });
+    } else {
+      console.log('hi');
+
+      this.updateHiatusDate();
     }
-
-    const hiatusDate$ = this.hiatusDateService.getHiatusDateByID(
-      formatDate(this.hiatusDatesForm.value.hiatusDate, this.datePipe)!
-    );
-
-    const hiatusDate = await firstValueFrom(hiatusDate$);
-    this.toast.loading('saving');
-    this.toast.close();
-    if (hiatusDate) {
-      window.alert('hiatus date exists yet');
-      return;
-    }
-
-    const hiatusDatesObject = {
-      hiatusDateDescription: this.hiatusDatesForm.value.hiatusDateDescription,
-      hiatusDate: formatDate(
-        this.hiatusDatesForm.value.hiatusDate,
-        this.datePipe
-      ),
-    };
-
-    this.hiatusDateSubscription = this.hiatusDateService
-      .saveHiatusDate(hiatusDatesObject)
-      .pipe(
-        this.toast.observe({
-          success: 'Hiatus date saved successfuly',
-          loading: 'Saving ...',
-          error: ({ message }) => `${message}`,
-        })
-      )
-      .subscribe(() => {
-        this.hiatusDatesForm.reset();
-        this.dialogRef.close('save');
-      });
   }
+
+  updateHiatusDate() {}
+
+  deleteHiatusDate() {}
 }
