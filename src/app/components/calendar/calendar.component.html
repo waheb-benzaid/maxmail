@@ -29,7 +29,7 @@
     </div>
   </div>
   <div class="col-md-4" style="margin-top: 50px; font-family: Roboto">
-    <h1>{{ viewDate | calendarDate: view + "ViewTitle":"en" }}</h1>
+    <h1>{{ viewDate | calendarDate : view + "ViewTitle" : "en" }}</h1>
   </div>
   <div class="col-md-4">
     <div class="btn-group" style="margin-top: 50px; font-family: Roboto">
@@ -61,10 +61,10 @@
 <ng-template #customCellTemplate let-day="day" let-locale="locale">
   <div class="cal-cell-top">
     <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">
-      {{ day.badgeTotal }}
+      Count : {{ day.badgeTotal }}
     </span>
     <span class="cal-day-number">{{
-      day.date | calendarDate: "monthViewDayNumber":locale
+      day.date | calendarDate : "monthViewDayNumber" : locale
     }}</span>
   </div>
   <span>
