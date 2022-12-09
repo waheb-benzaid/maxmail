@@ -1,4 +1,10 @@
 <div class="container">
+  <h1>Drop {{ editData.dropNumber }} : {{ dropDate }}</h1>
+  <h3>
+    {{ editData.accountName }}
+    {{ editData.contactName }}
+  </h3>
+
   <mat-divider></mat-divider>
   <form [formGroup]="dropDetail">
     <div class="main-form-div">
@@ -95,7 +101,7 @@
           <input
             matInput
             placeholder="Drop Number"
-            formControlName="dropName"
+            formControlName="dropNumber"
           />
         </mat-form-field>
         <!--------------------------------------------------  -->

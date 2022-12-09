@@ -27,6 +27,7 @@ export class DropDetalComponent implements OnInit {
     isDropCompleted: new FormControl({ disable: true }),
     attachments: new FormControl({ disable: true }),
   });
+  dropDate!: string;
   ngOnInit(): void {
     this.dropDetail.controls['dropDate'].setValue(this.editData.dropDate);
     this.dropDetail.controls['dropName'].setValue(this.editData.dropName);
@@ -54,7 +55,7 @@ export class DropDetalComponent implements OnInit {
     );
     this.dropDetail.controls['contactName'].setValue(this.editData.contactName);
     this.dropDetail.controls['accountName'].setValue(this.editData.accountName);
-
     this.dropDetail.controls['attachments'].setValue(this.editData.attachments);
+    this.dropDate = new Date(this.editData.dropDate).toLocaleDateString();
   }
 }
