@@ -1,83 +1,166 @@
-<form [formGroup]="dropDetailForm">
-  <h1>Drop Detail</h1>
-  <div class="main-form-div">
-    <div class="part-one">
-      <mat-form-field appearance="outline">
-        <mat-label>Campaign Name</mat-label>
-        <input
-          matInput
-          placeholder="Campaign Name"
-          formControlName="campaignName"
-        />
-      </mat-form-field>
-      <!----------------------------------------------------->
-      <mat-form-field appearance="outline">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-label>Drop Date</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          placeholder="Drop Date"
-          formControlName="dropDate"
-        />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker #picker> </mat-datepicker>
-      </mat-form-field>
-      <!------------------------------------------------------>
-      <mat-form-field appearance="outline">
-        <mat-label>Drop Volume</mat-label>
-        <input
-          matInput
-          type="number"
-          placeholder="Drop Volume"
-          formControlName="dropVolume"
-        />
-      </mat-form-field>
-      <!---############################################################################################################--->
-      <div class="checkbox" style="display: inline-block">
-        <p>
-          <mat-checkbox
-            formControlName="isDropCompleted"
-            [disableRipple]="true"
-          >
-            Drop Completed</mat-checkbox
-          >
-        </p>
-        <p>
-          <mat-checkbox formControlName="isLastDrop" [disableRipple]="true"
-            >Is Last Drop</mat-checkbox
-          >
-        </p>
-        <p>
-          <mat-checkbox
-            formControlName="isSeededReceived"
-            [disableRipple]="true"
-            >Seeded Received</mat-checkbox
-          >
-        </p>
+<div class="container">
+  <form [formGroup]="campaignDetail">
+    <div class="main-form-div">
+      <div class="part-one" style="margin-right: 40px">
+        <!----------------------------------------------------->
+        <mat-form-field appearance="outline">
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-label>Choose a date </mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            placeholder="First Drop Date"
+            formControlName="firstDropDate"
+          />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker #picker> </mat-datepicker>
+        </mat-form-field>
+        <!------------------------------------------------------>
+        <mat-form-field appearance="outline">
+          <mat-label>Campaign Status</mat-label>
+          <mat-select formControlName="campaignStatus">
+            <mat-option value="active">Active</mat-option>
+            <mat-option value="suspended">suspended</mat-option>
+            <mat-option value="cancelled">cancelled</mat-option>
+            <mat-option value="completed">completed</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!------------------------------------------------------>
+        <mat-form-field appearance="outline">
+          <mat-label>Campaign Type</mat-label>
+          <mat-select formControlName="campaignType">
+            <mat-option value="mailer">Mailer</mat-option>
+            <mat-option value="postcard">Postcard</mat-option>
+            <mat-option value="magazine">Magazine</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!------------------------------------------------------>
+        <mat-form-field appearance="outline">
+          <mat-label>First Drop Volume</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="First Drop Volume"
+            formControlName="firstDropVolume"
+          />
+        </mat-form-field>
+        <!------------------------------------------------------>
+        <mat-form-field appearance="outline">
+          <mat-label>Total number of Drops</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Total number of Drops"
+            formControlName="totalDropsNumber"
+          />
+        </mat-form-field>
+        <!-- ------------------------------------------ -->
+        <mat-form-field appearance="outline">
+          <mat-label>Total Campaign Volume</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Total Campaign Volume"
+            formControlName="totalCampaignVolume"
+          />
+        </mat-form-field>
       </div>
-      <mat-form-field appearance="outline">
-        <mat-label>Notes & Attachments </mat-label>
-        <button
-          mat-icon-button
-          color="primary"
-          style="position: absolute; right: 0; bottom: 19%"
-        >
-          <mat-icon matSuffix>upload</mat-icon>
-        </button>
-        <input
-          matInput
-          placeholder="Notes & Attachments"
-          formControlName="attachments"
-        />
-      </mat-form-field>
+      <!-- ############################################################################################################ -->
+      <div class="part-two">
+        <mat-form-field appearance="outline">
+          <mat-label>Mailer Size</mat-label>
+          <mat-select formControlName="mailerSize">
+            <mat-option value="8.5 x 17">8.5 x 17</mat-option>
+            <mat-option value="10 x 18">10 x 18</mat-option>
+            <mat-option value="5.5 x 8.5">5.5 x 8.5</mat-option>
+            <mat-option value="6 x 11">6 x 11</mat-option>
+            <mat-option value="8.5 x 14">8.5 x 14</mat-option>
+            <mat-option value="8.5 x 11">8.5 x 11</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Total Households</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Total Households"
+            formControlName="totalHouseholds"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Total Contract Amount</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Total Contract Amount"
+            formControlName="totalcontractAmount"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Print Order ID</mat-label>
+          <input
+            matInput
+            placeholder="Print Order ID"
+            formControlName="printOrderID"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Account Name</mat-label>
+          <input
+            matInput
+            placeholder="Account Name"
+            formControlName="accountName"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Owner Name</mat-label>
+          <input
+            matInput
+            placeholder="Owner Name"
+            formControlName="ownerName"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Name</mat-label>
+          <input
+            matInput
+            placeholder="Contact Name"
+            formControlName="contactName"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Notes & Attachments </mat-label>
+          <button
+            mat-icon-button
+            color="primary"
+            style="position: absolute; right: 0; bottom: 19%"
+          >
+            <mat-icon matSuffix>upload</mat-icon>
+          </button>
+          <input
+            matInput
+            placeholder="Notes & Attachments"
+            formControlName="attachments"
+          />
+        </mat-form-field>
+      </div>
+      <!-- ############################################################################################################ -->
+      <div>
+        <app-file-upload-library></app-file-upload-library>
+      </div>
+      <!-- ############################################################################################################ -->
     </div>
-    <!---############################################################################################################--->
-    <div class="part-two">
-      <app-file-upload-library></app-file-upload-library>
-    </div>
-    <!---############################################################################################################--->
-  </div>
+  </form>
   <div mat-dialog-actions align="end">
     <button
       class="close-button"
@@ -85,7 +168,7 @@
       color="warm"
       mat-dialog-close
     >
-      close
+      Close
     </button>
   </div>
-</form>
+</div>

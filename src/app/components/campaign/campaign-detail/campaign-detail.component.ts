@@ -17,7 +17,7 @@ export class CampaignDetailComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private datePipe: DatePipe
   ) {
-    campaignService.getAllCampaigns();
+    //campaignService.getAllCampaigns();
   }
   actionButton: string = 'Save';
   campaignDetail = new FormGroup({

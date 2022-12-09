@@ -1,14 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DropService } from 'src/app/services/drop/drop.service';
-import { HotToastService } from '@ngneat/hot-toast';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Drop } from 'src/app/models/Drop.model';
-import { formatDate } from '../../../utils/Functions/format-date';
-import { CampaignService } from 'src/app/services/campaign/campaign.service';
-import { map, Observable, startWith } from 'rxjs';
-import { NewDropComponent } from '../new-drop/new-drop.component';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-drop-detal',
@@ -16,57 +8,64 @@ import { NewDropComponent } from '../new-drop/new-drop.component';
   styleUrls: ['./drop-detal.component.css'],
 })
 export class DropDetalComponent implements OnInit {
-  // myControl = new FormControl('');
-  // options: string[] = [];
-  // filteredOptions: Observable<string[]> | undefined;
-  constructor(
-    // private dropService: DropService,
-    // private toast: HotToastService,
-    //private dialogRef: MatDialogRef<NewDropComponent>,
-    @Inject(MAT_DIALOG_DATA) public editDropData: any // private datePipe: DatePipe, // private campaignService: CampaignService
-  ) {
-    // dropService.getAllDrops();
-    // this.options = campaignService.getAllCampaignsNames();
-  }
-  // isDropCompleted = false;
-  // isLastDrop = false;
-  // isSeededReceived = false;
-  // actionButton: string = 'Save';
-  dropDetailForm = new FormGroup({
-    campaignName: new FormControl({ disable: true }),
-    dropDate: new FormControl({ disable: true }),
-    dropNumber: new FormControl({ disable: true }),
-    dropVolume: new FormControl({ disable: true }),
-    isLastDrop: new FormControl({ disable: true }),
-    isDropCompleted: new FormControl({ disable: true }),
-    isSeededReceived: new FormControl({ disable: true }),
-    nextAvailableDates: new FormControl({ disable: true }),
+  constructor(@Inject(MAT_DIALOG_DATA) public editData: any) {}
+  actionButton: string = 'Save';
+  campaignDetail = new FormGroup({
+    firstDropDate: new FormControl({ disable: true }),
+    campaignStatus: new FormControl({ disable: true }),
+    campaignType: new FormControl({ disable: true }),
+    firstDropVolume: new FormControl({ disable: true }),
+    totalCampaignVolume: new FormControl({ disable: true }),
+    totalDropsNumber: new FormControl({ disable: true }),
+    mailerSize: new FormControl({ disable: true }),
+    totalHouseholds: new FormControl({ disable: true }),
+    totalcontractAmount: new FormControl({ disable: true }),
+    printOrderID: new FormControl({ disable: true }),
+    accountName: new FormControl({ disable: true }),
+    ownerName: new FormControl({ disable: true }),
+    contactName: new FormControl({ disable: true }),
+    attachments: new FormControl({ disable: true }),
   });
-
   ngOnInit(): void {
-    this.dropDetailForm.controls['campaignName'].setValue(
-      this.editDropData.campaignName
+    this.campaignDetail.controls['firstDropDate'].setValue(
+      this.editData.firstDropDate
     );
-    this.dropDetailForm.controls['dropDate'].setValue(
-      this.editDropData.dropDate
+    this.campaignDetail.controls['campaignStatus'].setValue(
+      this.editData.campaignStatus
     );
-    this.dropDetailForm.controls['dropNumber'].setValue(
-      this.editDropData.dropNumber
+    this.campaignDetail.controls['campaignType'].setValue(
+      this.editData.campaignType
     );
-    this.dropDetailForm.controls['dropVolume'].setValue(
-      this.editDropData.dropVolume
+    this.campaignDetail.controls['firstDropVolume'].setValue(
+      this.editData.firstDropVolume
     );
-    this.dropDetailForm.controls['isLastDrop'].setValue(
-      this.editDropData.isLastDrop
+    this.campaignDetail.controls['totalCampaignVolume'].setValue(
+      this.editData.totalCampaignVolume
     );
-    this.dropDetailForm.controls['isDropCompleted'].setValue(
-      this.editDropData.isDropCompleted
+    this.campaignDetail.controls['totalDropsNumber'].setValue(
+      this.editData.totalDropsNumber
     );
-    this.dropDetailForm.controls['isSeededReceived'].setValue(
-      this.editDropData.isSeededReceived
+    this.campaignDetail.controls['mailerSize'].setValue(
+      this.editData.mailerSize
     );
-    this.dropDetailForm.controls['nextAvailableDates'].setValue(
-      this.editDropData.nextAvailableDates
+    this.campaignDetail.controls['totalHouseholds'].setValue(
+      this.editData.totalHouseholds
+    );
+    this.campaignDetail.controls['totalcontractAmount'].setValue(
+      this.editData.totalcontractAmount
+    );
+    this.campaignDetail.controls['printOrderID'].setValue(
+      this.editData.printOrderID
+    );
+    this.campaignDetail.controls['accountName'].setValue(
+      this.editData.accountName
+    );
+    this.campaignDetail.controls['ownerName'].setValue(this.editData.ownerName);
+    this.campaignDetail.controls['contactName'].setValue(
+      this.editData.contactName
+    );
+    this.campaignDetail.controls['attachments'].setValue(
+      this.editData.attachments
     );
   }
 }

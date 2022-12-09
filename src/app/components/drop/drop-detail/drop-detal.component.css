@@ -13,12 +13,14 @@
 
 .main-form-div {
   display: flex;
+  /* flex-direction: row; */
+  gap: 10px;
   background: whitesmoke;
   border-radius: 4px;
-  padding-top: 20px;
+  padding: 30px;
 }
 
-.action-button {
+.close-button {
   font-family: "Roboto";
   font-style: normal;
   font-weight: 500;
@@ -32,40 +34,4 @@
   width: 119px;
   height: 44px;
   border-radius: 10px;
-  margin-top: 40px;
-}
-
-.close-button {
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15.3647px;
-  line-height: 18px;
-  text-align: center;
-  text-transform: uppercase;
-  color: #798ba3;
-  background: #ffffff;
-  border: 1px solid #0177fd;
-  width: 119px;
-  height: 44px;
-  border-radius: 10px;
-  margin-top: 40px;
-}
-
-/* .action-button .close-button {
-  margin-top: 80px;
-} */
-.demo-button-container {
-  box-sizing: border-box;
-  position: absolute;
-  width: 113px;
-  height: 44px;
-  left: 995px;
-  top: 67px;
-  border: 1px solid #eff2f7;
-  border-radius: 8px;
-}
-
-.part-two {
-  margin-left: 90px;
 }
