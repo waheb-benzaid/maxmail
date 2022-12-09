@@ -95,8 +95,8 @@ export class DropsListComponent implements OnInit, OnDestroy {
     openForms(
       this.dialog,
       NewDropComponent,
-      '700px',
-      '700px',
+      '1000px',
+      '800px',
       data,
       'borderless-dialog'
     );
@@ -135,8 +135,8 @@ export class DropsListComponent implements OnInit, OnDestroy {
     openForms(
       this.dialog,
       DropDetalComponent,
-      '',
-      '',
+      '1000px',
+      '800px',
       rowData,
       'borderless-dialog'
     );
