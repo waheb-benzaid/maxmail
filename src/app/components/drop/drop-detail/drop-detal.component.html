@@ -1,9 +1,7 @@
 <div class="container">
   <h1>Drop {{ editData.dropNumber }} : {{ dropDate }}</h1>
-  <h3>
-    {{ editData.accountName }}
-    {{ editData.contactName }}
-  </h3>
+  <h4>Contact Name : {{ editData.accountName }}</h4>
+  <h4>Company Name : {{ editData.contactName }}</h4>
 
   <mat-divider></mat-divider>
   <form [formGroup]="dropDetail">

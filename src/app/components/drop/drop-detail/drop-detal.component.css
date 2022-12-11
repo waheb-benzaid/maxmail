@@ -20,8 +20,8 @@
 }
 
 .mat-divider {
-  margin-top: 100px;
-  margin-bottom: 50px;
+  /* margin-top: 100px; */
+  margin-bottom: 20px;
 }
 
 .action-button {

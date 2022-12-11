@@ -66,6 +66,49 @@ th {
   font-size: large;
   color: black;
 }
+
+td .mat-cell {
+  max-width: 100px;
+}
+
+.mat-column {
+  width: 100px;
+}
+
+.mat-header-cell {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height */
+  color: #343744;
+  z-index: 5000;
+}
+
+.table-container th {
+  width: 20%;
+}
+
+.campaign-status .active {
+  width: 51px;
+  height: 24px;
+  left: 640px;
+  top: 1027px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  /* font-size: 16px; */
+  font-size: large;
+  color: #587cfb;
+  background-color: #e8f3ff;
+}
+
+.column-header {
+  font-size: large;
+  color: black;
+}
+
 .suspended {
   width: 92px;
   height: 24px;
@@ -107,26 +150,4 @@ th {
   /* identical to box height */
   color: #88e0a8;
   background: #f6fdf9;
-}
-td .mat-cell {
-  max-width: 100px;
-}
-
-.mat-column {
-  width: 100px;
-}
-
-.mat-header-cell {
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  /* identical to box height */
-  color: #343744;
-  z-index: 5000;
-}
-
-.table-container th {
-  width: 20%;
 }

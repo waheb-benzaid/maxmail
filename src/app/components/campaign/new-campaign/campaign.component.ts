@@ -20,11 +20,10 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { ZipCode } from 'src/app/models/Zipcode.model';
 import { ZipCodeService } from 'src/app/services/zip-code/zip-code.service';
 import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
-import { firstValueFrom, Observable, Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
 import { CampaignStatus } from 'src/app/utils/Enums/Campaign Enums/CampaignStatus';
 import { CampaignTypes } from 'src/app/utils/Enums/Campaign Enums/CampaignType';
-import { drop } from 'lodash';
 
 @Component({
   selector: 'app-campaign',
@@ -62,6 +61,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.volumeSubscription.unsubscribe();
     this.lastCreatedCampaign.unsubscribe();
+    this.saveCampaignSubscription.unsubscribe();
   }
 
   addOnBlur = true;
@@ -312,6 +312,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       let objectToInsert = new Object() as Drop;
       let date = new Date();
       objectToInsert.accountName = campaignObject.accountName;
+      objectToInsert.contactName = campaignObject.contactName;
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = formatDate(dropDate, this.datePipe);
       objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
@@ -384,6 +385,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
     const dropFieldsfromCampaign = {
       firstDropDate,
       accountName,
+      contactName,
       totalDropsNumber,
       firstDropVolume,
       campaignType,
@@ -413,7 +415,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
     };
     return campaignObject;
   }
-
+  saveCampaignSubscription!: Subscription;
   addCampaign() {
     if (!this.editData) {
       // if (!this.campaignForm.valid) {
@@ -435,7 +437,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       }
       let createdAt = formatDate(new Date(), this.datePipe);
 
-      this.campaignService
+      this.saveCampaignSubscription = this.campaignService
         .saveCampaign(this.getCampaignObject(), createdAt)
         .pipe(
           this.toast.observe({

@@ -5,6 +5,8 @@ export interface Drop {
   campaignType: any;
   accountName: any;
   contactName: any;
+  mailerSize: any;
+  printOrderID: any;
   dropName: any;
   dropDate: any;
   dropNumber: number;

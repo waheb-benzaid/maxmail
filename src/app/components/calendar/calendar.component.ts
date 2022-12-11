@@ -177,7 +177,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         objectToInsert.isLastDrop = drop.isLastDrop;
         objectToInsert.isDropCompleted = drop.isDropCompleted;
         objectToInsert.mailerSize = campaign.mailerSize;
-        objectToInsert.printOrder = campaign.printOrderID;
+        objectToInsert.printOrderID = campaign.printOrderID;
         objectToInsert.campaignType = campaign.campaignType;
         objectToInsert.contactName = campaign.contactName;
         objectToInsert.draggable = false;
@@ -257,7 +257,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       isDropCompleted: event.isDropCompleted,
       isSeededReceived: event.isSeededReceived,
       mailerSize: event.mailerSize,
-      printOrder: event.printOrder,
+      printOrder: event.printOrderID,
       campaignType: event.campaignType,
       contactName: event.contactName,
       nextAvailableDates: undefined,
