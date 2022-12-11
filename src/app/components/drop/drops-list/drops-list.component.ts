@@ -136,7 +136,7 @@ export class DropsListComponent implements OnInit, OnDestroy {
       this.dialog,
       DropDetalComponent,
       '1000px',
-      '800px',
+      '750px',
       rowData,
       'borderless-dialog'
     );

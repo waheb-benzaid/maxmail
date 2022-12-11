@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Drop {{ editData.dropNumber }} : {{ dropDate }}</h1>
+  <h2>Drop {{ editData.dropNumber }} : {{ dropDate }}</h2>
   <h4>Contact Name : {{ editData.accountName }}</h4>
   <h4>Company Name : {{ editData.contactName }}</h4>
 
@@ -8,10 +8,10 @@
     <div class="main-form-div">
       <div class="part-one" style="margin-right: 40px">
         <!----------------------------------------------------->
-        <mat-form-field appearance="outline">
+        <!-- <mat-form-field appearance="outline">
           <mat-label>Drop Name</mat-label>
           <input matInput placeholder="Drop Name" formControlName="dropName" />
-        </mat-form-field>
+        </mat-form-field> -->
         <!------------------------------------------------------>
         <mat-form-field appearance="outline">
           <mat-label>Print Order ID</mat-label>
@@ -32,15 +32,6 @@
         </mat-form-field>
         <!------------------------------------------------------>
         <mat-form-field appearance="outline">
-          <mat-label>Company Name</mat-label>
-          <input
-            matInput
-            placeholder="Company Name"
-            formControlName="accountName"
-          />
-        </mat-form-field>
-        <!------------------------------------------------------>
-        <mat-form-field appearance="outline">
           <mat-label>Campaign Status</mat-label>
           <mat-select formControlName="campaignStatus">
             <mat-option value="active">Active</mat-option>
@@ -49,17 +40,7 @@
             <mat-option value="completed">completed</mat-option>
           </mat-select>
         </mat-form-field>
-        <!-- ------------------------------------------ -->
-        <mat-form-field appearance="outline">
-          <mat-label>Contact</mat-label>
-          <input
-            matInput
-            placeholder="Contact Name"
-            formControlName="contactName"
-          />
-        </mat-form-field>
         <!--------------------------------------------------  -->
-
         <mat-form-field appearance="outline">
           <mat-datepicker-toggle
             matSuffix
@@ -72,12 +53,10 @@
             placeholder="Drop Date"
             formControlName="dropDate"
           />
-          <mat-hint>MM/DD/YYYY</mat-hint>
+
           <mat-datepicker #picker> </mat-datepicker>
         </mat-form-field>
-        <!-- ############################################################################################################ -->
-      </div>
-      <div class="part-two">
+        <!--------------------------------------------------  -->
         <mat-form-field appearance="outline">
           <mat-datepicker-toggle
             matSuffix
@@ -90,9 +69,12 @@
             placeholder="Seeded Received"
             formControlName="dropDate"
           />
-          <mat-hint>MM/DD/YYYY</mat-hint>
+
           <mat-datepicker #picker> </mat-datepicker>
         </mat-form-field>
+        <!-- ############################################################################################################ -->
+      </div>
+      <div class="part-two">
         <!--------------------------------------------------  -->
         <mat-form-field appearance="outline">
           <mat-label>Drop Number</mat-label>
@@ -124,14 +106,11 @@
         <!--------------------------------------------------  -->
         <mat-form-field appearance="outline">
           <mat-label>Mailer Size</mat-label>
-          <mat-select formControlName="mailerSize">
-            <mat-option value="8.5 x 17">8.5 x 17</mat-option>
-            <mat-option value="10 x 18">10 x 18</mat-option>
-            <mat-option value="5.5 x 8.5">5.5 x 8.5</mat-option>
-            <mat-option value="6 x 11">6 x 11</mat-option>
-            <mat-option value="8.5 x 14">8.5 x 14</mat-option>
-            <mat-option value="8.5 x 11">8.5 x 11</mat-option>
-          </mat-select>
+          <input
+            matInput
+            placeholder="Mailer Size"
+            formControlName="mailerSize"
+          />
         </mat-form-field>
         <!--------------------------------------------------  -->
         <div class="checkbox" style="display: inline-block">
