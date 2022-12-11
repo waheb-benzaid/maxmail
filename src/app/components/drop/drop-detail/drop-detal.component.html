@@ -2,17 +2,11 @@
   <h2>Drop {{ editData.dropNumber }} : {{ dropDate }}</h2>
   <h4>Contact Name : {{ editData.accountName }}</h4>
   <h4>Company Name : {{ editData.contactName }}</h4>
-
   <mat-divider></mat-divider>
   <form [formGroup]="dropDetail">
     <div class="main-form-div">
       <div class="part-one" style="margin-right: 40px">
         <!----------------------------------------------------->
-        <!-- <mat-form-field appearance="outline">
-          <mat-label>Drop Name</mat-label>
-          <input matInput placeholder="Drop Name" formControlName="dropName" />
-        </mat-form-field> -->
-        <!------------------------------------------------------>
         <mat-form-field appearance="outline">
           <mat-label>Print Order ID</mat-label>
           <input
@@ -53,7 +47,6 @@
             placeholder="Drop Date"
             formControlName="dropDate"
           />
-
           <mat-datepicker #picker> </mat-datepicker>
         </mat-form-field>
         <!--------------------------------------------------  -->
@@ -75,7 +68,6 @@
         <!-- ############################################################################################################ -->
       </div>
       <div class="part-two">
-        <!--------------------------------------------------  -->
         <mat-form-field appearance="outline">
           <mat-label>Drop Number</mat-label>
           <input

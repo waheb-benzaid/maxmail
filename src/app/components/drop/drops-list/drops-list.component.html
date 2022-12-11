@@ -82,9 +82,9 @@
           <td mat-cell *matCellDef="let row">
             <br />
             <span style="color: black; font-size: large"
-              >Drop {{ row.dropNumber }}</span
-            >
-
+              >Drop {{ row.dropNumber }} :
+              {{ row.dropDate | date : "MM/dd/YYYY" }}
+            </span>
             <br />
             <span style="color: gray">{{ row.accountName }}</span>
 
