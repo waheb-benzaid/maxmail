@@ -131,6 +131,8 @@ export class DropsListComponent implements OnInit, OnDestroy {
 
   getDropDetail(rowData: any) {
     this.isDetailDialog = true;
+    console.log(rowData, 'data');
+
     openForms(
       this.dialog,
       DropDetalComponent,

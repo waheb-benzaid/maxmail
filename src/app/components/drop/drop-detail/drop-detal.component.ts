@@ -29,6 +29,8 @@ export class DropDetalComponent implements OnInit {
   });
   dropDate!: string;
   ngOnInit(): void {
+    console.log(this.editData, 'edit data ');
+
     this.dropDetail.controls['dropDate'].setValue(this.editData.dropDate);
     this.dropDetail.controls['dropName'].setValue(this.editData.dropName);
     this.dropDetail.controls['dropNumber'].setValue(this.editData.dropNumber);

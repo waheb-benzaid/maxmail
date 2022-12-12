@@ -12,6 +12,7 @@ export interface MaxmailCalendarEvent extends CalendarEvent {
   isSeededReceived?: any;
   nextAvailableDates?: any;
   printOrderID?: any;
+  campaignStatus?: any;
   campaignType?: any;
   contactName?: any;
   mailerSize?: any;

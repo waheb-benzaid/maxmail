@@ -61,7 +61,9 @@ export class CampaignComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.volumeSubscription.unsubscribe();
     this.lastCreatedCampaign.unsubscribe();
-    this.saveCampaignSubscription.unsubscribe();
+    if (this.saveCampaignSubscription) {
+      this.saveCampaignSubscription.unsubscribe();
+    }
   }
 
   addOnBlur = true;
@@ -276,7 +278,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
     const volumeDate = await firstValueFrom(volumneDate$);
     let volume: number[] = [];
     if (campaignStatus === CampaignStatus.ACTIVE) {
-      if (volumeDate) {
+      if (volumeDate && !this.editData) {
         volume = volumeDate.volume;
         volume.push(volumeValue);
         this.dropVolumeDateService.updateVolume(date!, {
@@ -302,6 +304,8 @@ export class CampaignComponent implements OnInit, OnDestroy {
     isEditMode: boolean,
     id?: string
   ) {
+    console.log(campaignObject);
+
     this.drops.length = 0;
     let day = getDay(campaignObject.firstDropDate as Date);
     let month = getMonth(campaignObject.firstDropDate as Date) + 1;
@@ -318,8 +322,11 @@ export class CampaignComponent implements OnInit, OnDestroy {
       objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
       objectToInsert.dropVolume = campaignObject.firstDropVolume;
       objectToInsert.isDropCompleted = false;
-      objectToInsert.isLastDrop = false;
-      objectToInsert.isSeededReceived = false;
+      objectToInsert.isLastDrop = i === campaignObject.totalDropsNumber;
+      objectToInsert.campaignStatus = campaignObject.campaignStatus;
+      objectToInsert.campaignType = campaignObject.campaignType;
+      objectToInsert.printOrderID = campaignObject.printOrderID;
+      objectToInsert.mailerSize = campaignObject.mailerSize;
       this.drops.push(objectToInsert);
       date = new Date(dropDate);
       let maxVolume: number =
@@ -390,6 +397,8 @@ export class CampaignComponent implements OnInit, OnDestroy {
       firstDropVolume,
       campaignType,
       campaignStatus,
+      printOrderID,
+      mailerSize,
     };
     this.createAutoDropsObject(dropFieldsfromCampaign as Campaign, false);
     const campaignObject = {

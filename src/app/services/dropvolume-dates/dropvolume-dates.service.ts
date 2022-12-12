@@ -42,6 +42,8 @@ export class DropvolumeDatesService {
       `mail_drop_volume_dates`,
       date
     );
+    console.log(dataToUpdate, 'dataToupdate');
+
     return from(
       updateDoc(VolumeDatesToUpdate, dataToUpdate)
         .then(() => {
