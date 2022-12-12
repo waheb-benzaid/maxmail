@@ -100,6 +100,7 @@ export class DropsListComponent implements OnInit, OnDestroy {
       'borderless-dialog'
     );
   }
+
   getAllDrops() {
     let drops: Drop[] = [];
     this.dropsSubscription = this.campaignService
@@ -120,6 +121,7 @@ export class DropsListComponent implements OnInit, OnDestroy {
   }
 
   editDrop(row: any) {
+    console.log(row);
     this.openDropDialog(row);
   }
 
@@ -132,7 +134,6 @@ export class DropsListComponent implements OnInit, OnDestroy {
   getDropDetail(rowData: any) {
     this.isDetailDialog = true;
     console.log(rowData, 'data');
-
     openForms(
       this.dialog,
       DropDetalComponent,
@@ -142,6 +143,7 @@ export class DropsListComponent implements OnInit, OnDestroy {
       'borderless-dialog'
     );
   }
+
   drops: any[] = [];
   onChangeStatus($event: any) {
     let filtredData = _.filter(this.drops, (item) => {
