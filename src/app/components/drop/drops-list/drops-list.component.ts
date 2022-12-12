@@ -47,7 +47,6 @@ export class DropsListComponent implements OnInit, OnDestroy {
     'dropVolume',
     'isLastDrop',
     'isDropCompleted',
-    'isSeededReceived',
     'action',
   ];
   dataSource!: MatTableDataSource<any>;

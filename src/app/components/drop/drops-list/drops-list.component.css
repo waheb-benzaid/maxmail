@@ -84,6 +84,7 @@ td .mat-cell {
   /* identical to box height */
   color: #343744;
   z-index: 5000;
+  text-align: center;
 }
 
 .table-container th {
