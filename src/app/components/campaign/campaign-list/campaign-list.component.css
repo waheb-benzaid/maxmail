@@ -53,8 +53,7 @@ th {
 
 .mat-cell,
 .mat-header-cell {
-  word-wrap: initial;
-  display: table-cell;
+  width: 10px;
 }
 
 .mat-row,
@@ -143,4 +142,8 @@ td .mat-cell {
 
 .table-container th {
   width: 20%;
+}
+
+table {
+  width: 100%;
 }

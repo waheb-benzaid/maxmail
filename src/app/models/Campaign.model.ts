@@ -7,6 +7,7 @@ export interface Campaign {
   firstDropDate: any;
   campaignStatus: any;
   campaignType: any;
+  currentDropNumber: number;
   firstDropVolume: any;
   totalCampaignVolume: any;
   zipCodeNumbers: string[];

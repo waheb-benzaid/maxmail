@@ -29,6 +29,7 @@ export class CampaignListComponent implements OnInit, OnDestroy {
     'campaignName',
     'campaignStatus',
     'campaignType',
+    'currentDropNumber',
     'totalDropsNumber',
     'campaignDate',
     'action',

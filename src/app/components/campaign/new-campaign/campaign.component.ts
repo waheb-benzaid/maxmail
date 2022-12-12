@@ -305,7 +305,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
     id?: string
   ) {
     console.log(campaignObject);
-
     this.drops.length = 0;
     let day = getDay(campaignObject.firstDropDate as Date);
     let month = getMonth(campaignObject.firstDropDate as Date) + 1;
@@ -408,6 +407,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       campaignType,
       firstDropVolume,
       totalCampaignVolume,
+      currentDropNumber: 1,
       totalDropsNumber,
       mailerSize,
       totalHouseholds,
