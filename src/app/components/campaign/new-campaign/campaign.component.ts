@@ -311,19 +311,12 @@ export class CampaignComponent implements OnInit, OnDestroy {
     let year = getYear(campaignObject.firstDropDate as Date);
     let dropDate = `${year}-${month}-${day}`;
     let dropDatesArray: any[] = [];
-    let number: number = 0;
-    // number = campaignObject.totalCampaignVolume;
-    // (campaignObject.totalCampaignVolume - campaignObject.firstDropVolume) /
-    // parseFloat(campaignObject.totalDropsNumber);
-    console.log(number, 'number');
-    console.log(typeof number, 'number typeof');
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
       let objectToInsert = new Object() as Drop;
       let date = new Date();
       objectToInsert.accountName = campaignObject.accountName;
       objectToInsert.contactName = campaignObject.contactName;
       objectToInsert.dropNumber = i;
-      objectToInsert.dropDate = formatDate(dropDate, this.datePipe);
       objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
       objectToInsert.dropVolume =
         i === 1
@@ -337,29 +330,13 @@ export class CampaignComponent implements OnInit, OnDestroy {
       objectToInsert.campaignType = campaignObject.campaignType;
       objectToInsert.printOrderID = campaignObject.printOrderID;
       objectToInsert.mailerSize = campaignObject.mailerSize;
-      this.drops.push(objectToInsert);
-      date = new Date(dropDate);
+      let dateVolume = new Date(dropDate);
       let maxVolume: number =
-        this.getVolume(date) + campaignObject.firstDropVolume;
-      dropDatesArray.push(dropDate);
-      if (campaignObject.campaignType === CampaignTypes.MAGAZINE) {
-        date = new Date(date.setMonth(date.getMonth() + 3));
-      } else {
-        date = new Date(date.setDate(date.getDate() + 21));
-      }
-      day = getDay(date);
-      month = getMonth(date) + 1;
-      year = getYear(date);
-      dropDate = `${year}-${month}-${day}`;
-      dropDate = formatDate(dropDate, this.datePipe) || '';
+        this.getVolume(dateVolume) + campaignObject.firstDropVolume;
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
-      console.log(maxVolume, 'maxVolume');
-
       while (isHiatusDate || maxVolume >= 50000) {
-        console.log('hi');
         date = new Date(date.setDate(date.getDate() + 1));
-        console.log(date, 'date');
         day = getDay(date);
         month = getMonth(date) + 1;
         year = getYear(date);
@@ -368,9 +345,16 @@ export class CampaignComponent implements OnInit, OnDestroy {
           this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
         maxVolume =
           this.getVolume(new Date(dropDate)) + campaignObject.firstDropVolume;
-        console.log(maxVolume, 'maxvolume inside the while');
       }
-      dropDate = `${year}-${month}-${day}`;
+      objectToInsert.dropDate = formatDate(dropDate, this.datePipe);
+      this.drops.push(objectToInsert);
+      date = new Date(dropDate);
+      dropDatesArray.push(dropDate);
+      if (campaignObject.campaignType === CampaignTypes.MAGAZINE) {
+        date = new Date(date.setMonth(date.getMonth() + 3));
+      } else {
+        date = new Date(date.setDate(date.getDate() + 21));
+      }
     }
     dropDatesArray.forEach((date) => {
       this.saveOrUpdateVolumeDate(
