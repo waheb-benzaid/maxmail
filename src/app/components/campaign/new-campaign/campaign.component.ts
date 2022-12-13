@@ -354,8 +354,12 @@ export class CampaignComponent implements OnInit, OnDestroy {
       dropDate = formatDate(dropDate, this.datePipe) || '';
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
+      console.log(maxVolume, 'maxVolume');
+
       while (isHiatusDate || maxVolume >= 50000) {
+        console.log('hi');
         date = new Date(date.setDate(date.getDate() + 1));
+        console.log(date, 'date');
         day = getDay(date);
         month = getMonth(date) + 1;
         year = getYear(date);
@@ -364,13 +368,18 @@ export class CampaignComponent implements OnInit, OnDestroy {
           this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
         maxVolume =
           this.getVolume(new Date(dropDate)) + campaignObject.firstDropVolume;
+        console.log(maxVolume, 'maxvolume inside the while');
       }
       dropDate = `${year}-${month}-${day}`;
     }
     dropDatesArray.forEach((date) => {
       this.saveOrUpdateVolumeDate(
         date,
-        campaignObject.firstDropVolume,
+        dropDatesArray.indexOf(date) === 0
+          ? campaignObject.firstDropVolume
+          : (parseFloat(campaignObject.totalCampaignVolume) -
+              parseFloat(campaignObject.firstDropVolume)) /
+              (campaignObject.totalDropsNumber - 1),
         campaignObject.campaignStatus
       );
     });
