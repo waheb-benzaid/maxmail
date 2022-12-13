@@ -311,6 +311,12 @@ export class CampaignComponent implements OnInit, OnDestroy {
     let year = getYear(campaignObject.firstDropDate as Date);
     let dropDate = `${year}-${month}-${day}`;
     let dropDatesArray: any[] = [];
+    let number: number = 0;
+    // number = campaignObject.totalCampaignVolume;
+    // (campaignObject.totalCampaignVolume - campaignObject.firstDropVolume) /
+    // parseFloat(campaignObject.totalDropsNumber);
+    console.log(number, 'number');
+    console.log(typeof number, 'number typeof');
     for (let i = 1; i <= campaignObject.totalDropsNumber; i++) {
       let objectToInsert = new Object() as Drop;
       let date = new Date();
@@ -319,7 +325,12 @@ export class CampaignComponent implements OnInit, OnDestroy {
       objectToInsert.dropNumber = i;
       objectToInsert.dropDate = formatDate(dropDate, this.datePipe);
       objectToInsert.dropName = `${campaignObject.accountName}-${i}-${objectToInsert.dropDate}`;
-      objectToInsert.dropVolume = campaignObject.firstDropVolume;
+      objectToInsert.dropVolume =
+        i === 1
+          ? parseFloat(campaignObject.firstDropVolume)
+          : (parseFloat(campaignObject.totalCampaignVolume) -
+              parseFloat(campaignObject.firstDropVolume)) /
+            (campaignObject.totalDropsNumber - 1);
       objectToInsert.isDropCompleted = false;
       objectToInsert.isLastDrop = i === campaignObject.totalDropsNumber;
       objectToInsert.campaignStatus = campaignObject.campaignStatus;
@@ -393,6 +404,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       accountName,
       contactName,
       totalDropsNumber,
+      totalCampaignVolume,
       firstDropVolume,
       campaignType,
       campaignStatus,

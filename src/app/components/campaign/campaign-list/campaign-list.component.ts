@@ -44,7 +44,6 @@ export class CampaignListComponent implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     private zipcodeService: ZipCodeService,
     private dropVolumeDateService: DropvolumeDatesService,
-
     private _liveAnnouncer: LiveAnnouncer
   ) {
     //NOTE: Assign the data to the data source for the table to render
