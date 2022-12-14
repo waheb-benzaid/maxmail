@@ -355,6 +355,10 @@ export class CampaignComponent implements OnInit, OnDestroy {
       } else {
         date = new Date(date.setDate(date.getDate() + 21));
       }
+      day = getDay(date);
+      month = getMonth(date) + 1;
+      year = getYear(date);
+      dropDate = `${year}-${month}-${day}`;
     }
     dropDatesArray.forEach((date) => {
       this.saveOrUpdateVolumeDate(
