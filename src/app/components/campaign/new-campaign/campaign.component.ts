@@ -64,6 +64,9 @@ export class CampaignComponent implements OnInit, OnDestroy {
     if (this.saveCampaignSubscription) {
       this.saveCampaignSubscription.unsubscribe();
     }
+    if (this.zipCodesSubscription) {
+      this.zipCodesSubscription.unsubscribe();
+    }
   }
 
   addOnBlur = true;
@@ -75,6 +78,12 @@ export class CampaignComponent implements OnInit, OnDestroy {
     let isValueDuplicated = false;
     const value = (event.value || '').trim();
     if (value) {
+      if (!this.campaignForm.controls['campaignType'].value) {
+        alert('Please enter the campaign type first');
+        event.chipInput!.clear();
+        return;
+      }
+
       if (value.length !== 5) {
         window.alert('zipcode should be 5 degits');
         event.chipInput!.clear();
@@ -86,11 +95,44 @@ export class CampaignComponent implements OnInit, OnDestroy {
           isValueDuplicated = true;
         }
       });
+
       if (isValueDuplicated) {
         window.alert('This zip code is duplicated');
         event.chipInput!.clear();
         return;
       }
+
+      this.zipCodesList.forEach((zip) => {
+        if (value === zip.zipNumber) {
+          if (
+            zip.unavailableExternalMail &&
+            this.campaignForm.controls['campaignType'].value ===
+              CampaignTypes.MAILER
+          ) {
+            window.alert('this zipcode is unavilable for external mailer');
+            event.chipInput!.clear();
+            return;
+          }
+          if (
+            zip.unavailableMagazine &&
+            this.campaignForm.controls['campaignType'].value ===
+              CampaignTypes.MAGAZINE
+          ) {
+            alert('this zipcode is unavilable for Magazines');
+            event.chipInput!.clear();
+            return;
+          }
+          if (
+            zip.unavailablePostCard &&
+            this.campaignForm.controls['campaignType'].value ===
+              CampaignTypes.POSTCARD
+          ) {
+            alert('this zipcode is unavilable for Postcard');
+            event.chipInput!.clear();
+            return;
+          }
+        }
+      });
       this.zipCodes.push(this.zipCodeManager(value));
     }
     event.chipInput!.clear();
@@ -156,11 +198,18 @@ export class CampaignComponent implements OnInit, OnDestroy {
 
   volumeSubscription!: Subscription;
   volumeDatesList: VolumeDates[] = [];
+  zipCodesSubscription!: Subscription;
+  zipCodesList: ZipCode[] = [];
+
   ngOnInit(): void {
-    // this.dropVolumeDateService.getAllVolumeDate().subscribe((res) => {
-    //   console.log(res, 'res from ng on init');
-    //   console.log(res.payload.exists, 'data');
-    // });
+    this.zipCodesSubscription = this.zipCodeService
+      .getAllZipcodes()
+      .subscribe((res) => {
+        res.forEach((zipCode) => {
+          this.zipCodesList.push(zipCode);
+        });
+      });
+
     this.volumeSubscription = this.dropVolumeDateService
       .getAllVolumeDate()
       .subscribe((res) => {
