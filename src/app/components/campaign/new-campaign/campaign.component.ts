@@ -101,7 +101,10 @@ export class CampaignComponent implements OnInit, OnDestroy {
         event.chipInput!.clear();
         return;
       }
-
+      //TODO: Create a Function a make this code reusable
+      let unavailableExternalMail: boolean = false;
+      let unavailableMagazine: boolean = false;
+      let unavailablePostCard: boolean = false;
       this.zipCodesList.forEach((zip) => {
         if (value === zip.zipNumber) {
           if (
@@ -109,32 +112,46 @@ export class CampaignComponent implements OnInit, OnDestroy {
             this.campaignForm.controls['campaignType'].value ===
               CampaignTypes.MAILER
           ) {
-            window.alert('this zipcode is unavilable for external mailer');
-            event.chipInput!.clear();
-            return;
+            unavailableExternalMail = true;
           }
           if (
             zip.unavailableMagazine &&
             this.campaignForm.controls['campaignType'].value ===
               CampaignTypes.MAGAZINE
           ) {
-            alert('this zipcode is unavilable for Magazines');
-            event.chipInput!.clear();
-            return;
+            unavailableMagazine = true;
           }
           if (
             zip.unavailablePostCard &&
             this.campaignForm.controls['campaignType'].value ===
               CampaignTypes.POSTCARD
           ) {
-            alert('this zipcode is unavilable for Postcard');
-            event.chipInput!.clear();
-            return;
+            unavailablePostCard = true;
           }
         }
       });
+
+      if (unavailableExternalMail) {
+        window.alert('this zipcode is unavilable for external mailer');
+        event.chipInput!.clear();
+        return;
+      }
+
+      if (unavailableMagazine) {
+        alert('this zipcode is unavilable for Magazines');
+        event.chipInput!.clear();
+        return;
+      }
+
+      if (unavailablePostCard) {
+        alert('this zipcode is unavilable for Postcard');
+        event.chipInput!.clear();
+        return;
+      }
+
       this.zipCodes.push(this.zipCodeManager(value));
     }
+
     event.chipInput!.clear();
   }
 

@@ -10,6 +10,7 @@ import {
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { from, Observable } from 'rxjs';
 import { ZipCode } from 'src/app/models/Zipcode.model';
+import { concat } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class ZipCodeService {
   constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {}
 
   saveZipcode(zipcodeFields: ZipCode) {
-    let id = this.afs.createId();
+    const id = zipcodeFields.zipNumber + '-' + zipcodeFields.campaignID;
     return from(this.afs.collection('mail_zipcode').doc(id).set(zipcodeFields));
   }
 
