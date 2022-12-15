@@ -72,10 +72,22 @@ export class CampaignComponent implements OnInit, OnDestroy {
   campaignNames: string[] = [];
 
   addZipCode(event: MatChipInputEvent): void {
+    let isValueDuplicated = false;
     const value = (event.value || '').trim();
     if (value) {
       if (value.length !== 5) {
         window.alert('zipcode should be 5 degits');
+        event.chipInput!.clear();
+        return;
+      }
+
+      this.zipCodes.forEach((zipcodeObject) => {
+        if (value === zipcodeObject.zipNumber) {
+          isValueDuplicated = true;
+        }
+      });
+      if (isValueDuplicated) {
+        window.alert('This zip code is duplicated');
         event.chipInput!.clear();
         return;
       }
