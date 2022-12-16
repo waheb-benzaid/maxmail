@@ -119,7 +119,7 @@ export class NewDropComponent implements OnInit {
   }
 
   get _isSeededReceived() {
-    return this.dropForm.get('isSeededReceived');
+    return this.dropForm.get('SeededReceived');
   }
 
   get nextAvailableDates() {
@@ -151,22 +151,23 @@ export class NewDropComponent implements OnInit {
   }
 
   addDrop() {
-    // if (!this.editMode) {
-    //   this.dropService
-    //     .saveDrop(this.getDropObject())
-    //     .pipe(
-    //       this.toast.observe({
-    //         success: 'drop saved successfuly',
-    //         loading: 'Saving ...',
-    //         error: 'There was a error',
-    //       })
-    //     )
-    //     .subscribe(() => {
-    //       this.dropForm.reset();
-    //       this.dialogRef.close('save');
-    //     });
-    // }
-    // this.updatedrop(this.editMode);
+    if (!this.editMode) {
+      // this.campaignService.get
+      // this.dropService
+      //   .saveDrop(this.getDropObject()).subscribe()
+      //   .pipe(
+      //     this.toast.observe({
+      //       success: 'drop saved successfuly',
+      //       loading: 'Saving ...',
+      //       error: 'There was a error',
+      //     })
+      //   )
+      //   .subscribe(() => {
+      //     this.dropForm.reset();
+      //     this.dialogRef.close('save');
+      //   });
+    }
+    this.updatedrop(this.editMode);
   }
 
   updatedrop(id: string) {

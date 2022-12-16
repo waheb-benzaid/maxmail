@@ -34,6 +34,10 @@ import { CampaignTypes } from 'src/app/utils/Enums/Campaign Enums/CampaignType';
 export class CampaignComponent implements OnInit, OnDestroy {
   lastCreatedCampaign!: Subscription;
   campaignNumber = 0;
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  zipCodes: ZipCode[] = [];
+  campaignNames: string[] = [];
   constructor(
     private campaignService: CampaignService,
     private toast: HotToastService,
@@ -58,21 +62,24 @@ export class CampaignComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    this.volumeSubscription.unsubscribe();
-    this.lastCreatedCampaign.unsubscribe();
-    if (this.saveCampaignSubscription) {
-      this.saveCampaignSubscription.unsubscribe();
-    }
-    if (this.zipCodesSubscription) {
-      this.zipCodesSubscription.unsubscribe();
-    }
-  }
-
-  addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  zipCodes: ZipCode[] = [];
-  campaignNames: string[] = [];
+  actionButton: string = 'Save';
+  campaignForm = new FormGroup({
+    firstDropDate: new FormControl('', Validators.required),
+    campaignStatus: new FormControl('', Validators.required),
+    campaignType: new FormControl('', Validators.required),
+    firstDropVolume: new FormControl('', Validators.required),
+    totalCampaignVolume: new FormControl('', Validators.required),
+    totalDropsNumber: new FormControl('', Validators.required),
+    mailerSize: new FormControl('', Validators.required),
+    totalHouseholds: new FormControl('', Validators.required),
+    totalcontractAmount: new FormControl('', Validators.required),
+    zipcodes: new FormControl(),
+    printOrderID: new FormControl(''),
+    accountName: new FormControl('', Validators.required),
+    ownerName: new FormControl(''),
+    contactName: new FormControl(''),
+    attachments: new FormControl(''),
+  });
 
   addZipCode(event: MatChipInputEvent): void {
     let isValueDuplicated = false;
@@ -193,25 +200,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  actionButton: string = 'Save';
-  campaignForm = new FormGroup({
-    firstDropDate: new FormControl('', Validators.required),
-    campaignStatus: new FormControl('', Validators.required),
-    campaignType: new FormControl('', Validators.required),
-    firstDropVolume: new FormControl('', Validators.required),
-    totalCampaignVolume: new FormControl('', Validators.required),
-    totalDropsNumber: new FormControl('', Validators.required),
-    mailerSize: new FormControl('', Validators.required),
-    totalHouseholds: new FormControl('', Validators.required),
-    totalcontractAmount: new FormControl('', Validators.required),
-    zipcodes: new FormControl(),
-    printOrderID: new FormControl(''),
-    accountName: new FormControl('', Validators.required),
-    ownerName: new FormControl(''),
-    contactName: new FormControl(''),
-    attachments: new FormControl(''),
-  });
 
   volumeSubscription!: Subscription;
   volumeDatesList: VolumeDates[] = [];
@@ -407,8 +395,8 @@ export class CampaignComponent implements OnInit, OnDestroy {
       objectToInsert.campaignType = campaignObject.campaignType;
       objectToInsert.printOrderID = campaignObject.printOrderID;
       objectToInsert.mailerSize = campaignObject.mailerSize;
-      objectToInsert.campaignId = campaignObject.campaignID;
       objectToInsert.campaignNumber = campaignObject.campaignNumber;
+      objectToInsert.campaignName = campaignObject.campaignName;
       let dateVolume = new Date(dropDate);
       let maxVolume: number =
         this.getVolume(dateVolume) + campaignObject.firstDropVolume;
@@ -474,10 +462,15 @@ export class CampaignComponent implements OnInit, OnDestroy {
       contactName,
       attachments,
     } = this.campaignForm.value;
-
+    let campaignNumber =
+      this.campaignNumber === 0 ? 1 : this.campaignNumber + 1;
+    let campaignName =
+      campaignNumber + '/' + this.campaignForm.controls['contactName'].value; //this.getCampaignObject().contactName;
     const dropFieldsfromCampaign = {
       firstDropDate,
       accountName,
+      campaignName: campaignName,
+      campaignNumber: campaignNumber,
       contactName,
       totalDropsNumber,
       totalCampaignVolume,
@@ -487,12 +480,14 @@ export class CampaignComponent implements OnInit, OnDestroy {
       printOrderID,
       mailerSize,
     };
+
     this.createAutoDropsObject(dropFieldsfromCampaign as Campaign, false);
     const campaignObject = {
-      campaignNumber: this.campaignNumber === 0 ? 1 : this.campaignNumber + 1,
+      campaignNumber: campaignNumber,
       firstDropDate: formatDate(firstDropDate, this.datePipe),
       campaignStatus,
       campaignType,
+      campaignName: campaignName,
       firstDropVolume,
       totalCampaignVolume,
       currentDropNumber: 1,
@@ -532,6 +527,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
         window.alert('date not available');
         return;
       }
+
       let createdAt = formatDate(new Date(), this.datePipe);
 
       this.saveCampaignSubscription = this.campaignService
@@ -555,6 +551,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
             this.campaignService.campaignId
           )
         );
+
         // this.zipCodeService
         //   .getZipCodeById(zipCode.zipNumber)
         //   .subscribe((res) => {
@@ -594,5 +591,16 @@ export class CampaignComponent implements OnInit, OnDestroy {
         this.campaignForm.reset();
         this.dialogRef.close('update');
       });
+  }
+
+  ngOnDestroy(): void {
+    this.volumeSubscription.unsubscribe();
+    this.lastCreatedCampaign.unsubscribe();
+    if (this.saveCampaignSubscription) {
+      this.saveCampaignSubscription.unsubscribe();
+    }
+    if (this.zipCodesSubscription) {
+      this.zipCodesSubscription.unsubscribe();
+    }
   }
 }

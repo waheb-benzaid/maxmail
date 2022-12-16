@@ -19,7 +19,6 @@ export class CampaignService {
   cNames: string[] = [];
   isEmpty: boolean = false;
   public campaignId: string = '';
-
   public campaignInformation = {
     CampaignContact: '',
     CampaignCompany: '',
@@ -34,6 +33,9 @@ export class CampaignService {
     this.campaignId = this.afs.createId();
     campaignFields.createdAt = createdAt;
     campaignFields.campaignTimestamp = serverTimestamp();
+    campaignFields.drops.forEach((drop) => {
+      drop.campaignId = this.campaignId;
+    });
     return from(
       this.afs
         .collection('mail_campaign')
