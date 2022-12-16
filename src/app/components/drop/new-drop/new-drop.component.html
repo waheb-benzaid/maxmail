@@ -1,102 +1,150 @@
-<form [formGroup]="dropForm" (ngSubmit)="addDrop()">
-  <h1>New Drop</h1>
-  <div class="main-form-div">
-    <div class="part-one">
-      <mat-form-field appearance="outline">
-        <mat-label>Campaign Name</mat-label>
-        <input
-          matInput
-          placeholder="Campaign Name"
-          formControlName="campaignName"
-          [matAutocomplete]="auto"
-        />
-        <mat-icon matSuffix>expand_more</mat-icon>
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option
-            *ngFor="let option of filteredOptions | async"
-            [value]="option"
-          >
-            {{ option }}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-error *ngIf="campaignName?.errors?.['required']">
-          Campaign name is required</mat-error
-        >
-      </mat-form-field>
-      <!----------------------------------------------------->
-      <mat-form-field appearance="outline">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-label>Drop Date</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          placeholder="Drop Date"
-          formControlName="dropDate"
-        />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker #picker> </mat-datepicker>
-        <mat-error *ngIf="dropDate?.hasError('required')">
-          Drop Date is required</mat-error
-        >
-      </mat-form-field>
-      <!------------------------------------------------------>
-      <mat-form-field appearance="outline">
-        <mat-label>Drop Volume</mat-label>
-        <input
-          matInput
-          type="number"
-          placeholder="Drop Volume"
-          formControlName="dropVolume"
-        />
-        <mat-error *ngIf="dropVolume?.errors?.['required']">
-          Drop Volume is required</mat-error
-        >
-      </mat-form-field>
-      <!---############################################################################################################--->
-      <div class="checkbox" style="display: inline-block">
-        <p>
-          <mat-checkbox
-            formControlName="isDropCompleted"
-            [disableRipple]="true"
-          >
-            Drop Completed</mat-checkbox
-          >
-        </p>
-        <p>
-          <mat-checkbox formControlName="isLastDrop" [disableRipple]="true"
-            >Is Last Drop</mat-checkbox
-          >
-        </p>
-        <p>
-          <mat-checkbox
-            formControlName="isSeededReceived"
-            [disableRipple]="true"
-            >Seeded Received</mat-checkbox
-          >
-        </p>
+<div class="container">
+  <h1 style="margin-bottom: 40px">New Drop</h1>
+  <mat-divider style="margin-bottom: 40px"></mat-divider>
+  <form [formGroup]="dropForm">
+    <div class="main-form-div">
+      <div class="part-one" style="margin-right: 40px">
+        <!----------------------------------------------------->
+        <mat-form-field appearance="outline">
+          <mat-label>Mailer Campaign Name</mat-label>
+          <input
+            matInput
+            placeholder="Mailer Campaign Name"
+            formControlName="campaignName"
+          />
+        </mat-form-field>
+
+        <!------------------------------------------------------>
+        <mat-form-field appearance="outline">
+          <mat-label>Campaign Type</mat-label>
+          <mat-select formControlName="campaignType">
+            <mat-option value="Mailer">Mailer</mat-option>
+            <mat-option value="Postcard">Postcard</mat-option>
+            <mat-option value="Magazine">Magazine</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!------------------------------------------------------>
+        <mat-form-field appearance="outline">
+          <mat-label>Campaign Status</mat-label>
+          <mat-select formControlName="campaignStatus">
+            <mat-option value="Active">Active</mat-option>
+            <mat-option value="Suspended">suspended</mat-option>
+            <mat-option value="Cancelled">cancelled</mat-option>
+            <mat-option value="Completed">completed</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-label>Drop Date </mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            placeholder="Drop Date"
+            formControlName="dropDate"
+          />
+          <mat-datepicker #picker> </mat-datepicker>
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-label>Seeded Received date </mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            placeholder="Seeded Received"
+            formControlName="dropDate"
+          />
+          <mat-datepicker #picker> </mat-datepicker>
+        </mat-form-field>
+        <!-- ############################################################################################################ -->
       </div>
-      <mat-form-field appearance="outline">
-        <mat-label>Notes & Attachments </mat-label>
-        <button
-          mat-icon-button
-          color="primary"
-          style="position: absolute; right: 0; bottom: 19%"
-        >
-          <mat-icon matSuffix>upload</mat-icon>
-        </button>
-        <input
-          matInput
-          placeholder="Notes & Attachments"
-          formControlName="attachments"
-        />
-      </mat-form-field>
+      <div class="part-two">
+        <mat-form-field appearance="outline">
+          <mat-label>Drop Number</mat-label>
+          <input
+            matInput
+            placeholder="Drop Number"
+            formControlName="dropNumber"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Drop Volume</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Drop Volume"
+            formControlName="dropVolume"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Mailer Size</mat-label>
+          <input
+            matInput
+            placeholder="Mailer Size"
+            formControlName="mailerSize"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Print Order ID</mat-label>
+          <input
+            matInput
+            placeholder="Print Order ID"
+            formControlName="printOrderID"
+          />
+        </mat-form-field>
+        <!--------------------------------------------------  -->
+        <div class="checkbox" style="display: inline-block">
+          <p>
+            <mat-checkbox
+              formControlName="isDropCompleted"
+              [disableRipple]="true"
+            >
+              Drop Completed</mat-checkbox
+            >
+          </p>
+          <p>
+            <mat-checkbox formControlName="isLastDrop" [disableRipple]="true"
+              >Is Last Drop</mat-checkbox
+            >
+          </p>
+        </div>
+        <!--------------------------------------------------  -->
+        <mat-form-field appearance="outline">
+          <mat-label>Notes & Attachments </mat-label>
+          <button
+            mat-icon-button
+            color="primary"
+            style="position: absolute; right: 0; bottom: 19%"
+          >
+            <mat-icon matSuffix>upload</mat-icon>
+          </button>
+          <input
+            matInput
+            placeholder="Notes & Attachments"
+            formControlName="attachments"
+          />
+        </mat-form-field>
+      </div>
+      <!-- ############################################################################################################ -->
+      <div>
+        <app-file-upload-library></app-file-upload-library>
+      </div>
+      <!-- ############################################################################################################ -->
     </div>
-    <!---############################################################################################################--->
-    <div class="part-two">
-      <app-file-upload-library></app-file-upload-library>
-    </div>
-    <!---############################################################################################################--->
-  </div>
+  </form>
   <div mat-dialog-actions align="end">
     <button
       class="close-button"
@@ -112,7 +160,7 @@
       mat-raised-button
       (click)="addDrop()"
     >
-      Save
+      {{ actionButton }}
     </button>
   </div>
-</form>
+</div>

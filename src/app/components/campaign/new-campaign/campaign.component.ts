@@ -382,7 +382,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
     isEditMode: boolean,
     id?: string
   ) {
-    console.log(campaignObject);
     this.drops.length = 0;
     let day = getDay(campaignObject.firstDropDate as Date);
     let month = getMonth(campaignObject.firstDropDate as Date) + 1;
@@ -408,6 +407,8 @@ export class CampaignComponent implements OnInit, OnDestroy {
       objectToInsert.campaignType = campaignObject.campaignType;
       objectToInsert.printOrderID = campaignObject.printOrderID;
       objectToInsert.mailerSize = campaignObject.mailerSize;
+      objectToInsert.campaignId = campaignObject.campaignID;
+      objectToInsert.campaignNumber = campaignObject.campaignNumber;
       let dateVolume = new Date(dropDate);
       let maxVolume: number =
         this.getVolume(dateVolume) + campaignObject.firstDropVolume;

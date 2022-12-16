@@ -34,14 +34,18 @@ export class NewDropComponent implements OnInit {
   actionButton: string = 'Save';
   dropForm = new FormGroup({
     campaignName: new FormControl('', Validators.required),
-    // searchCampaignName: new FormControl('', Validators.required),
+    campaignStatus: new FormControl('', Validators.required),
+    campaignType: new FormControl('', Validators.required),
     dropDate: new FormControl('', Validators.required),
-    dropNumber: new FormControl(0, Validators.required),
+    dropNumber: new FormControl('', Validators.required),
     dropVolume: new FormControl('', Validators.required),
+    mailerSize: new FormControl('', Validators.required),
+    printOrderID: new FormControl('', Validators.required),
     isLastDrop: new FormControl(),
     isDropCompleted: new FormControl(),
-    isSeededReceived: new FormControl(),
+    SeededReceived: new FormControl(),
     nextAvailableDates: new FormControl('', Validators.required),
+    attachments: new FormControl(''),
   });
 
   private _filter(value: string): string[] {
@@ -71,7 +75,7 @@ export class NewDropComponent implements OnInit {
       this.dropForm.controls['isDropCompleted'].setValue(
         this.editMode.isDropCompleted
       );
-      this.dropForm.controls['isSeededReceived'].setValue(
+      this.dropForm.controls['SeededReceived'].setValue(
         this.editMode.isSeededReceived
       );
       this.dropForm.controls['nextAvailableDates'].setValue(
@@ -130,7 +134,7 @@ export class NewDropComponent implements OnInit {
       dropVolume,
       isLastDrop,
       isDropCompleted,
-      isSeededReceived,
+      SeededReceived,
       nextAvailableDates,
     } = this.dropForm.value;
     const dropObject = {
@@ -140,7 +144,7 @@ export class NewDropComponent implements OnInit {
       dropVolume,
       isLastDrop,
       isDropCompleted,
-      isSeededReceived,
+      SeededReceived,
       nextAvailableDates,
     };
     return dropObject as any;
