@@ -5,6 +5,8 @@ import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CampaignComponent } from '../new-campaign/campaign.component';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { ZipCode } from 'src/app/models/Zipcode.model';
 
 @Component({
   selector: 'app-campaign-detail',
@@ -12,6 +14,8 @@ import { CampaignComponent } from '../new-campaign/campaign.component';
   styleUrls: ['./campaign-detail.component.css'],
 })
 export class CampaignDetailComponent implements OnInit {
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
   constructor(
     private campaignService: CampaignService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
@@ -20,6 +24,7 @@ export class CampaignDetailComponent implements OnInit {
     //campaignService.getAllCampaigns();
   }
   actionButton: string = 'Save';
+  zipCodes: ZipCode[] = [];
   campaignDetail = new FormGroup({
     firstDropDate: new FormControl({ disable: true }),
     campaignStatus: new FormControl({ disable: true }),
@@ -30,6 +35,7 @@ export class CampaignDetailComponent implements OnInit {
     mailerSize: new FormControl({ disable: true }),
     totalHouseholds: new FormControl({ disable: true }),
     totalcontractAmount: new FormControl({ disable: true }),
+    zipcodes: new FormControl({ disable: true }),
     printOrderID: new FormControl({ disable: true }),
     accountName: new FormControl({ disable: true }),
     ownerName: new FormControl({ disable: true }),
@@ -64,6 +70,7 @@ export class CampaignDetailComponent implements OnInit {
     this.campaignDetail.controls['totalcontractAmount'].setValue(
       this.editData.totalcontractAmount
     );
+    this.campaignDetail.controls['zipcodes'].setValue(this.editData.zipcodes);
     this.campaignDetail.controls['printOrderID'].setValue(
       this.editData.printOrderID
     );

@@ -67,6 +67,29 @@
             formControlName="totalCampaignVolume"
           />
         </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Zip Codes</mat-label>
+          <mat-chip-list #chipList aria-label="Zip Codes">
+            <mat-chip
+              *ngFor="let zipCode of zipCodes"
+              (removed)="remove(zipCode)"
+            >
+              {{ zipCode.zipNumber }}
+              {{ hi }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+              placeholder="New zip code..."
+              formControlName="zipcodes"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+            />
+          </mat-chip-list>
+        </mat-form-field>
       </div>
       <!-- ############################################################################################################ -->
       <div class="part-two">

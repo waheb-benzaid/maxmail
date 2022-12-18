@@ -73,7 +73,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
     mailerSize: new FormControl('', Validators.required),
     totalHouseholds: new FormControl('', Validators.required),
     totalcontractAmount: new FormControl('', Validators.required),
-    zipcodes: new FormControl(),
+    zipcodes: new FormControl('', Validators.required),
     printOrderID: new FormControl(''),
     accountName: new FormControl('', Validators.required),
     ownerName: new FormControl(''),
