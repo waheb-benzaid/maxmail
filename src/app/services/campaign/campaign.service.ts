@@ -59,6 +59,14 @@ export class CampaignService {
     );
   }
 
+  getCampaignByUniqueNumber(campaignNumber: string) {
+    return this.afs
+      .collection('mail_campaign', (ref) =>
+        ref.where('campaignNumber', '==', campaignNumber)
+      )
+      .snapshotChanges();
+  }
+
   getAllCampaignsNames() {
     let names: string[] = [];
     this.getAllCampaigns().subscribe((campaigns) => {

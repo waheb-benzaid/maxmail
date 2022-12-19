@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Drop } from 'src/app/models/Drop.model';
 import { formatDate } from '../../../utils/Functions/format-date';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
-import { map, Observable, startWith } from 'rxjs';
+import { map, Observable, startWith, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-new-drop',
@@ -34,6 +34,7 @@ export class NewDropComponent implements OnInit {
   actionButton: string = 'Save';
   dropForm = new FormGroup({
     campaignName: new FormControl('', Validators.required),
+    campaignNumber: new FormControl('', Validators.required),
     campaignStatus: new FormControl('', Validators.required),
     campaignType: new FormControl('', Validators.required),
     dropDate: new FormControl('', Validators.required),
@@ -68,6 +69,9 @@ export class NewDropComponent implements OnInit {
       this.dropForm.controls['campaignName'].setValue(
         this.editMode.campaignName
       );
+      this.dropForm.controls['campaignNumber'].setValue(
+        this.editMode.campaignNumber
+      );
       this.dropForm.controls['dropDate'].setValue(this.editMode.dropDate);
       this.dropForm.controls['dropNumber'].setValue(this.editMode.dropNumber);
       this.dropForm.controls['dropVolume'].setValue(this.editMode.dropVolume);
@@ -96,6 +100,10 @@ export class NewDropComponent implements OnInit {
 
   get campaignName() {
     return this.dropForm.get('campaignName');
+  }
+
+  get campaignNumber() {
+    return this.dropForm.get('campaignNumber');
   }
 
   get dropDate() {
@@ -149,9 +157,13 @@ export class NewDropComponent implements OnInit {
     };
     return dropObject as any;
   }
-
+  campaignByUniqueNumberSubscription!: Subscription;
   addDrop() {
     if (!this.editMode) {
+      this.campaignService.getCampaignById('');
+      this.campaignByUniqueNumberSubscription = this.campaignService
+        .getCampaignByUniqueNumber('')
+        .subscribe((res) => {});
       // this.campaignService.get
       // this.dropService
       //   .saveDrop(this.getDropObject()).subscribe()

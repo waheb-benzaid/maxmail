@@ -465,7 +465,15 @@ export class CampaignComponent implements OnInit, OnDestroy {
     let campaignNumber =
       this.campaignNumber === 0 ? 1 : this.campaignNumber + 1;
     let campaignName =
-      campaignNumber + '/' + this.campaignForm.controls['contactName'].value; //this.getCampaignObject().contactName;
+      campaignNumber + '/' + this.campaignForm.controls['contactName'].value;
+    if (campaignNumber < 10) {
+      campaignName = '00' + campaignName;
+    }
+
+    if (campaignNumber < 100 && campaignNumber > 10) {
+      campaignName = '0' + campaignName;
+    }
+    //this.getCampaignObject().contactName;
     const dropFieldsfromCampaign = {
       firstDropDate,
       accountName,
