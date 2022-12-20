@@ -108,8 +108,6 @@ export class DropsListComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         res.forEach((campaign) => {
           campaign.drops.forEach((drop) => {
-            drop.campaignStatus = campaign.campaignStatus;
-            drop.campaignType = campaign.campaignType;
             drops.push(drop);
           });
         });
@@ -117,6 +115,7 @@ export class DropsListComponent implements OnInit, OnDestroy {
         this.drops = drops;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.dropsSubscription.unsubscribe();
       });
   }
 
