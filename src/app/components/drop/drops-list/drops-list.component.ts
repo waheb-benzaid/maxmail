@@ -95,7 +95,7 @@ export class DropsListComponent implements OnInit, OnDestroy {
       this.dialog,
       NewDropComponent,
       '1000px',
-      '800px',
+      '730px',
       data,
       'borderless-dialog'
     );
@@ -121,7 +121,8 @@ export class DropsListComponent implements OnInit, OnDestroy {
   }
 
   editDrop(row: any) {
-    console.log(row, 'row');
+    console.log(row.campaignId, 'campaignId');
+
     this.openDropDialog(row);
   }
 
