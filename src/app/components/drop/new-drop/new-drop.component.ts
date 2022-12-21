@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DropService } from 'src/app/services/drop/drop.service';
@@ -7,14 +7,21 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Drop } from 'src/app/models/Drop.model';
 import { formatDate } from '../../../utils/Functions/format-date';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
-import { map, Observable, startWith, Subscription } from 'rxjs';
+import {
+  firstValueFrom,
+  map,
+  Observable,
+  retry,
+  startWith,
+  Subscription,
+} from 'rxjs';
 
 @Component({
   selector: 'app-new-drop',
   templateUrl: './new-drop.component.html',
   styleUrls: ['./new-drop.component.css'],
 })
-export class NewDropComponent implements OnInit {
+export class NewDropComponent implements OnInit, OnDestroy {
   myControl = new FormControl('');
   options: string[] = [];
   filteredOptions: Observable<string[]> | undefined;
@@ -27,21 +34,18 @@ export class NewDropComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editMode: any,
     private datePipe: DatePipe,
     private campaignService: CampaignService
-  ) {
-    this.options = campaignService.getAllCampaignsNames();
+  ) {}
+  ngOnDestroy(): void {
+    this.campaignNameSubscription.unsubscribe();
   }
   searchText: any;
   actionButton: string = 'Save';
   dropForm = new FormGroup({
     campaignName: new FormControl('', Validators.required),
     campaignNumber: new FormControl('', Validators.required),
-    campaignStatus: new FormControl('', Validators.required),
-    campaignType: new FormControl('', Validators.required),
     dropDate: new FormControl('', Validators.required),
     dropNumber: new FormControl('', Validators.required),
     dropVolume: new FormControl('', Validators.required),
-    mailerSize: new FormControl('', Validators.required),
-    printOrderID: new FormControl('', Validators.required),
     isLastDrop: new FormControl(),
     isDropCompleted: new FormControl(),
     SeededReceived: new FormControl(),
@@ -56,13 +60,22 @@ export class NewDropComponent implements OnInit {
     );
   }
 
+  campaignNameSubscription!: Subscription;
   ngOnInit(): void {
-    this.filteredOptions = this.dropForm.controls[
-      'campaignName'
-    ].valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value || ''))
-    );
+    this.campaignNameSubscription = this.campaignService
+      .getAllCampaigns()
+      .subscribe((res) => {
+        res.forEach((campaign) => {
+          this.options.push(campaign.campaignName);
+        });
+        this.filteredOptions = this.dropForm.controls[
+          'campaignName'
+        ].valueChanges.pipe(
+          startWith(''),
+          map((value) => this._filter(value || ''))
+        );
+      });
+
     if (this.editMode) {
       this.data = this.editMode;
       this.actionButton = 'Edit';
@@ -118,15 +131,15 @@ export class NewDropComponent implements OnInit {
     return this.dropForm.get('dropVolume');
   }
 
-  get _isLastDrop() {
+  get isLastDrop() {
     return this.dropForm.get('isLastDrop');
   }
 
-  get _isDropCompleted() {
+  get isDropCompleted() {
     return this.dropForm.get('isDropCompleted');
   }
 
-  get _isSeededReceived() {
+  get isSeededReceived() {
     return this.dropForm.get('SeededReceived');
   }
 
@@ -137,33 +150,35 @@ export class NewDropComponent implements OnInit {
   getDropObject(): Drop {
     const {
       campaignName,
+      campaignNumber,
       dropDate,
       dropNumber,
       dropVolume,
       isLastDrop,
       isDropCompleted,
-      SeededReceived,
-      nextAvailableDates,
+      // SeededReceived,
+      // nextAvailableDates,
     } = this.dropForm.value;
     const dropObject = {
       campaignName,
+      campaignNumber,
       dropDate: formatDate(dropDate, this.datePipe),
       dropNumber,
       dropVolume,
       isLastDrop,
       isDropCompleted,
-      SeededReceived,
-      nextAvailableDates,
+      // SeededReceived,
+      // nextAvailableDates,
     };
     return dropObject as any;
   }
   campaignByUniqueNumberSubscription!: Subscription;
   addDrop() {
     if (!this.editMode) {
-      this.campaignService.getCampaignById('');
-      this.campaignByUniqueNumberSubscription = this.campaignService
-        .getCampaignByUniqueNumber('')
-        .subscribe((res) => {});
+      // this.campaignService.getCampaignById('');
+      // this.campaignByUniqueNumberSubscription = this.campaignService
+      //   .getCampaignByUniqueNumber('')
+      //   .subscribe((res) => {});
       // this.campaignService.get
       // this.dropService
       //   .saveDrop(this.getDropObject()).subscribe()
@@ -178,24 +193,63 @@ export class NewDropComponent implements OnInit {
       //     this.dropForm.reset();
       //     this.dialogRef.close('save');
       //   });
+      return;
     }
     this.updatedrop(this.editMode);
   }
 
-  updatedrop(id: string) {
-    // this.dropService
-    //   .updateDrop(id, this.dropForm.value)
-    //   .pipe(
-    //     this.toast.observe({
-    //       success: 'drop edited successfuly',
-    //       loading: 'Editing ...',
-    //       error: 'There was a error',
-    //     })
-    //   )
-    //   .subscribe(() => {
-    //     this.dropForm.reset();
-    //     this.dialogRef.close('update');
-    //   });
+  updateCampaignSubscription!: Subscription;
+
+  async updatedrop(dropToUpdate: Drop) {
+    const campaign$ = this.campaignService.getCampaignById(
+      dropToUpdate.campaignId
+    );
+    const campaign = await firstValueFrom(campaign$);
+    campaign.drops[dropToUpdate.dropNumber - 1].dropDate =
+      this.getDropObject().dropDate;
+    campaign.drops[dropToUpdate.dropNumber - 1].dropVolume =
+      this.getDropObject().dropVolume;
+    campaign.drops[dropToUpdate.dropNumber - 1].isDropCompleted =
+      this.getDropObject().isDropCompleted;
+    campaign.drops[dropToUpdate.dropNumber - 1].isDropCompleted =
+      this.getDropObject().isDropCompleted;
+    campaign.drops[dropToUpdate.dropNumber - 1].isLastDrop =
+      this.getDropObject().isLastDrop;
+
+    console.log(campaign.drops[dropToUpdate.dropNumber - 1], 'drop');
+
+    // campaign.drops[dropToUpdate.dropNumber - 1].isSeededReceived =
+    //   this.getDropObject().isSeededReceived;
+
+    // console.log('hi');
+
+    if (this.getDropObject().isDropCompleted === true) {
+      if (
+        campaign.drops[dropToUpdate.dropNumber - 2] &&
+        campaign.drops[dropToUpdate.dropNumber - 2].isDropCompleted === false
+      ) {
+        alert(
+          `the drop number ${
+            dropToUpdate.dropNumber - 1
+          } is not completed, it should be completed before this one`
+        );
+        return;
+      }
+      campaign.currentDropNumber = dropToUpdate.dropNumber;
+    }
+    this.updateCampaignSubscription = this.campaignService
+      .updateCampaign(dropToUpdate.campaignId, campaign)
+      .pipe(
+        this.toast.observe({
+          success: 'drop updated successfuly',
+          loading: 'Editing ...',
+          error: 'Thre was an error when updating this drop',
+        })
+      )
+      .subscribe(() => {
+        this.dropForm.reset();
+        this.dialogRef.close('update');
+      });
   }
 
   deletedrop() {

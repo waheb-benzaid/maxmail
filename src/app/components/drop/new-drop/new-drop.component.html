@@ -25,26 +25,6 @@
 
         <!------------------------------------------------------>
         <mat-form-field appearance="outline">
-          <mat-label>Campaign Type</mat-label>
-          <mat-select formControlName="campaignType">
-            <mat-option value="Mailer">Mailer</mat-option>
-            <mat-option value="Postcard">Postcard</mat-option>
-            <mat-option value="Magazine">Magazine</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <!------------------------------------------------------>
-        <mat-form-field appearance="outline">
-          <mat-label>Campaign Status</mat-label>
-          <mat-select formControlName="campaignStatus">
-            <mat-option value="Active">Active</mat-option>
-            <mat-option value="Suspended">suspended</mat-option>
-            <mat-option value="Cancelled">cancelled</mat-option>
-            <mat-option value="Completed">completed</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <!--------------------------------------------------  -->
-        <mat-form-field appearance="outline">
           <mat-datepicker-toggle
             matSuffix
             [for]="picker"
@@ -92,26 +72,6 @@
             type="number"
             placeholder="Drop Volume"
             formControlName="dropVolume"
-          />
-        </mat-form-field>
-        <!--------------------------------------------------  -->
-
-        <!--------------------------------------------------  -->
-        <mat-form-field appearance="outline">
-          <mat-label>Mailer Size</mat-label>
-          <input
-            matInput
-            placeholder="Mailer Size"
-            formControlName="mailerSize"
-          />
-        </mat-form-field>
-        <!--------------------------------------------------  -->
-        <mat-form-field appearance="outline">
-          <mat-label>Print Order ID</mat-label>
-          <input
-            matInput
-            placeholder="Print Order ID"
-            formControlName="printOrderID"
           />
         </mat-form-field>
         <!--------------------------------------------------  -->
