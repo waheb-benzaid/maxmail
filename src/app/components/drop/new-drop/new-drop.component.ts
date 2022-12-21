@@ -205,6 +205,7 @@ export class NewDropComponent implements OnInit, OnDestroy {
       dropToUpdate.campaignId
     );
     const campaign = await firstValueFrom(campaign$);
+
     campaign.drops[dropToUpdate.dropNumber - 1].dropDate =
       this.getDropObject().dropDate;
     campaign.drops[dropToUpdate.dropNumber - 1].dropVolume =
@@ -215,13 +216,6 @@ export class NewDropComponent implements OnInit, OnDestroy {
       this.getDropObject().isDropCompleted;
     campaign.drops[dropToUpdate.dropNumber - 1].isLastDrop =
       this.getDropObject().isLastDrop;
-
-    console.log(campaign.drops[dropToUpdate.dropNumber - 1], 'drop');
-
-    // campaign.drops[dropToUpdate.dropNumber - 1].isSeededReceived =
-    //   this.getDropObject().isSeededReceived;
-
-    // console.log('hi');
 
     if (this.getDropObject().isDropCompleted === true) {
       if (
@@ -235,7 +229,7 @@ export class NewDropComponent implements OnInit, OnDestroy {
         );
         return;
       }
-      campaign.currentDropNumber = dropToUpdate.dropNumber;
+      campaign.currentDropNumber = dropToUpdate.dropNumber + 1;
     }
     this.updateCampaignSubscription = this.campaignService
       .updateCampaign(dropToUpdate.campaignId, campaign)
