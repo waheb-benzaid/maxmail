@@ -14,7 +14,13 @@ import { RecordsTableService } from 'src/app/services/common/records-table/recor
 })
 export class UsersListComponent implements OnInit {
   ngOnInit(): void {}
-  displayedColumns: string[] = ['id', 'full Name', 'Email', 'Is Admin ?'];
+  displayedColumns: string[] = [
+    'firstName',
+    'lastName',
+    'email',
+    'role',
+    'action',
+  ];
   dataSource: MatTableDataSource<UserModel>;
 
   @ViewChild(MatPaginator)
@@ -30,7 +36,15 @@ export class UsersListComponent implements OnInit {
     this.dataSource = new MatTableDataSource(user);
   }
 
-  openDialog() {
+  applyFilter(event: Event) {
+    let filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  openUserDialog() {
     this.dialog.open(UserRegisterComponent, {
       height: '400px',
       width: '400px',

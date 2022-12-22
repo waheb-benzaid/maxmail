@@ -1,0 +1,149 @@
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+  margin-left: 20px;
+}
+
+td,
+th {
+  width: 23%;
+}
+
+.demo-button + .demo-button {
+  margin-right: 8px;
+}
+
+.demo-button-container {
+  padding-bottom: 16px;
+  text-align: right;
+  margin-right: 20px;
+  margin-top: 20px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #343744;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 1px;
+}
+
+.container .page-title {
+  font-family: "Poppins";
+  font-style: italic;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  color: #000000;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 40px 0 40px 0;
+}
+
+.table-container {
+  overflow-y: auto;
+  height: 400px;
+  white-space: nowrap;
+}
+
+.mat-cell,
+.mat-header-cell {
+  width: 10px;
+}
+
+.mat-row,
+.mat-header-row {
+  display: table-row;
+}
+
+.campaign-status .active {
+  width: 51px;
+  height: 24px;
+  left: 640px;
+  top: 1027px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  /* font-size: 16px; */
+  font-size: large;
+  color: #587cfb;
+  background-color: #e8f3ff;
+}
+.column-header {
+  font-size: large;
+  color: black;
+}
+.suspended {
+  width: 92px;
+  height: 24px;
+  left: 621px;
+  top: 834px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: large;
+  line-height: 24px;
+  /* identical to box height */
+  color: #ffb59d;
+  background-color: #fef6f4;
+}
+
+.cancelled {
+  width: 83px;
+  height: 24px;
+  left: 628px;
+  top: 444px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: large;
+  line-height: 24px;
+  color: #ffda58;
+}
+
+.completed {
+  width: 91px;
+  height: 24px;
+  left: 619px;
+  top: 932px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: large;
+  line-height: 24px;
+  /* identical to box height */
+  color: #88e0a8;
+  background: #f6fdf9;
+}
+td .mat-cell {
+  max-width: 100px;
+}
+
+.mat-column {
+  width: 100px;
+}
+
+.mat-header-cell {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: large;
+  color: #000000;
+  line-height: 24px;
+  /* identical to box height */
+  color: #343744;
+  z-index: 5000;
+}
+
+.table-container th {
+  width: 20%;
+}
+
+table {
+  width: 100%;
+}
