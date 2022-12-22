@@ -229,7 +229,9 @@ export class NewDropComponent implements OnInit, OnDestroy {
         );
         return;
       }
-      campaign.currentDropNumber = dropToUpdate.dropNumber + 1;
+      if (dropToUpdate.dropNumber + 1 <= campaign.totalDropsNumber) {
+        campaign.currentDropNumber = dropToUpdate.dropNumber + 1;
+      }
     }
     this.updateCampaignSubscription = this.campaignService
       .updateCampaign(dropToUpdate.campaignId, campaign)
