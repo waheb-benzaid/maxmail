@@ -239,7 +239,7 @@ export class NewDropComponent implements OnInit, OnDestroy {
         this.toast.observe({
           success: 'drop updated successfuly',
           loading: 'Editing ...',
-          error: 'Thre was an error when updating this drop',
+          error: 'There was an error when updating this drop',
         })
       )
       .subscribe(() => {

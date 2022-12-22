@@ -67,16 +67,6 @@ export class CampaignService {
       .snapshotChanges();
   }
 
-  getAllCampaignsNames() {
-    let names: string[] = [];
-    this.getAllCampaigns().subscribe((campaigns) => {
-      for (const campaign of <Campaign[]>campaigns) {
-        //names.push(campaign.campaignName);
-      }
-    });
-    return names;
-  }
-
   getLastCreatedCampaign() {
     const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
       ref.orderBy('createdAt', 'desc').limit(1)

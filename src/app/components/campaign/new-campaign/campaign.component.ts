@@ -50,7 +50,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
     private router: Router,
     private dropVolumeDateService: DropvolumeDatesService //  private dropVolumeDateService: DropvolumeDatesService
   ) {
-    this.campaignNames = this.campaignService.getAllCampaignsNames();
+    // this.campaignNames = this.campaignService.getAllCampaignsNames();
     this.lastCreatedCampaign = this.campaignService
       .getLastCreateedCampaignByNumber()
       .subscribe((res) => {
