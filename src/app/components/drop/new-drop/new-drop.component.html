@@ -1,5 +1,13 @@
 <div class="container">
-  <h1 style="margin-bottom: 40px">New Drop</h1>
+  <div *ngIf="editMode; else new">
+    <h2>
+      Drop {{ editMode.dropNumber }} :
+      {{ editMode.dropDate | date : "MM/dd/YYYY" }}
+    </h2>
+    <h4>Contact Name : {{ editMode.accountName }}</h4>
+    <h4>Company Name : {{ editMode.contactName }}</h4>
+  </div>
+  <ng-template #new> <h2>New Drop</h2> </ng-template>
   <mat-divider style="margin-bottom: 40px"></mat-divider>
   <form [formGroup]="dropForm">
     <div class="main-form-div">
