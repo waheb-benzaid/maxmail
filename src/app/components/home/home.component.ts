@@ -11,7 +11,7 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  user$ = this.authService.currentUser$;
+  user$ = this.userService.currentUserProfile$;
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
   constructor(
     private authService: AuthenticationService,
@@ -25,6 +25,10 @@ export class HomeComponent implements OnInit {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['']);
     });
+  }
+
+  openProfile() {
+    this.router.navigate(['home/profile']);
   }
 
   ngAfterViewInit() {

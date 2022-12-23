@@ -17,24 +17,10 @@
 }
 
 .form-container {
-  width: 400px;
+  max-width: 400px;
 }
 
 .row {
   display: flex;
   gap: 16px;
-}
-
-.form-container {
-  display: block;
-  width: 50%;
-  background-color: whitesmoke;
-  padding: 48px;
-  border-radius: 16px;
-  margin-top: 20%;
-  margin: auto;
-  text-align: center;
-  width: 90%;
-  height: 80%;
-  flex-direction: column;
 }

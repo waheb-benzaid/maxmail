@@ -4,8 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { UserModel } from 'src/app/models/User.model';
 import { RecordsTableService } from 'src/app/services/common/records-table/records-table.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-users-list',
@@ -13,7 +15,9 @@ import { RecordsTableService } from 'src/app/services/common/records-table/recor
   styleUrls: ['./users-list.component.css'],
 })
 export class UsersListComponent implements OnInit {
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getallUsers();
+  }
   displayedColumns: string[] = [
     'firstName',
     'lastName',
@@ -29,6 +33,7 @@ export class UsersListComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private userService: UserService,
     recordsTableService: RecordsTableService
   ) {
     const user: UserModel[] = [];
@@ -43,11 +48,19 @@ export class UsersListComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  usersSubscription!: Subscription;
+  getallUsers() {
+    this.usersSubscription = this.userService.getAllUsers().subscribe((res) => {
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.sort = this.sort;
+      this.ngOnInit();
+    });
+  }
 
   openUserDialog() {
     this.dialog.open(UserRegisterComponent, {
-      height: '400px',
-      width: '400px',
+      height: '550px',
+      width: '540px',
       panelClass: 'borderless-dialog',
     });
   }

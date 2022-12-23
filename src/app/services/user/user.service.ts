@@ -3,6 +3,7 @@ import { from, Observable, of, switchMap } from 'rxjs';
 import { UserModel } from 'src/app/models/User.model';
 import {
   collection,
+  collectionData,
   doc,
   docData,
   Firestore,
@@ -10,7 +11,7 @@ import {
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { Auth } from 'firebase/auth';
+import { Auth, User } from 'firebase/auth';
 import {} from 'firebase/functions';
 
 import { AuthenticationService } from '../auth/authentication.service';
@@ -37,7 +38,7 @@ export class UserService {
     );
   }
 
-  addUser(user: ProfileUser): Observable<void> {
+  addUser(user: ProfileUser): Observable<any> {
     const ref = doc(this.firestore, 'users', user.uid);
     return from(setDoc(ref, user));
   }
@@ -47,5 +48,11 @@ export class UserService {
     return from(updateDoc(ref, { ...user }));
   }
 
-  getAllUsers() {}
+  getAllUsers() {
+    return from(
+      collectionData(collection(this.firestore, 'users'), {
+        idField: 'id',
+      }) as Observable<UserModel[]>
+    );
+  }
 }

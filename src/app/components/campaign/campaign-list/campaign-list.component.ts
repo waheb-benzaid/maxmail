@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 import { firstValueFrom, Observable, Subscription, window } from 'rxjs';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
 import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-campaign-list',
@@ -21,7 +22,12 @@ import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvo
   styleUrls: ['./campaign-list.component.css'],
 })
 export class CampaignListComponent implements OnInit, OnDestroy {
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let user$ = this.userService.currentUserProfile$;
+    user$.subscribe((res) => {
+      console.log(res?.displayName, 'displayed name');
+    });
+  }
   campaignByIdSubscription!: Subscription;
   campaignDeletedSubscription!: Subscription;
   isDetailDialog = false;
@@ -44,7 +50,8 @@ export class CampaignListComponent implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     private zipcodeService: ZipCodeService,
     private dropVolumeDateService: DropvolumeDatesService,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    private userService: UserService
   ) {
     //NOTE: Assign the data to the data source for the table to render
     //campaignService.getAllCampaignsNames();

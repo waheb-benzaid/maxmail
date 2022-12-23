@@ -37,9 +37,11 @@
               formControlName="confirmPassword"
             />
           </mat-form-field>
-          <div class="checkbox">
-            <mat-checkbox formControlName="isAdmin">Admin</mat-checkbox>
-          </div>
+
+          <mat-form-field style="width: 300px">
+            <input matInput placeholder="Role" formControlName="role" />
+          </mat-form-field>
+
           <mat-error *ngIf="registerUserForm.errors?.['passwordsDontMatch']">
             Passwords should match
           </mat-error>

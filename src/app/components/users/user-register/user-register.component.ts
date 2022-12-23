@@ -10,12 +10,13 @@ import {
 import { HotToastService } from '@ngneat/hot-toast';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/auth/authentication.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { switchMap } from 'rxjs';
 
 export function passwordsMatchValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
-
     if (password && confirmPassword && password !== confirmPassword) {
       return { passwordsDontMatch: true };
     } else {
@@ -36,7 +37,7 @@ export class UserRegisterComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),
       confirmPassword: new FormControl('', Validators.required),
-      isAdmin: new FormControl(),
+      role: new FormControl('', Validators.required),
     },
     { validators: passwordsMatchValidator() }
   );
@@ -44,7 +45,8 @@ export class UserRegisterComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private toast: HotToastService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {}
@@ -69,19 +71,29 @@ export class UserRegisterComponent implements OnInit {
     return this.registerUserForm.get('confirmPassword');
   }
 
-  get isAdmin() {
-    return this.registerUserForm.get('isAdmin');
+  get role() {
+    return this.registerUserForm.get('role');
   }
 
   submit() {
     if (!this.registerUserForm.valid) {
       return;
     }
-    const { firstName, lastName, email, password, isAdmin } =
+    const { firstName, lastName, email, password, role } =
       this.registerUserForm.value;
     this.authService
-      .saveUser(firstName, lastName, email, password)
+      .saveUser(email, password)
       .pipe(
+        switchMap(({ user: { uid } }) =>
+          this.userService.addUser({
+            uid,
+            email,
+            firstName,
+            lastName,
+            displayName: firstName,
+            role,
+          })
+        ),
         this.toast.observe({
           success: 'a new user has been added',
           loading: 'saving ...',
@@ -92,4 +104,6 @@ export class UserRegisterComponent implements OnInit {
         this.router.navigate(['/users']);
       });
   }
+
+  // updateUser
 }

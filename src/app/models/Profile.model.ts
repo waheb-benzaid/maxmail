@@ -7,5 +7,5 @@ export interface ProfileUser {
   phone?: any;
   address?: any;
   photoURL?: any;
-  isAdmin?: boolean;
+  role?: any;
 }

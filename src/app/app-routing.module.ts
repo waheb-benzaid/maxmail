@@ -28,6 +28,7 @@ const routes: Routes = [
     component: LoginComponent,
     ...canActivate(redirectLoggedInToHome),
   },
+
   {
     path: 'home',
     component: HomeComponent,

@@ -1,11 +1,20 @@
-<!-- <div class="form-container mat-elevation-z5 text-center">
+<div
+  class="form-container mat-elevation-z5 text-center"
+  *ngIf="user$ | async as user"
+>
   <h1>Update Profile</h1>
   <div class="profile-image">
-    <img width="120" height="120" class="margin-top mat-elevation-z1" />
-    <button mat-mini-fab>
+    <img
+      width="120"
+      height="120"
+      class="margin-top mat-elevation-z1"
+      [src]="user.photoURL ?? '/assets/images/image-placeholder.png'"
+    />
+    <button mat-mini-fab (click)="inputField.click()">
       <mat-icon>edit</mat-icon>
     </button>
   </div>
+  <input #inputField hidden type="file" (change)="uploadFile($event, user)" />
 
   <form class="margin-top" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
     <div class="row">
@@ -58,21 +67,4 @@
       Save
     </button>
   </form>
-</div> -->
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <div class="form-container mat-elevation-z5 text-center">
-      <h1>User Profile</h1>
-      <div>
-        <img width="150" height="150" [src]="" alt="" />
-      </div>
-    </div>
-  </body>
-</html>
+</div>
