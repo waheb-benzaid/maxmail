@@ -4,14 +4,9 @@ body {
 
 .form-container {
   display: block;
-  /* background: #04ecd9d8; */
   background-color: whitesmoke;
   padding: 20px;
   border-radius: 16px;
-
-  mat-form-field {
-    width: 100%;
-  }
 }
 
 .center {
