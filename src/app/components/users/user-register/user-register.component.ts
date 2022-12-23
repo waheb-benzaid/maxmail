@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -11,7 +11,7 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/auth/authentication.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { switchMap } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 
 export function passwordsMatchValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -29,7 +29,7 @@ export function passwordsMatchValidator(): ValidatorFn {
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.css'],
 })
-export class UserRegisterComponent implements OnInit {
+export class UserRegisterComponent implements OnInit, OnDestroy {
   registerUserForm = new FormGroup(
     {
       firstName: new FormControl('', Validators.required),
@@ -48,6 +48,9 @@ export class UserRegisterComponent implements OnInit {
     private router: Router,
     private userService: UserService
   ) {}
+  ngOnDestroy(): void {
+    this.userSubmitSubscription.unsubscribe();
+  }
 
   ngOnInit(): void {}
 
@@ -74,14 +77,14 @@ export class UserRegisterComponent implements OnInit {
   get role() {
     return this.registerUserForm.get('role');
   }
-
+  userSubmitSubscription!: Subscription;
   submit() {
     if (!this.registerUserForm.valid) {
       return;
     }
     const { firstName, lastName, email, password, role } =
       this.registerUserForm.value;
-    this.authService
+    this.userSubmitSubscription = this.authService
       .saveUser(email, password)
       .pipe(
         switchMap(({ user: { uid } }) =>
