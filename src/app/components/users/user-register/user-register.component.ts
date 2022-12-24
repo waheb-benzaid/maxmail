@@ -49,7 +49,9 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {}
   ngOnDestroy(): void {
-    this.userSubmitSubscription.unsubscribe();
+    if (this.userSubmitSubscription) {
+      this.userSubmitSubscription.unsubscribe();
+    }
   }
 
   ngOnInit(): void {}
