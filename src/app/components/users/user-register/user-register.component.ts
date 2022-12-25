@@ -48,6 +48,7 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
     private router: Router,
     private userService: UserService
   ) {}
+
   ngOnDestroy(): void {
     if (this.userSubmitSubscription) {
       this.userSubmitSubscription.unsubscribe();
@@ -79,6 +80,7 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
   get role() {
     return this.registerUserForm.get('role');
   }
+
   userSubmitSubscription!: Subscription;
   submit() {
     if (!this.registerUserForm.valid) {

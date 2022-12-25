@@ -20,10 +20,12 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { ZipCode } from 'src/app/models/Zipcode.model';
 import { ZipCodeService } from 'src/app/services/zip-code/zip-code.service';
 import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
 import { CampaignStatus } from 'src/app/utils/Enums/Campaign Enums/CampaignStatus';
 import { CampaignTypes } from 'src/app/utils/Enums/Campaign Enums/CampaignType';
+import { UserService } from 'src/app/services/user/user.service';
+import { UserModel } from 'src/app/models/User.model';
 
 @Component({
   selector: 'app-campaign',
@@ -48,7 +50,8 @@ export class CampaignComponent implements OnInit, OnDestroy {
     private dropService: DropService,
     private hiatusDatesService: HiatusDatesService,
     private router: Router,
-    private dropVolumeDateService: DropvolumeDatesService //  private dropVolumeDateService: DropvolumeDatesService
+    private dropVolumeDateService: DropvolumeDatesService, //  private dropVolumeDateService: DropvolumeDatesService
+    private userService: UserService
   ) {
     // this.campaignNames = this.campaignService.getAllCampaignsNames();
     this.lastCreatedCampaign = this.campaignService
@@ -205,8 +208,9 @@ export class CampaignComponent implements OnInit, OnDestroy {
   volumeDatesList: VolumeDates[] = [];
   zipCodesSubscription!: Subscription;
   zipCodesList: ZipCode[] = [];
-
+  users$!: Observable<UserModel[]>;
   ngOnInit(): void {
+    this.users$ = this.userService.getAllUsers();
     this.zipCodesSubscription = this.zipCodeService
       .getAllZipcodes()
       .subscribe((res) => {

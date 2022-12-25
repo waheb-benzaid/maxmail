@@ -187,12 +187,14 @@
         </mat-form-field>
         <!--------------------------------------------------  -->
         <mat-form-field appearance="outline">
-          <mat-label>Owner Name</mat-label>
-          <input
-            matInput
-            placeholder="Owner Name"
-            formControlName="ownerName"
-          />
+          <mat-label>Owner</mat-label>
+          <mat-select formControlName="ownerName">
+            <mat-option
+              *ngFor="let user of users$ | async as UserModel"
+              value="user.displayName"
+              >{{ user.displayName }}</mat-option
+            >
+          </mat-select>
         </mat-form-field>
         <!--------------------------------------------------  -->
         <mat-form-field appearance="outline">
