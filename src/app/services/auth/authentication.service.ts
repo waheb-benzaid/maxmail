@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { initializeApp, FirebaseApp } from '@angular/fire/app';
 import { from, switchMap } from 'rxjs';
+import { UserModel } from 'src/app/models/User.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class AuthenticationService {
     return from(this.auth.signOut());
   }
   //NOTE: in this project, users should be creatd by the admin, so there is no SignUp, instead, the new users are just saved
-  saveUser(email: any, password: any) {
+  signUp(email: any, password: any) {
     let signUpApp = this.auth.app.name + '_signUp';
     let secondaryApp = initializeApp(this.auth.app.options, signUpApp);
     let secondaryAppAuth = getAuth(secondaryApp);

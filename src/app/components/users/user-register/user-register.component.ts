@@ -82,6 +82,7 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
   }
 
   userSubmitSubscription!: Subscription;
+
   submit() {
     if (!this.registerUserForm.valid) {
       return;
@@ -89,7 +90,7 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
     const { firstName, lastName, email, password, role } =
       this.registerUserForm.value;
     this.userSubmitSubscription = this.authService
-      .saveUser(email, password)
+      .signUp(email, password)
       .pipe(
         switchMap(({ user: { uid } }) =>
           this.userService.addUser({
@@ -111,6 +112,4 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
         this.router.navigate(['/users']);
       });
   }
-
-  // updateUser
 }
