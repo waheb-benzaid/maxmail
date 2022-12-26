@@ -191,7 +191,7 @@
           <mat-select formControlName="ownerName">
             <mat-option
               *ngFor="let user of users$ | async as UserModel"
-              value="user.displayName"
+              value="{{ user.displayName }}"
               >{{ user.displayName }}</mat-option
             >
           </mat-select>
