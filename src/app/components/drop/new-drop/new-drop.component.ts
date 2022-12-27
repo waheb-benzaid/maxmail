@@ -17,6 +17,8 @@ import {
 } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { ca } from 'date-fns/locale';
+import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
+import { VolumeDates } from 'src/app/models/VolumeDates.model';
 
 @Component({
   selector: 'app-new-drop',
@@ -37,11 +39,15 @@ export class NewDropComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<NewDropComponent>,
     @Inject(MAT_DIALOG_DATA) public editMode: any,
     private datePipe: DatePipe,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private dropVolumeDateService: DropvolumeDatesService
   ) {}
   ngOnDestroy(): void {
     if (this.updateCampaignSubscription) {
       this.updateCampaignSubscription.unsubscribe();
+    }
+    if (this.volumeSubscription) {
+      this.volumeSubscription.unsubscribe();
     }
   }
   searchText: any;
@@ -65,8 +71,18 @@ export class NewDropComponent implements OnInit, OnDestroy {
       option.toLowerCase().includes(filterValue)
     );
   }
+  volumeSubscription!: Subscription;
+  volumeDatesList: VolumeDates[] = [];
   ngOnInit(): void {
     this.campaigns$ = this.campaignService.getAllCampaigns();
+    this.volumeDatesList.length = 0;
+    this.volumeSubscription = this.dropVolumeDateService
+      .getAllVolumeDate()
+      .subscribe((res) => {
+        res.forEach((vd) => {
+          this.volumeDatesList.push(vd);
+        });
+      });
     if (this.editMode) {
       this.data = this.editMode;
       this.actionButton = 'Edit';
@@ -147,35 +163,48 @@ export class NewDropComponent implements OnInit, OnDestroy {
       dropVolume,
       isLastDrop,
       isDropCompleted,
-      // SeededReceived,
-      // nextAvailableDates,
+      SeededReceived,
     } = this.dropForm.value;
     const dropObject = {
-      campaignName,
+      //NOTE: Im when the user chooses the campaign name, the form will returm the campaignID, so it will be used for the update and insert operations
+      campaignId: campaignName, //NOTE: campaignName here is campaignID
+      campaignName: '',
+      campaignStatus: '',
+      campaignType: '',
+      accountName: '',
+      contactName: '',
+      printOrderID: '',
       campaignNumber,
       dropDate: formatDate(dropDate, this.datePipe),
       dropNumber,
       dropVolume,
       isLastDrop,
       isDropCompleted,
-      // SeededReceived,
-      // nextAvailableDates,
+      SeededReceived,
     };
     return dropObject as any;
   }
+
   campaignByUniqueNumberSubscription!: Subscription;
   async addDrop() {
     if (!this.editMode) {
       const dropToAdd = this.getDropObject();
+      console.log(dropToAdd, 'dropToAdd');
       const campaign$ = this.campaignService.getCampaignById(
-        this.getDropObject().campaignName
+        this.getDropObject().campaignId
       );
       const campaign = await firstValueFrom(campaign$);
-      this.getDropObject().dropNumber = campaign.drops.length;
-      campaign.drops.push(this.getDropObject());
-
+      dropToAdd.campaignName = campaign.campaignName;
+      dropToAdd.campaignStatus = campaign.campaignStatus;
+      dropToAdd.campaignType = campaign.campaignType;
+      dropToAdd.accountName = campaign.accountName;
+      dropToAdd.contactName = campaign.contactName;
+      dropToAdd.printOrderID = campaign.printOrderID;
+      dropToAdd.dropNumber = campaign.drops.length + 1;
+      campaign.drops.push(dropToAdd);
+      campaign.totalDropsNumber++;
       this.updateCampaignSubscription = this.campaignService
-        .updateCampaign(dropToAdd.campaignName, campaign)
+        .updateCampaign(dropToAdd.campaignId, campaign)
         .pipe(
           this.toast.observe({
             success: 'drop Added successfuly',
@@ -186,6 +215,12 @@ export class NewDropComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           this.dropForm.reset();
           this.dialogRef.close('update');
+          this.dropVolumeDateService.saveOrUpdateVolumeDate(
+            dropToAdd.dropDate,
+            dropToAdd.dropVolume,
+            campaign.campaignStatus,
+            false
+          );
         });
       return;
     }
@@ -197,7 +232,6 @@ export class NewDropComponent implements OnInit, OnDestroy {
       dropToUpdate.campaignId
     );
     const campaign = await firstValueFrom(campaign$);
-
     campaign.drops[dropToUpdate.dropNumber - 1].dropDate =
       this.getDropObject().dropDate;
     campaign.drops[dropToUpdate.dropNumber - 1].dropVolume =
