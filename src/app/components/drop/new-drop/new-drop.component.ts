@@ -16,6 +16,7 @@ import {
   Subscription,
 } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
+import { ca } from 'date-fns/locale';
 
 @Component({
   selector: 'app-new-drop',
@@ -25,7 +26,9 @@ import { Campaign } from 'src/app/models/Campaign.model';
 export class NewDropComponent implements OnInit, OnDestroy {
   myControl = new FormControl('');
   options: string[] = [];
-  filteredOptions: Observable<string[]> | undefined;
+  campaigns$!: Observable<Campaign[]>;
+  updateCampaignSubscription!: Subscription;
+  filteredOptions!: Observable<string[]>;
   public data: any;
 
   constructor(
@@ -37,7 +40,9 @@ export class NewDropComponent implements OnInit, OnDestroy {
     private campaignService: CampaignService
   ) {}
   ngOnDestroy(): void {
-    // this.campaignNameSubscription.unsubscribe();
+    if (this.updateCampaignSubscription) {
+      this.updateCampaignSubscription.unsubscribe();
+    }
   }
   searchText: any;
   actionButton: string = 'Save';
@@ -60,24 +65,8 @@ export class NewDropComponent implements OnInit, OnDestroy {
       option.toLowerCase().includes(filterValue)
     );
   }
-  campaigns$!: Observable<Campaign[]>;
-  // campaignNameSubscription!: Subscription;
   ngOnInit(): void {
     this.campaigns$ = this.campaignService.getAllCampaigns();
-    // this.campaignNameSubscription = this.campaignService
-    //   .getAllCampaigns()
-    //   .subscribe((res) => {
-    //     res.forEach((campaign) => {
-    //       this.options.push(campaign.campaignName);
-    //     });
-    //     this.filteredOptions = this.dropForm.controls[
-    //       'campaignName'
-    //     ].valueChanges.pipe(
-    //       startWith(''),
-    //       map((value) => this._filter(value || ''))
-    //     );
-    //   });
-
     if (this.editMode) {
       this.data = this.editMode;
       this.actionButton = 'Edit';
@@ -175,34 +164,33 @@ export class NewDropComponent implements OnInit, OnDestroy {
     return dropObject as any;
   }
   campaignByUniqueNumberSubscription!: Subscription;
-  addDrop() {
+  async addDrop() {
     if (!this.editMode) {
-      console.log(this.getDropObject(), 'campaign name');
+      const dropToAdd = this.getDropObject();
+      const campaign$ = this.campaignService.getCampaignById(
+        this.getDropObject().campaignName
+      );
+      const campaign = await firstValueFrom(campaign$);
+      this.getDropObject().dropNumber = campaign.drops.length;
+      campaign.drops.push(this.getDropObject());
 
-      // this.campaignService.getCampaignById('');
-      // this.campaignByUniqueNumberSubscription = this.campaignService
-      //   .getCampaignByUniqueNumber('')
-      //   .subscribe((res) => {});
-      // this.campaignService.get
-      // this.dropService
-      //   .saveDrop(this.getDropObject()).subscribe()
-      //   .pipe(
-      //     this.toast.observe({
-      //       success: 'drop saved successfuly',
-      //       loading: 'Saving ...',
-      //       error: 'There was a error',
-      //     })
-      //   )
-      //   .subscribe(() => {
-      //     this.dropForm.reset();
-      //     this.dialogRef.close('save');
-      //   });
+      this.updateCampaignSubscription = this.campaignService
+        .updateCampaign(dropToAdd.campaignName, campaign)
+        .pipe(
+          this.toast.observe({
+            success: 'drop Added successfuly',
+            loading: 'Saving ...',
+            error: 'There was an error when saving this drop',
+          })
+        )
+        .subscribe(() => {
+          this.dropForm.reset();
+          this.dialogRef.close('update');
+        });
       return;
     }
     this.updatedrop(this.editMode);
   }
-
-  updateCampaignSubscription!: Subscription;
 
   async updatedrop(dropToUpdate: Drop) {
     const campaign$ = this.campaignService.getCampaignById(
