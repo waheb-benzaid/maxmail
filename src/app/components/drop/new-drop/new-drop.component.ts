@@ -15,6 +15,7 @@ import {
   startWith,
   Subscription,
 } from 'rxjs';
+import { Campaign } from 'src/app/models/Campaign.model';
 
 @Component({
   selector: 'app-new-drop',
@@ -36,7 +37,7 @@ export class NewDropComponent implements OnInit, OnDestroy {
     private campaignService: CampaignService
   ) {}
   ngOnDestroy(): void {
-    this.campaignNameSubscription.unsubscribe();
+    // this.campaignNameSubscription.unsubscribe();
   }
   searchText: any;
   actionButton: string = 'Save';
@@ -59,22 +60,23 @@ export class NewDropComponent implements OnInit, OnDestroy {
       option.toLowerCase().includes(filterValue)
     );
   }
-
-  campaignNameSubscription!: Subscription;
+  campaigns$!: Observable<Campaign[]>;
+  // campaignNameSubscription!: Subscription;
   ngOnInit(): void {
-    this.campaignNameSubscription = this.campaignService
-      .getAllCampaigns()
-      .subscribe((res) => {
-        res.forEach((campaign) => {
-          this.options.push(campaign.campaignName);
-        });
-        this.filteredOptions = this.dropForm.controls[
-          'campaignName'
-        ].valueChanges.pipe(
-          startWith(''),
-          map((value) => this._filter(value || ''))
-        );
-      });
+    this.campaigns$ = this.campaignService.getAllCampaigns();
+    // this.campaignNameSubscription = this.campaignService
+    //   .getAllCampaigns()
+    //   .subscribe((res) => {
+    //     res.forEach((campaign) => {
+    //       this.options.push(campaign.campaignName);
+    //     });
+    //     this.filteredOptions = this.dropForm.controls[
+    //       'campaignName'
+    //     ].valueChanges.pipe(
+    //       startWith(''),
+    //       map((value) => this._filter(value || ''))
+    //     );
+    //   });
 
     if (this.editMode) {
       this.data = this.editMode;
@@ -175,6 +177,8 @@ export class NewDropComponent implements OnInit, OnDestroy {
   campaignByUniqueNumberSubscription!: Subscription;
   addDrop() {
     if (!this.editMode) {
+      console.log(this.getDropObject(), 'campaign name');
+
       // this.campaignService.getCampaignById('');
       // this.campaignByUniqueNumberSubscription = this.campaignService
       //   .getCampaignByUniqueNumber('')

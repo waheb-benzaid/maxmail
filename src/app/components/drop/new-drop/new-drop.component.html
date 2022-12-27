@@ -23,12 +23,14 @@
         </mat-form-field>
         <!----------------------------------------------------->
         <mat-form-field appearance="outline">
-          <mat-label>Mailer Campaign Name</mat-label>
-          <input
-            matInput
-            placeholder="Mailer Campaign Name"
-            formControlName="campaignName"
-          />
+          <mat-label>Mail Campaign</mat-label>
+          <mat-select formControlName="campaignName">
+            <mat-option
+              *ngFor="let campaign of campaigns$ | async as Campign"
+              value="{{ campaign.campaignID }}"
+              >{{ campaign.campaignName }}</mat-option
+            >
+          </mat-select>
         </mat-form-field>
 
         <!------------------------------------------------------>
