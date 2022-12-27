@@ -7,7 +7,6 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
-import { compareDesc } from 'date-fns';
 import { Drop } from 'src/app/models/Drop.model';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
 import { openForms } from 'src/app/utils/Functions/openForm';
@@ -116,6 +115,7 @@ export class DropsListComponent implements OnInit, OnDestroy {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.dropsSubscription.unsubscribe();
+        this.ngOnInit();
       });
   }
 
