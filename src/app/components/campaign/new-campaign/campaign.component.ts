@@ -26,6 +26,7 @@ import { CampaignStatus } from 'src/app/utils/Enums/Campaign Enums/CampaignStatu
 import { CampaignTypes } from 'src/app/utils/Enums/Campaign Enums/CampaignType';
 import { UserService } from 'src/app/services/user/user.service';
 import { UserModel } from 'src/app/models/User.model';
+import { dropCreationMode } from 'src/app/utils/Enums/Drop Enums/DropCreationModes';
 
 @Component({
   selector: 'app-campaign',
@@ -371,6 +372,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       objectToInsert.mailerSize = campaignObject.mailerSize;
       objectToInsert.campaignNumber = campaignObject.campaignNumber;
       objectToInsert.campaignName = campaignObject.campaignName;
+      objectToInsert.dropCreationMode = dropCreationMode.autoMode;
       let dateVolume = new Date(dropDate);
       let maxVolume: number =
         this.getVolume(dateVolume) + campaignObject.firstDropVolume;

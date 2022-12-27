@@ -19,6 +19,7 @@ import { Campaign } from 'src/app/models/Campaign.model';
 import { ca } from 'date-fns/locale';
 import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
+import { dropCreationMode } from 'src/app/utils/Enums/Drop Enums/DropCreationModes';
 
 @Component({
   selector: 'app-new-drop',
@@ -201,6 +202,7 @@ export class NewDropComponent implements OnInit, OnDestroy {
       dropToAdd.contactName = campaign.contactName;
       dropToAdd.printOrderID = campaign.printOrderID;
       dropToAdd.dropNumber = campaign.drops.length + 1;
+      dropToAdd.dropCreationMode = dropCreationMode.manualMode;
       campaign.drops.push(dropToAdd);
       campaign.totalDropsNumber++;
       this.updateCampaignSubscription = this.campaignService

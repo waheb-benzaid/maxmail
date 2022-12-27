@@ -12,6 +12,7 @@ export interface Drop {
   dropDate: any;
   dropNumber: number;
   dropVolume: number;
+  dropCreationMode: string;
   isLastDrop: any;
   isDropCompleted: any;
   isSeededReceived: any;
