@@ -337,36 +337,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
     return 0;
   }
 
-  async saveOrUpdateVolumeDate(
-    date_: string,
-    volumeValue: number,
-    campaignStatus: string
-  ) {
-    const dateFormatted = formatDate(date_, this.datePipe);
-    let date = dateFormatted?.toString();
-    const volumneDate$ = this.dropVolumeDateService.getVolumeDateByID(date!);
-    const volumeDate = await firstValueFrom(volumneDate$);
-    let volume: number[] = [];
-    if (campaignStatus === CampaignStatus.ACTIVE) {
-      if (volumeDate && !this.editData) {
-        volume = volumeDate.volume;
-        volume.push(volumeValue);
-        this.dropVolumeDateService.updateVolume(date!, {
-          date,
-          volume,
-        });
-      } else {
-        volume.push(volumeValue);
-        if (date) {
-          this.dropVolumeDateService.saveVolume(date!, {
-            date,
-            volume,
-          });
-        }
-      }
-    }
-  }
-
   public drops: Drop[] = [];
 
   createAutoDropsObject(
@@ -432,14 +402,15 @@ export class CampaignComponent implements OnInit, OnDestroy {
       dropDate = `${year}-${month}-${day}`;
     }
     dropDatesArray.forEach((date) => {
-      this.saveOrUpdateVolumeDate(
+      this.dropVolumeDateService.saveOrUpdateVolumeDate(
         date,
         dropDatesArray.indexOf(date) === 0
           ? campaignObject.firstDropVolume
           : (parseFloat(campaignObject.totalCampaignVolume) -
               parseFloat(campaignObject.firstDropVolume)) /
               (campaignObject.totalDropsNumber - 1),
-        campaignObject.campaignStatus
+        campaignObject.campaignStatus,
+        this.editData
       );
     });
     return this.drops;

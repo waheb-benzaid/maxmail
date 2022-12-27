@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { collectionData } from '@angular/fire/firestore';
@@ -5,12 +6,18 @@ import { collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { firstValueFrom, from, Observable } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
+import { CampaignStatus } from 'src/app/utils/Enums/Campaign Enums/CampaignStatus';
+import { formatDate } from 'src/app/utils/Functions/format-date';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DropvolumeDatesService {
-  constructor(private firestoreDB: Firestore, private afs: AngularFirestore) {}
+  constructor(
+    private firestoreDB: Firestore,
+    private afs: AngularFirestore,
+    private datePipe: DatePipe
+  ) {}
 
   saveVolume(date: string, volumeFields: VolumeDates) {
     return from(
@@ -42,8 +49,6 @@ export class DropvolumeDatesService {
       `mail_drop_volume_dates`,
       date
     );
-    console.log(dataToUpdate, 'dataToupdate');
-
     return from(
       updateDoc(VolumeDatesToUpdate, dataToUpdate)
         .then(() => {
@@ -54,8 +59,6 @@ export class DropvolumeDatesService {
         })
     );
   }
-
-  deleteVolume() {}
 
   removeDropVolumeFromCalendar(campaign: Campaign) {
     let volumeDate: VolumeDates;
@@ -72,5 +75,36 @@ export class DropvolumeDatesService {
         }
       }
     });
+  }
+
+  async saveOrUpdateVolumeDate(
+    date_: string,
+    volumeValue: number,
+    campaignStatus: string,
+    isEditData: boolean
+  ) {
+    const dateFormatted = formatDate(date_, this.datePipe);
+    let date = dateFormatted?.toString();
+    const volumneDate$ = this.getVolumeDateByID(date!);
+    const volumeDate = await firstValueFrom(volumneDate$);
+    let volume: number[] = [];
+    if (campaignStatus === CampaignStatus.ACTIVE) {
+      if (volumeDate && !isEditData) {
+        volume = volumeDate.volume;
+        volume.push(volumeValue);
+        this.updateVolume(date!, {
+          date,
+          volume,
+        });
+      } else {
+        volume.push(volumeValue);
+        if (date) {
+          this.saveVolume(date!, {
+            date,
+            volume,
+          });
+        }
+      }
+    }
   }
 }
