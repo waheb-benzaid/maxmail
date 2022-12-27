@@ -31,6 +31,7 @@ export class CampaignService {
 
   saveCampaign(campaignFields: Campaign, createdAt: any) {
     this.campaignId = this.afs.createId();
+    campaignFields.campaignID = this.campaignId;
     campaignFields.createdAt = createdAt;
     campaignFields.campaignTimestamp = serverTimestamp();
     campaignFields.drops.forEach((drop) => {
