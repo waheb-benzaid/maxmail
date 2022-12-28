@@ -92,6 +92,7 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
 
       if (dateExists) {
         window.alert('hiatus date exists yet');
+        this.hiatusDatesForm.reset();
         return;
       }
       const hiatusDatesObject = {

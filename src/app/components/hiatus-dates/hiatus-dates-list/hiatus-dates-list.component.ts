@@ -47,11 +47,8 @@ export class HiatusDatesListComponent implements OnInit, OnDestroy {
   }
   actionButton: string = 'Save';
   applyFilter(event: Event) {
-    console.log('filter');
-
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
