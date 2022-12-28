@@ -73,6 +73,7 @@ export class HiatusDatesListComponent implements OnInit, OnDestroy {
       this.dialog,
       NewHiatusDatesComponent,
       '500px',
+      '500px',
       data,
       'borderless-dialog'
     );
@@ -81,8 +82,6 @@ export class HiatusDatesListComponent implements OnInit, OnDestroy {
   updateSubscription!: Subscription;
 
   editHiatusDate(data: any) {
-    console.log('oprn');
-
     this.openHiatusDateDialog(data);
   }
 }

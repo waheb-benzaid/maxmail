@@ -10,6 +10,7 @@ import { HiatusDate } from 'src/app/models/HiatusDates.model';
 import { DropService } from 'src/app/services/drop/drop.service';
 import { HiatusDatesService } from 'src/app/services/hiatus-dates/hiatus-dates.service';
 import { formatDate } from 'src/app/utils/Functions/format-date';
+import { LoginComponent } from '../../login/login.component';
 
 @Component({
   selector: 'app-new-hiatus-dates',
@@ -30,10 +31,23 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
 
   actionButton: string = 'Save';
 
+  getHiatusdates!: Subscription;
+  hiatusDates: string[] = [];
   ngOnInit(): void {
     if (this.editData) {
       this.actionButton = 'Edit';
     }
+
+    this.getHiatusdates = this.hiatusDateService
+      .getHiatusDates()
+      .subscribe((res) => {
+        if (res) {
+          this.hiatusDates.length = 0;
+          res.forEach((hiatusDatesObject) => {
+            this.hiatusDates.push(hiatusDatesObject.hiatusDate);
+          });
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -58,19 +72,25 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
     return this.hiatusDatesForm.get('hiatusDate');
   }
 
-  async addHiatusDate() {
+  addHiatusDate() {
     if (!this.editData) {
       if (!this.hiatusDatesForm.valid) {
         window.alert('fields are not valid! please confirm before saving');
         return;
       }
-      const hiatusDate$ = this.hiatusDateService.getHiatusDateByID(
-        formatDate(this.hiatusDatesForm.value.hiatusDate, this.datePipe)!
-      );
-      const hiatusDate = await firstValueFrom(hiatusDate$);
-      this.toast.loading('saving');
-      this.toast.close();
-      if (hiatusDate) {
+
+      const typedHiatusDate = this.hiatusDatesForm.controls['hiatusDate'].value
+        ? formatDate(
+            this.hiatusDatesForm.controls['hiatusDate'].value,
+            this.datePipe
+          )
+        : '';
+
+      const dateExists = typedHiatusDate
+        ? this.hiatusDates.includes(typedHiatusDate)
+        : '';
+
+      if (dateExists) {
         window.alert('hiatus date exists yet');
         return;
       }
