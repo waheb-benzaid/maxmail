@@ -54,8 +54,6 @@ export class CampaignListComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {
     //NOTE: Assign the data to the data source for the table to render
-    //campaignService.getAllCampaignsNames();
-    //this.dataSource = new MatTableDataSource();
     this.getAllCampaigns();
   }
 

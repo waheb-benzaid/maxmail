@@ -61,7 +61,6 @@ export class DropsListComponent implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     private _liveAnnouncer: LiveAnnouncer
   ) {
-    this.dataSource = new MatTableDataSource();
     this.getAllDrops();
   }
   ngOnDestroy(): void {
@@ -114,8 +113,8 @@ export class DropsListComponent implements OnInit, OnDestroy {
         this.drops = drops;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.dropsSubscription.unsubscribe();
         this.ngOnInit();
+        this.dropsSubscription.unsubscribe();
       });
   }
 
