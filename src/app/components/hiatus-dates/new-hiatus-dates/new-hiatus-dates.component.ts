@@ -36,6 +36,12 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.editData) {
       this.actionButton = 'Edit';
+      this.hiatusDatesForm.controls['hiatusDateDescription'].setValue(
+        this.editData.hiatusDateDescription
+      );
+      this.hiatusDatesForm.controls['hiatusDate'].setValue(
+        this.editData.hiatusDate
+      );
     }
 
     this.getHiatusdates = this.hiatusDateService
@@ -53,6 +59,9 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.hiatusDateSubscription) {
       this.hiatusDateSubscription.unsubscribe();
+    }
+    if (this.updateSubscription) {
+      this.updateSubscription.unsubscribe();
     }
   }
 
@@ -80,19 +89,16 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
         this.datePipe
       ),
     };
-
     if (!this.hiatusDatesForm.valid) {
       window.alert('fields are not valid! please confirm before saving');
       return;
     }
-
     const typedHiatusDate = this.hiatusDatesForm.controls['hiatusDate'].value
       ? formatDate(
           this.hiatusDatesForm.controls['hiatusDate'].value,
           this.datePipe
         )
       : '';
-
     const dateExists = typedHiatusDate
       ? this.hiatusDates.includes(typedHiatusDate)
       : '';
@@ -117,12 +123,12 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
           this.dialogRef.close('save');
         });
     } else {
-      this.updateHiatusDate(this.editData, hiatusDatesObject);
+      this.updateHiatusDate(this.editData.id, hiatusDatesObject);
     }
   }
-
+  updateSubscription!: Subscription;
   updateHiatusDate(id: string, dataToUpdate: HiatusDate) {
-    this.hiatusDateService
+    this.updateSubscription = this.hiatusDateService
       .updateHiatusDate(id, dataToUpdate)
       .pipe(
         this.toast.observe({

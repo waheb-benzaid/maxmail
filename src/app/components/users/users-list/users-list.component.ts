@@ -53,7 +53,6 @@ export class UsersListComponent implements OnInit {
     this.usersSubscription = this.userService.getAllUsers().subscribe((res) => {
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.sort = this.sort;
-      this.ngOnInit();
     });
   }
 
