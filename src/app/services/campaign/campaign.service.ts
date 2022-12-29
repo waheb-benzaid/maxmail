@@ -11,6 +11,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { from, Observable, timestamp } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { serverTimestamp, where } from 'firebase/firestore';
+import { CampaignStatus } from 'src/app/utils/Enums/Campaign Enums/CampaignStatus';
 
 @Injectable({
   providedIn: 'root',
@@ -71,6 +72,34 @@ export class CampaignService {
   getLastCreatedCampaign() {
     const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
       ref.orderBy('createdAt', 'desc').limit(1)
+    );
+    return campaignRef.snapshotChanges();
+  }
+
+  getActiveCampaignsCount() {
+    const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
+      ref.where('campaignStatus', '==', CampaignStatus.ACTIVE)
+    );
+    return campaignRef.snapshotChanges();
+  }
+
+  getCompletedCampaignsCount() {
+    const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
+      ref.where('campaignStatus', '==', CampaignStatus.COMPLETED)
+    );
+    return campaignRef.snapshotChanges();
+  }
+
+  getSuspendedCampaignsCount() {
+    const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
+      ref.where('campaignStatus', '==', CampaignStatus.SUSPENDED)
+    );
+    return campaignRef.snapshotChanges();
+  }
+
+  getCancelledCampaignsCount() {
+    const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
+      ref.where('campaignStatus', '==', CampaignStatus.CANCELLED)
     );
     return campaignRef.snapshotChanges();
   }

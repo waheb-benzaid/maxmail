@@ -52,4 +52,23 @@
 .active {
   color: blue;
   text-align: center;
+  margin-top: 20px;
+}
+
+.completed {
+  color: green;
+  text-align: center;
+  margin-top: 30%;
+}
+
+.suspended {
+  color: orangered;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.cancelled {
+  color: yellow;
+  text-align: center;
+  margin-top: 30%;
 }

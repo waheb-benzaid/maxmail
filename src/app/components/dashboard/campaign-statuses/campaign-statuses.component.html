@@ -2,10 +2,29 @@
   <div class="campaign-statuses">
     <div class="campaign-statuses-title">Campaign Statuses</div>
     <div class="statuses-container">
-      <div class="active">active</div>
-      <div class="suspended">suspended</div>
-      <div class="completed">completed</div>
-      <div class="cancelled">cancelled</div>
+      <div class="active" *ngIf="activeCampaign$ | async as list">
+        {{ list.length }}
+        <br />
+        <br />
+        <span> Active </span>
+      </div>
+      <div class="suspended" *ngIf="suspendedCampaign$ | async as list">
+        {{ list.length }}
+        <br />
+        <br />
+        Suspended
+      </div>
+      <div class="completed" *ngIf="completedCampaign$ | async as list">
+        {{ list.length }}
+        <br />
+        <br />Completed
+      </div>
+
+      <div class="cancelled" *ngIf="cancelledCampaign$ | async as list">
+        {{ list.length }}
+        <br />
+        <br />Cancelled
+      </div>
     </div>
   </div>
 </div>
