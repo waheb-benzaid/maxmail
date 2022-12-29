@@ -177,11 +177,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
         objectToInsert.isLastDrop = drop.isLastDrop;
         objectToInsert.isDropCompleted = drop.isDropCompleted;
         objectToInsert.mailerSize = campaign.mailerSize;
-        objectToInsert.printOrderID = drop.printOrderID;
+        objectToInsert.printOrderID = campaign.printOrderID;
         objectToInsert.campaignType = campaign.campaignType;
         objectToInsert.contactName = campaign.contactName;
-        console.log(drop.printOrderID, 'order id from calendar');
-
+        objectToInsert.campaignStatus = campaign.campaignStatus;
         objectToInsert.draggable = false;
         this.eventsToDisplay.push(objectToInsert);
       });
@@ -265,6 +264,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       campaignStatus: event.campaignStatus,
       nextAvailableDates: undefined,
     };
+    console.log(event.campaignStatus);
 
     openForms(
       this.dialog,
