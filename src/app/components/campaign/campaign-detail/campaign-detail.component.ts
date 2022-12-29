@@ -2,9 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
-import { HotToastService } from '@ngneat/hot-toast';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CampaignComponent } from '../new-campaign/campaign.component';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ZipCode } from 'src/app/models/Zipcode.model';
 
@@ -20,10 +18,7 @@ export class CampaignDetailComponent implements OnInit {
     private campaignService: CampaignService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private datePipe: DatePipe
-  ) {
-    //campaignService.getAllCampaigns();
-  }
-  actionButton: string = 'Save';
+  ) {}
   zipCodes: ZipCode[] = [];
   campaignDetail = new FormGroup({
     firstDropDate: new FormControl({ disable: true }),

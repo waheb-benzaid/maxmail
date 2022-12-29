@@ -465,7 +465,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
       printOrderID,
       mailerSize,
     };
-
     this.createAutoDropsObject(dropFieldsfromCampaign as Campaign, false);
     const campaignObject = {
       campaignNumber: campaignNumber,
@@ -512,9 +511,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
         window.alert('date not available');
         return;
       }
-
       let createdAt = formatDate(new Date(), this.datePipe);
-
       this.saveCampaignSubscription = this.campaignService
         .saveCampaign(this.getCampaignObject(), createdAt)
         .pipe(
@@ -536,7 +533,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
             this.campaignService.campaignId
           )
         );
-
         // this.zipCodeService
         //   .getZipCodeById(zipCode.zipNumber)
         //   .subscribe((res) => {

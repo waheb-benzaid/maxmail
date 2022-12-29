@@ -73,35 +73,36 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
   }
 
   addHiatusDate() {
-    if (!this.editData) {
-      if (!this.hiatusDatesForm.valid) {
-        window.alert('fields are not valid! please confirm before saving');
-        return;
-      }
+    const hiatusDatesObject = {
+      hiatusDateDescription: this.hiatusDatesForm.value.hiatusDateDescription,
+      hiatusDate: formatDate(
+        this.hiatusDatesForm.value.hiatusDate,
+        this.datePipe
+      ),
+    };
 
-      const typedHiatusDate = this.hiatusDatesForm.controls['hiatusDate'].value
-        ? formatDate(
-            this.hiatusDatesForm.controls['hiatusDate'].value,
-            this.datePipe
-          )
-        : '';
+    if (!this.hiatusDatesForm.valid) {
+      window.alert('fields are not valid! please confirm before saving');
+      return;
+    }
 
-      const dateExists = typedHiatusDate
-        ? this.hiatusDates.includes(typedHiatusDate)
-        : '';
-
-      if (dateExists) {
-        window.alert('hiatus date exists yet');
-        this.hiatusDatesForm.reset();
-        return;
-      }
-      const hiatusDatesObject = {
-        hiatusDateDescription: this.hiatusDatesForm.value.hiatusDateDescription,
-        hiatusDate: formatDate(
-          this.hiatusDatesForm.value.hiatusDate,
+    const typedHiatusDate = this.hiatusDatesForm.controls['hiatusDate'].value
+      ? formatDate(
+          this.hiatusDatesForm.controls['hiatusDate'].value,
           this.datePipe
-        ),
-      };
+        )
+      : '';
+
+    const dateExists = typedHiatusDate
+      ? this.hiatusDates.includes(typedHiatusDate)
+      : '';
+
+    if (dateExists) {
+      window.alert('hiatus date exists yet');
+      this.hiatusDatesForm.reset();
+      return;
+    }
+    if (!this.editData) {
       this.hiatusDateSubscription = this.hiatusDateService
         .saveHiatusDate(hiatusDatesObject)
         .pipe(
@@ -116,13 +117,23 @@ export class NewHiatusDatesComponent implements OnInit, OnDestroy {
           this.dialogRef.close('save');
         });
     } else {
-      console.log('hi');
-
-      this.updateHiatusDate();
+      this.updateHiatusDate(this.editData, hiatusDatesObject);
     }
   }
 
-  updateHiatusDate() {}
-
-  deleteHiatusDate() {}
+  updateHiatusDate(id: string, dataToUpdate: HiatusDate) {
+    this.hiatusDateService
+      .updateHiatusDate(id, dataToUpdate)
+      .pipe(
+        this.toast.observe({
+          success: 'Hiatus date edited successfuly',
+          loading: 'Editing ...',
+          error: 'There was a error',
+        })
+      )
+      .subscribe((res) => {
+        this.hiatusDatesForm.reset();
+        this.dialogRef.close('update');
+      });
+  }
 }

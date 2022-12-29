@@ -28,14 +28,11 @@ export class HiatusDatesListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  allcampaigns: any;
   constructor(
     public dialog: MatDialog,
-    private campaignService: CampaignService,
     private hiatusDateService: HiatusDatesService
   ) {
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource();
   }
   ngOnDestroy(): void {
     this.hiatusDateSubscription.unsubscribe();
@@ -45,7 +42,7 @@ export class HiatusDatesListComponent implements OnInit, OnDestroy {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  actionButton: string = 'Save';
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -61,7 +58,6 @@ export class HiatusDatesListComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.sort = this.sort;
-        this.ngOnInit();
       });
   }
 
@@ -76,9 +72,18 @@ export class HiatusDatesListComponent implements OnInit, OnDestroy {
     );
   }
 
-  updateSubscription!: Subscription;
-
-  editHiatusDate(data: any) {
+  editHiatusDates(data?: any) {
     this.openHiatusDateDialog(data);
+  }
+
+  removeHiatusDate(id: string) {
+    if (confirm('Are you sure to remove this hiatus date ?')) {
+      this.hiatusDateService
+        .deleteHiatusDate(id)
+        .pipe()
+        .subscribe((res) => {
+          this.getHiatusDates();
+        });
+    }
   }
 }
