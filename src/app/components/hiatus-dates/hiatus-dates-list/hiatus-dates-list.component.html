@@ -35,7 +35,9 @@
       <table mat-table [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="hiatusDate" class="column-header">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-          <td mat-cell *matCellDef="let row">{{ row.hiatusDate }}</td>
+          <td mat-cell *matCellDef="let row">
+            {{ row.hiatusDate | date : "MM/dd/YYYY" }}
+          </td>
         </ng-container>
 
         <ng-container
@@ -53,7 +55,7 @@
             <button
               mat-icon-button
               color="primary"
-              (click)="editHiatusDates(row.id)"
+              (click)="editHiatusDates(row)"
             >
               <mat-icon>edit</mat-icon>
             </button>
