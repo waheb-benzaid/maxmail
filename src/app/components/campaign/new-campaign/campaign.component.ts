@@ -557,11 +557,11 @@ export class CampaignComponent implements OnInit, OnDestroy {
     }
     this.updateCampaign(this.editData.id);
   }
-
+  updateCampaignSubscription!: Subscription;
   updateCampaign(id: string) {
     const { createdAt, campaignID, campaignNumber, ...campaignDataToUpdate } =
       this.getCampaignObject();
-    this.campaignService
+    this.updateCampaignSubscription = this.campaignService
       .updateCampaign(id, campaignDataToUpdate)
       .pipe(
         this.toast.observe({
@@ -589,6 +589,10 @@ export class CampaignComponent implements OnInit, OnDestroy {
     }
     if (this.zipCodesSubscription) {
       this.zipCodesSubscription.unsubscribe();
+    }
+
+    if (this.updateCampaignSubscription) {
+      this.updateCampaignSubscription.unsubscribe();
     }
   }
 }
