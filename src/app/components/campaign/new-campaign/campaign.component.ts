@@ -474,7 +474,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
       campaignName: campaignName,
       firstDropVolume,
       totalCampaignVolume,
-      currentDropNumber: 1,
+      currentDropNumber: this.drops.length > 0 ? 1 : 0,
       totalDropsNumber,
       mailerSize,
       totalHouseholds,
@@ -553,9 +553,10 @@ export class CampaignComponent implements OnInit, OnDestroy {
   }
 
   updateCampaign(id: string) {
-    this.getCampaignObject().campaignID = id;
+    const { createdAt, campaignID, campaignNumber, ...campaignDataToUpdate } =
+      this.getCampaignObject();
     this.campaignService
-      .updateCampaign(id, this.getCampaignObject())
+      .updateCampaign(id, campaignDataToUpdate)
       .pipe(
         this.toast.observe({
           success: 'Campaign edited successfuly',
