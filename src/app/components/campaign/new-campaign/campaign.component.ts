@@ -450,7 +450,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
     if (campaignNumber < 100 && campaignNumber > 10) {
       campaignName = '0' + campaignName;
     }
-    //this.getCampaignObject().contactName;
     const dropFieldsfromCampaign = {
       firstDropDate,
       accountName,
@@ -511,6 +510,13 @@ export class CampaignComponent implements OnInit, OnDestroy {
         window.alert('date not available');
         return;
       }
+
+      if (this.getCampaignObject().totalDropsNumber > 13) {
+        window.alert('Total drops number is more than 12 !');
+        this.campaignForm.controls['totalDropsNumber'].reset();
+        return;
+      }
+
       let createdAt = formatDate(new Date(), this.datePipe);
       this.saveCampaignSubscription = this.campaignService
         .saveCampaign(this.getCampaignObject(), createdAt)
