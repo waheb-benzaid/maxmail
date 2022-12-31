@@ -99,18 +99,23 @@
           >
         </mat-form-field>
         <!------------------------------------------------------>
+        //NOTE: I should create a mat-form-field for every case (create and
+        update cases)
         <mat-form-field appearance="outline">
           <mat-label>Zip Codes</mat-label>
           <mat-chip-list #chipList aria-label="Zip Codes">
-            <mat-chip
-              *ngFor="let zipCode of zipCodes"
-              (removed)="remove(zipCode)"
-            >
-              {{ zipCode.zipNumber }}
-              <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip>
+            <span *ngIf="zipCodes.length > 0; else updateMode">
+              <mat-chip
+                *ngFor="let zipCode of zipCodes"
+                (removed)="remove(zipCode)"
+              >
+                {{ zipCode.zipNumber }}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+            </span>
+
             <input
               placeholder="New zip code..."
               formControlName="zipcodes"
@@ -122,6 +127,18 @@
           </mat-chip-list>
         </mat-form-field>
       </div>
+      <ng-template #updateMode>
+        <mat-chip
+          *ngFor="let zipCode of editData.zipCodeNumbers"
+          (removed)="remove(zipCode)"
+        >
+          {{ zipCode.zipNumber }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </ng-template>
+
       <!-- ############################################################################################################ -->
       <div class="part-two">
         <mat-form-field appearance="outline">
