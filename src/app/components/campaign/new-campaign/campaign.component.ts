@@ -41,6 +41,12 @@ export class CampaignComponent implements OnInit, OnDestroy {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   zipCodes: ZipCode[] = [];
   campaignNames: string[] = [];
+  actionButton: string = 'Save';
+  volumeSubscription!: Subscription;
+  volumeDatesList: VolumeDates[] = [];
+  zipCodesSubscription!: Subscription;
+  zipCodesList: ZipCode[] = [];
+  users$!: Observable<UserModel[]>;
   constructor(
     private campaignService: CampaignService,
     private toast: HotToastService,
@@ -51,10 +57,9 @@ export class CampaignComponent implements OnInit, OnDestroy {
     private dropService: DropService,
     private hiatusDatesService: HiatusDatesService,
     private router: Router,
-    private dropVolumeDateService: DropvolumeDatesService, //  private dropVolumeDateService: DropvolumeDatesService
+    private dropVolumeDateService: DropvolumeDatesService,
     private userService: UserService
   ) {
-    // this.campaignNames = this.campaignService.getAllCampaignsNames();
     this.lastCreatedCampaign = this.campaignService
       .getLastCreateedCampaignByNumber()
       .subscribe((res) => {
@@ -65,8 +70,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  actionButton: string = 'Save';
   campaignForm = new FormGroup({
     firstDropDate: new FormControl('', Validators.required),
     campaignStatus: new FormControl('', Validators.required),
@@ -84,20 +87,85 @@ export class CampaignComponent implements OnInit, OnDestroy {
     contactName: new FormControl(''),
     attachments: new FormControl(''),
   });
+  ngOnInit(): void {
+    this.users$ = this.userService.getAllUsers();
+    //NOTE: the code bellow is about getting all zip codes from the db, so I can check if zipcodes typed in campaign form are available or not
+    this.zipCodesSubscription = this.zipCodeService
+      .getAllZipcodes()
+      .subscribe((res) => {
+        res.forEach((zipCode) => {
+          this.zipCodesList.push(zipCode);
+        });
+      });
 
-  addZipCode(event: MatChipInputEvent): void {
+    this.volumeSubscription = this.dropVolumeDateService
+      .getAllVolumeDate()
+      .subscribe((res) => {
+        res.forEach((vd) => {
+          this.volumeDatesList.push(vd);
+        });
+      });
+    if (this.editData) {
+      this.actionButton = 'Edit';
+      this.campaignForm.controls['firstDropDate'].setValue(
+        this.editData.firstDropDate
+      );
+      this.campaignForm.controls['campaignStatus'].setValue(
+        this.editData.campaignStatus
+      );
+      this.campaignForm.controls['campaignType'].setValue(
+        this.editData.campaignType
+      );
+      this.campaignForm.controls['firstDropVolume'].setValue(
+        this.editData.firstDropVolume
+      );
+      this.campaignForm.controls['zipcodes'].setValue(
+        this.editData.zipCodeNumbers
+      );
+      this.campaignForm.controls['totalCampaignVolume'].setValue(
+        this.editData.totalCampaignVolume
+      );
+      this.campaignForm.controls['totalDropsNumber'].setValue(
+        this.editData.totalDropsNumber
+      );
+      this.campaignForm.controls['mailerSize'].setValue(
+        this.editData.mailerSize
+      );
+      this.campaignForm.controls['totalHouseholds'].setValue(
+        this.editData.totalHouseholds
+      );
+      this.campaignForm.controls['totalcontractAmount'].setValue(
+        this.editData.totalcontractAmount
+      );
+      this.campaignForm.controls['printOrderID'].setValue(
+        this.editData.printOrderID
+      );
+      this.campaignForm.controls['accountName'].setValue(
+        this.editData.accountName
+      );
+      this.campaignForm.controls['ownerName'].setValue(this.editData.ownerName);
+      this.campaignForm.controls['contactName'].setValue(
+        this.editData.contactName
+      );
+      this.campaignForm.controls['attachments'].setValue(
+        this.editData.attachments
+      );
+    }
+  }
+
+  addZipCode(event?: MatChipInputEvent): void {
     let isValueDuplicated = false;
-    const value = (event.value || '').trim();
+    const value = (event?.value || '').trim();
     if (value) {
       if (!this.campaignForm.controls['campaignType'].value) {
         alert('Please enter the campaign type first');
-        event.chipInput!.clear();
+        event?.chipInput!.clear();
         return;
       }
 
       if (value.length !== 5) {
         window.alert('zipcode should be 5 degits');
-        event.chipInput!.clear();
+        event?.chipInput!.clear();
         return;
       }
 
@@ -109,7 +177,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
 
       if (isValueDuplicated) {
         window.alert('This zip code is duplicated');
-        event.chipInput!.clear();
+        event?.chipInput!.clear();
         return;
       }
       //TODO: Create a Function a make this code reusable
@@ -144,29 +212,26 @@ export class CampaignComponent implements OnInit, OnDestroy {
 
       if (unavailableExternalMail) {
         window.alert('this zipcode is unavilable for external mailer');
-        event.chipInput!.clear();
+        event?.chipInput!.clear();
         return;
       }
 
       if (unavailableMagazine) {
         alert('this zipcode is unavilable for Magazines');
-        event.chipInput!.clear();
+        event?.chipInput!.clear();
         return;
       }
-
       if (unavailablePostCard) {
         alert('this zipcode is unavilable for Postcard');
-        event.chipInput!.clear();
+        event?.chipInput!.clear();
         return;
       }
-
       this.zipCodes.push(this.zipCodeManager(value));
     }
-
-    event.chipInput!.clear();
+    event?.chipInput!.clear();
   }
 
-  zipCodeManager(zipNumber: string, campaignID?: string) {
+  zipCodeManager(zipNumber: string, campaignID?: string): ZipCode {
     let zipcodesObject = new Object() as ZipCode;
     let campaignType = this.campaignForm.value.campaignType!;
     zipcodesObject.zipNumber = zipNumber;
@@ -202,75 +267,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
       if (confirmation) {
         this.zipCodes.splice(index, 1);
       }
-    }
-  }
-
-  volumeSubscription!: Subscription;
-  volumeDatesList: VolumeDates[] = [];
-  zipCodesSubscription!: Subscription;
-  zipCodesList: ZipCode[] = [];
-  users$!: Observable<UserModel[]>;
-  ngOnInit(): void {
-    this.users$ = this.userService.getAllUsers();
-    this.zipCodesSubscription = this.zipCodeService
-      .getAllZipcodes()
-      .subscribe((res) => {
-        res.forEach((zipCode) => {
-          this.zipCodesList.push(zipCode);
-        });
-      });
-
-    this.volumeSubscription = this.dropVolumeDateService
-      .getAllVolumeDate()
-      .subscribe((res) => {
-        res.forEach((vd) => {
-          this.volumeDatesList.push(vd);
-        });
-      });
-
-    if (this.editData) {
-      this.actionButton = 'Edit';
-
-      this.campaignForm.controls['firstDropDate'].setValue(
-        this.editData.firstDropDate
-      );
-      this.campaignForm.controls['campaignStatus'].setValue(
-        this.editData.campaignStatus
-      );
-      this.campaignForm.controls['campaignType'].setValue(
-        this.editData.campaignType
-      );
-      this.campaignForm.controls['firstDropVolume'].setValue(
-        this.editData.firstDropVolume
-      );
-      this.campaignForm.controls['totalCampaignVolume'].setValue(
-        this.editData.totalCampaignVolume
-      );
-      this.campaignForm.controls['totalDropsNumber'].setValue(
-        this.editData.totalDropsNumber
-      );
-      this.campaignForm.controls['mailerSize'].setValue(
-        this.editData.mailerSize
-      );
-      this.campaignForm.controls['totalHouseholds'].setValue(
-        this.editData.totalHouseholds
-      );
-      this.campaignForm.controls['totalcontractAmount'].setValue(
-        this.editData.totalcontractAmount
-      );
-      this.campaignForm.controls['printOrderID'].setValue(
-        this.editData.printOrderID
-      );
-      this.campaignForm.controls['accountName'].setValue(
-        this.editData.accountName
-      );
-      this.campaignForm.controls['ownerName'].setValue(this.editData.ownerName);
-      this.campaignForm.controls['contactName'].setValue(
-        this.editData.contactName
-      );
-      this.campaignForm.controls['attachments'].setValue(
-        this.editData.attachments
-      );
     }
   }
 
