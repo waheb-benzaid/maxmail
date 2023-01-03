@@ -1,11 +1,11 @@
 .campaign-statuses {
   box-sizing: border-box;
-  left: 73.45%;
-  right: 5.74%;
-  top: 21%;
-  bottom: 16.36%;
+  /* left: 73.45%; */
+  /* right: 5.74%; */
+  /* top: 21%; */
+  /* bottom: 16.36%; */
   width: 600px;
-  height: 300px;
+  height: 400px;
   background: whitesmoke;
   border: 1px solid red;
   border-radius: 12px;
@@ -53,22 +53,26 @@
   color: blue;
   text-align: center;
   margin-top: 20px;
+  font-size: larger;
 }
 
 .completed {
   color: green;
   text-align: center;
-  margin-top: 30%;
+  margin-top: 50%;
+  font-size: larger;
 }
 
 .suspended {
   color: orangered;
   text-align: center;
   margin-top: 20px;
+  font-size: larger;
 }
 
 .cancelled {
   color: yellow;
   text-align: center;
-  margin-top: 30%;
+  margin-top: 50%;
+  font-size: larger;
 }

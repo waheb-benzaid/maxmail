@@ -1,0 +1,38 @@
+.recent-drops {
+  box-sizing: border-box;
+  left: 73.45%;
+  right: 5.74%;
+  top: 21%;
+  bottom: 16.36%;
+  width: 400px;
+  height: 400px;
+  background: whitesmoke;
+  border: 1px solid red;
+  border-radius: 12px;
+  border: 1px solid black;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 18px;
+  /* identical to box height */
+  color: #343744;
+  margin-left: 300px;
+}
+
+.title {
+  background-color: #e5f1ff;
+  display: inline-block;
+  height: 50px;
+  width: 398px;
+  border-radius: 12px;
+  text-align: center;
+  padding-top: 15px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 18px;
+  color: #343744;
+  margin-left: 0px;
+}

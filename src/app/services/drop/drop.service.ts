@@ -126,4 +126,6 @@ export class DropService {
     });
     return this.dropsDates;
   }
+
+  getTodaysDrops() {}
 }
