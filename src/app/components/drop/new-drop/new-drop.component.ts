@@ -16,7 +16,6 @@ import {
   Subscription,
 } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
-import { ca } from 'date-fns/locale';
 import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
 import { dropCreationMode } from 'src/app/utils/Enums/Drop Enums/DropCreationModes';
@@ -33,7 +32,6 @@ export class NewDropComponent implements OnInit, OnDestroy {
   updateCampaignSubscription!: Subscription;
   filteredOptions!: Observable<string[]>;
   public data: any;
-
   constructor(
     private dropService: DropService,
     private toast: HotToastService,
