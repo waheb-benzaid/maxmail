@@ -27,7 +27,6 @@ import { CampaignTypes } from 'src/app/utils/Enums/Campaign Enums/CampaignType';
 import { UserService } from 'src/app/services/user/user.service';
 import { UserModel } from 'src/app/models/User.model';
 import { dropCreationMode } from 'src/app/utils/Enums/Drop Enums/DropCreationModes';
-
 @Component({
   selector: 'app-campaign',
   templateUrl: './campaign.component.html',
