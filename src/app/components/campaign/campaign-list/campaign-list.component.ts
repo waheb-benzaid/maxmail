@@ -27,6 +27,12 @@ export class CampaignListComponent implements OnInit, OnDestroy {
     user$.subscribe((res) => {
       console.log(res?.displayName, 'displayed name');
     });
+
+    var today = new Date();
+    var priorDate = new Date(new Date().setDate(today.getDate() - 30));
+
+    console.log(today, 'today');
+    console.log(priorDate, 'preior dates');
   }
   campaignByIdSubscription!: Subscription;
   campaignDeletedSubscription!: Subscription;

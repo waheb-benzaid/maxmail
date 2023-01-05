@@ -70,7 +70,7 @@ import { NewZipcodeComponent } from './components/zipcodes-lookup/new-zipcode/ne
 import { DropvolumeDatesService } from './services/dropvolume-dates/dropvolume-dates.service';
 import { CampaignStatusesComponent } from './components/dashboard/campaign-statuses/campaign-statuses.component';
 import { TodaysDropsComponent } from './components/dashboard/todays-drops/todays-drops.component';
-import { MostRecentDropsComponent } from './components/dashboard/most-recent-drops/most-recent-drops.component';
+import { MostRecentCampaignsComponent } from './components/dashboard/most-recent-campaigns/most-recent-campaigns.campaigns';
 import { UpCommingDropsComponent } from './components/dashboard/up-comming-drops/up-comming-drops.component';
 
 @NgModule({
@@ -98,7 +98,7 @@ import { UpCommingDropsComponent } from './components/dashboard/up-comming-drops
     NewZipcodeComponent,
     CampaignStatusesComponent,
     TodaysDropsComponent,
-    MostRecentDropsComponent,
+    MostRecentCampaignsComponent,
     UpCommingDropsComponent,
   ],
   imports: [

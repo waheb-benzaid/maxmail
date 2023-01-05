@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MostRecentDropsComponent } from './most-recent-drops.component';
+import { MostRecentCampaignsComponent } from './most-recent-campaigns.campaigns';
 
 describe('MostRecentDropsComponent', () => {
-  let component: MostRecentDropsComponent;
-  let fixture: ComponentFixture<MostRecentDropsComponent>;
+  let component: MostRecentCampaignsComponent;
+  let fixture: ComponentFixture<MostRecentCampaignsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MostRecentDropsComponent ]
-    })
-    .compileComponents();
+      declarations: [MostRecentCampaignsComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(MostRecentDropsComponent);
+    fixture = TestBed.createComponent(MostRecentCampaignsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

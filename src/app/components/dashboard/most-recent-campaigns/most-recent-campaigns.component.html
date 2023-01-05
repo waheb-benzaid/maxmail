@@ -1,0 +1,23 @@
+<div class="recent-drops">
+  <div class="title">Recent created Campaigns (30 days)</div>
+  <div *ngFor="let campaign of recentCampaigns$ | async as Campaign">
+    <ul>
+      00
+      {{
+        campaign.campaignNumber
+      }}
+      :
+      {{
+        campaign.createdAt | date : "MM/dd/YYYY"
+      }}
+      -
+      {{
+        campaign.contactName
+      }}
+      -
+      {{
+        campaign.accountName
+      }}
+    </ul>
+  </div>
+</div>

@@ -128,13 +128,13 @@ export class CampaignService {
     let campaignToDelete = doc(this.firestoreDB, `mail_campaign/${id}`);
     return from(deleteDoc(campaignToDelete));
   }
-
-  // getTodaysDrops(todaysDate: any) {
-  //   console.log(todaysDate, 'todays date');
-
-  //   const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
-  //     ref.where('createdAt', '==', todaysDate)
-  //   );
-  //   return campaignRef.snapshotChanges();
-  // }
+  //NOTE: get all created campaigns in last 30 days
+  getMostRecentCreatedCampaigns() {
+    const today = new Date();
+    const priorDate = new Date(new Date().setDate(today.getDate() - 30));
+    const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
+      ref.where('campaignTimestamp', '>', priorDate)
+    );
+    return campaignRef.snapshotChanges();
+  }
 }
