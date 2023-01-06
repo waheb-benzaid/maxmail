@@ -34,7 +34,7 @@ export class CampaignService {
     this.campaignId = this.afs.createId();
     campaignFields.campaignID = this.campaignId;
     campaignFields.createdAt = createdAt;
-    campaignFields.campaignTimestamp = serverTimestamp();
+    campaignFields.campaignTimestamp = new Date();
     campaignFields.drops.forEach((drop) => {
       drop.campaignId = this.campaignId;
     });
@@ -132,8 +132,14 @@ export class CampaignService {
   getMostRecentCreatedCampaigns() {
     const today = new Date();
     const priorDate = new Date(new Date().setDate(today.getDate() - 30));
+
+    const check = today > priorDate;
+    console.log(check, 'check');
+
+    console.log(priorDate, 'date');
+
     const campaignRef = this.afs.collection<Campaign>('mail_campaign', (ref) =>
-      ref.where('campaignTimestamp', '>', priorDate)
+      ref.where('campaignTimestamp', '>=', priorDate)
     );
     return campaignRef.snapshotChanges();
   }

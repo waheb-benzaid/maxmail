@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MostRecentCampaignsComponent } from './most-recent-campaigns.campaigns';
+import { MostRecentCampaignsComponent } from './most-recent-campaigns.component';
 
 describe('MostRecentDropsComponent', () => {
   let component: MostRecentCampaignsComponent;
