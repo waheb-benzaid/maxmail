@@ -1,1 +1,27 @@
-<p>up-comming-drops works!</p>
+<div class="recent-drops">
+  <div class="title">Up comming drops (30 Days)</div>
+  <div class="content">
+    <div *ngFor="let drop of upcommingDrops">
+      <ul>
+        Drop
+        {{
+          drop.dropNumber
+        }}
+        :
+        {{
+          drop.dropDate | date : "MM/dd/YYYY"
+        }}
+        -
+        {{
+          drop.contactName
+        }}
+        -
+        {{
+          drop.accountName
+        }}
+        <br />
+        -------------------------------------------------
+      </ul>
+    </div>
+  </div>
+</div>
