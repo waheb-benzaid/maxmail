@@ -258,8 +258,12 @@ export class CampaignComponent implements OnInit, OnDestroy {
     zipcodesObject.campaignID = campaignID!;
     return zipcodesObject;
   }
-
+  zipcodeToUpdate: ZipCode[] = [];
   remove(zipCode: ZipCode): void {
+    if (this.editData) {
+      zipCode.campaignID = this.editData.id;
+      this.zipcodeToUpdate.push(zipCode);
+    }
     const index = this.zipCodes.indexOf(zipCode);
     if (index >= 0) {
       let confirmation = window.confirm(
@@ -556,6 +560,8 @@ export class CampaignComponent implements OnInit, OnDestroy {
   }
   updateCampaignSubscription!: Subscription;
   updateCampaign(id: string) {
+    console.log(this.zipcodeToUpdate, 'zip code to update');
+
     const { createdAt, campaignID, campaignNumber, ...campaignDataToUpdate } =
       this.getCampaignObject();
     this.updateCampaignSubscription = this.campaignService
@@ -573,6 +579,38 @@ export class CampaignComponent implements OnInit, OnDestroy {
             this.getCampaignObject()
           );
         }
+        if (this.zipcodeToUpdate.length > 0) {
+          //FIXME: unsebscribe from all subscriptions
+          this.zipcodeToUpdate.forEach((zipcode) => {
+            if (this.editData.campaignType === CampaignTypes.MAGAZINE) {
+              zipcode.unavailableMagazine = false;
+              this.zipCodeService
+                .updateZipCode(zipcode.zipNumber + '-' + id, zipcode)
+                .subscribe();
+            }
+            if (this.editData.campaignType === CampaignTypes.MAILER) {
+              zipcode.unavailableExternalMail = false;
+              this.zipCodeService
+                .updateZipCode(zipcode.zipNumber + '-' + id, zipcode)
+                .subscribe();
+            }
+            if (this.editData.campaignType === CampaignTypes.POSTCARD) {
+              zipcode.unavailablePostCard = false;
+              this.zipCodeService
+                .updateZipCode(zipcode.zipNumber + '-' + id, zipcode)
+                .subscribe();
+            }
+            if (
+              !zipcode.unavailableExternalMail &&
+              !zipcode.unavailableMagazine &&
+              !zipcode.unavailablePostCard
+            ) {
+              this.zipCodeService
+                .deleteZipcode(zipcode.zipNumber + '-' + id)
+                .subscribe();
+            }
+          });
+        }
         this.campaignForm.reset();
         this.dialogRef.close('update');
       });
@@ -587,7 +625,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
     if (this.zipCodesSubscription) {
       this.zipCodesSubscription.unsubscribe();
     }
-
     if (this.updateCampaignSubscription) {
       this.updateCampaignSubscription.unsubscribe();
     }

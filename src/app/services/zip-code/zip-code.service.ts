@@ -65,7 +65,7 @@ export class ZipCodeService {
     return from(
       updateDoc(zipCodeToUpdate, dataToUpdate)
         .then(() => {
-          console.log('Data updated');
+          console.log('zipcode updated');
         })
         .catch((err) => {
           console.log(err.message);
