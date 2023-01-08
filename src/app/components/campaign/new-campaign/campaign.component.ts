@@ -118,9 +118,10 @@ export class CampaignComponent implements OnInit, OnDestroy {
       this.campaignForm.controls['firstDropVolume'].setValue(
         this.editData.firstDropVolume
       );
-      this.campaignForm.controls['zipcodes'].setValue(
-        this.editData.zipCodeNumbers
-      );
+      this.editData.zipCodeNumbers.forEach((zip: any) => {
+        this.addZipCode(undefined, zip);
+      });
+
       this.campaignForm.controls['totalCampaignVolume'].setValue(
         this.editData.totalCampaignVolume
       );
@@ -152,9 +153,10 @@ export class CampaignComponent implements OnInit, OnDestroy {
     }
   }
 
-  addZipCode(event?: MatChipInputEvent): void {
+  addZipCode(event?: MatChipInputEvent, zipvalue?: string): void {
     let isValueDuplicated = false;
-    const value = (event?.value || '').trim();
+    const value = zipvalue ? zipvalue : (event?.value || '').trim();
+
     if (value) {
       if (!this.campaignForm.controls['campaignType'].value) {
         alert('Please enter the campaign type first');
