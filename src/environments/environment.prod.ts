@@ -7,6 +7,7 @@ export const environment = {
     // messagingSenderId: '539350298323',
     // appId: '1:539350298323:web:f9793d960530dbba66ae26',
     // measurementId: 'G-6CYEKG6NPC',
+    //NOTE: the config bellow is for the draft firebase account
     apiKey: 'AIzaSyAGC1jIibi82kN7FioECuc0fzgwlbw5fhA',
     authDomain: 'maxmail-draft3.firebaseapp.com',
     projectId: 'maxmail-draft3',
