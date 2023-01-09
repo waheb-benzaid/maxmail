@@ -30,6 +30,8 @@ th {
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 1px;
+
+  width: 100%;
 }
 
 .container .page-title {
@@ -46,8 +48,8 @@ th {
 }
 
 .table-container {
-  overflow-y: auto;
-  height: 400px;
+  overflow-y: scroll;
+  height: 250px;
   white-space: nowrap;
 }
 
@@ -142,8 +144,4 @@ td .mat-cell {
 
 .table-container th {
   width: 20%;
-}
-
-table {
-  width: 100%;
 }
