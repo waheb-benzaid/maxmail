@@ -24,6 +24,7 @@ mat-sidenav {
   border-radius: 10px;
   padding: 16px;
   text-align: center;
+  /* overflow: scroll; */
 }
 
 .content {
@@ -31,6 +32,7 @@ mat-sidenav {
   margin: 16px;
   margin-left: 30px;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 mat-sidenav-container {
