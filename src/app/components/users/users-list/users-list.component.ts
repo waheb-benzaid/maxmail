@@ -58,8 +58,8 @@ export class UsersListComponent implements OnInit {
 
   openUserDialog() {
     this.dialog.open(UserRegisterComponent, {
-      height: '550px',
-      width: '540px',
+      height: '640px',
+      width: '410px',
       panelClass: 'borderless-dialog',
     });
   }

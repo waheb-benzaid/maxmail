@@ -1,56 +1,55 @@
 <div class="wrapper">
   <div class="form-container mat-elevation-z5">
-    <div class="margin-left">
-      <h1 mat-dialog-title>Add new user</h1>
-      <div mat-dialog-content style="margin-top: 20px">
-        <form [formGroup]="registerUserForm" (ngSubmit)="submit()">
-          <mat-form-field>
-            <input
-              matInput
-              placeholder="First Name"
-              formControlName="firstName"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <input
-              matInput
-              placeholder="Last Name"
-              formControlName="lastName"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Email" formControlName="email" />
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Role" formControlName="role" />
-          </mat-form-field>
-          <mat-form-field>
-            <input
-              matInput
-              type="password"
-              placeholder="Password"
-              formControlName="password"
-            />
-          </mat-form-field>
-          <mat-form-field style="width: 300px">
-            <input
-              matInput
-              type="password"
-              placeholder="Confirm Password"
-              formControlName="confirmPassword"
-            />
-          </mat-form-field>
-
-          <mat-error *ngIf="registerUserForm.errors?.['passwordsDontMatch']">
-            Passwords should match
-          </mat-error>
-          <div class="margin-top">
-            <button type="submit" mat-raised-button color="primary">
-              Save
-            </button>
-          </div>
-        </form>
+    <h1 mat-dialog-title>Add new user</h1>
+    <form [formGroup]="registerUserForm" (ngSubmit)="submit()">
+      <div class="row">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="First Name"
+            formControlName="firstName"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Last Name" formControlName="lastName" />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Email" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Role" formControlName="role" />
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+          />
+        </mat-form-field>
+        <mat-form-field style="width: 300px">
+          <input
+            matInput
+            type="password"
+            placeholder="Confirm Password"
+            formControlName="confirmPassword"
+          />
+        </mat-form-field>
+        <mat-error *ngIf="registerUserForm.errors?.['passwordsDontMatch']">
+          Passwords should match
+        </mat-error>
       </div>
-    </div>
+
+      <div>
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          style="text-align: left; margin-left: 220px"
+        >
+          Save
+        </button>
+      </div>
+    </form>
   </div>
 </div>
