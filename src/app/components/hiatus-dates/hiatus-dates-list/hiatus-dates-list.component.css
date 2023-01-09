@@ -40,8 +40,8 @@ th {
 }
 
 .table-container {
-  overflow-y: auto;
-  height: 600px;
+  overflow-y: scroll;
+  height: 250px;
   white-space: nowrap;
 }
 
