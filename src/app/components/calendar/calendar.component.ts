@@ -6,16 +6,7 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
+import { startOfDay, subDays, isSameDay, isSameMonth } from 'date-fns';
 import { firstValueFrom, Observable, Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -31,13 +22,10 @@ import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvo
 import { MaxmailCalendarEvent } from '../../models/Maxmail.CalendarEvent.model';
 import { formatDate } from '../../utils/Functions/format-date';
 import { DatePipe } from '@angular/common';
-import { JSDocComment } from '@angular/compiler';
 import { CampaignStatus } from 'src/app/utils/Enums/Campaign Enums/CampaignStatus';
-import { CampaignDetailComponent } from '../campaign/campaign-detail/campaign-detail.component';
 import { MatDialog } from '@angular/material/dialog';
 import { openForms } from 'src/app/utils/Functions/openForm';
 import { DropDetalComponent } from '../drop/drop-detail/drop-detal.component';
-volumeDate$: Observable<VolumeDates[]>;
 const colors: Record<string, EventColor> = {
   red: {
     primary: '#ad2121',
@@ -264,8 +252,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
       campaignStatus: event.campaignStatus,
       nextAvailableDates: undefined,
     };
-    console.log(event.campaignStatus);
-
     openForms(
       this.dialog,
       DropDetalComponent,
