@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { startOfDay, subDays, isSameDay, isSameMonth } from 'date-fns';
 import { firstValueFrom, Observable, Subject, Subscription } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
