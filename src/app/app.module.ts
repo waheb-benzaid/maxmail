@@ -72,6 +72,7 @@ import { CampaignStatusesComponent } from './components/dashboard/campaign-statu
 import { TodaysDropsComponent } from './components/dashboard/todays-drops/todays-drops.component';
 import { MostRecentCampaignsComponent } from './components/dashboard/most-recent-campaigns/most-recent-campaigns.component';
 import { UpCommingDropsComponent } from './components/dashboard/up-comming-drops/up-comming-drops.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { UpCommingDropsComponent } from './components/dashboard/up-comming-drops
     UpCommingDropsComponent,
   ],
   imports: [
+    MatCardModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
