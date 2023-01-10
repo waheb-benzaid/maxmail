@@ -1,10 +1,27 @@
 .container {
   display: flex;
   padding: 20px;
-  margin: 0;
+  /* margin: 40px; */
+  margin-left: 40px;
+  margin-top: 80px;
 }
-.container2 {
-  display: flex;
-  padding: 20px;
-  margin: 0;
+
+.statuses {
+  width: 700px;
+  height: 900px;
+}
+
+.todays-drops {
+  width: 700px;
+  height: 900px;
+}
+
+.recent-campaigns {
+  width: 700px;
+  height: 900px;
+}
+
+.upcoming-drops {
+  width: 700px;
+  height: 900px;
 }

@@ -1,4 +1,4 @@
-<div class="recent-drops">
+<!-- <div class="recent-drops">
   <div class="title">Up comming drops (30 Days)</div>
   <div class="content">
     <div *ngFor="let drop of upcommingDrops">
@@ -24,4 +24,33 @@
       </ul>
     </div>
   </div>
-</div>
+</div> -->
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Up comming drops (30 Days)</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="drops" *ngFor="let drop of upcommingDrops">
+      <ul>
+        Drop
+        {{
+          drop.dropNumber
+        }}
+        :
+        {{
+          drop.dropDate | date : "MM/dd/YYYY"
+        }}
+        -
+        {{
+          drop.contactName
+        }}
+        -
+        {{
+          drop.accountName
+        }}
+      </ul>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-card-content>
+</mat-card>

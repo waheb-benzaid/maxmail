@@ -1,4 +1,4 @@
-<div class="recent-drops">
+<!-- <div class="recent-drops">
   <div class="title">Today's Drops</div>
   <div class="content">
     <div *ngFor="let campaign of allCampaigns$ | async as Campaign">
@@ -28,4 +28,36 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Today's Drops</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div *ngFor="let campaign of allCampaigns$ | async as Campaign">
+      <div *ngFor="let drop of campaign.drops">
+        <div class="drops" *ngIf="drop.dropDate === todayDateString">
+          <ul>
+            Drop
+            {{
+              drop.dropNumber
+            }}
+            :
+            {{
+              drop.dropDate | date : "MM/dd/YYYY"
+            }}
+            -
+            {{
+              campaign.contactName
+            }}
+            -
+            {{
+              campaign.accountName
+            }}
+          </ul>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-card-content>
+</mat-card>

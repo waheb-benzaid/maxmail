@@ -1,4 +1,4 @@
-<div class="recent-drops">
+<!-- <div class="recent-drops">
   <div class="title">Recent created Campaigns (30 days)</div>
   <div *ngFor="let campaign of campaigns">
     <ul>
@@ -21,4 +21,32 @@
       --------------------------------------------------------------------------------------------
     </ul>
   </div>
-</div>
+</div> -->
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Recent created Campaigns</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="campaigns" *ngFor="let campaign of campaigns">
+      <ul>
+        {{
+          "00" + campaign.campaignNumber
+        }}
+        :
+        {{
+          campaign.createdAt | date : "MM/dd/YYYY"
+        }}
+        -
+        {{
+          campaign.contactName
+        }}
+        -
+        {{
+          campaign.accountName
+        }}
+      </ul>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-card-content>
+</mat-card>
