@@ -1,16 +1,12 @@
 .container {
   display: flex;
-  padding: 20px;
-  /* margin: 40px; */
-  margin-left: 40px;
-  margin-top: 80px;
+  padding: 60px;
+  margin-left: 20px;
 }
-
 .statuses {
-  width: 700px;
+  width: 600px;
   height: 900px;
 }
-
 .todays-drops {
   width: 700px;
   height: 900px;

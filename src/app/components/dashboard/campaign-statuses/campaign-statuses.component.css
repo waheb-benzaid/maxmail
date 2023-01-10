@@ -1,27 +1,31 @@
 .active {
   color: blue;
   text-align: center;
-  margin-top: 20px;
   font-size: larger;
+  margin-top: 20%;
 }
 
 .completed {
   color: green;
   text-align: center;
-  margin-top: 30%;
   font-size: larger;
+  margin-top: 20%;
 }
 
 .suspended {
   color: red;
   text-align: center;
-  margin-top: 20px;
   font-size: larger;
+  margin-top: 20%;
 }
 
 .cancelled {
   color: orange;
   text-align: center;
-  margin-top: 30%;
   font-size: larger;
+  margin-top: 20%;
+}
+
+.title {
+  text-align: center;
 }

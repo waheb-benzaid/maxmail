@@ -36,25 +36,23 @@
     <div class="statuses">
       <div class="active" *ngIf="activeCampaign$ | async as list">
         {{ list.length }}
-        <br />
-        <br />
-        <span> Active </span>
+        <br /><br />
+        Active
       </div>
       <div class="suspended" *ngIf="suspendedCampaign$ | async as list">
         {{ list.length }}
-        <br />
-        <br />
+        <br /><br />
         Suspended
       </div>
       <div class="completed" *ngIf="completedCampaign$ | async as list">
         {{ list.length }}
-        <br />
-        <br />Completed
+        <br /><br />
+        Completed
       </div>
       <div class="cancelled" *ngIf="cancelledCampaign$ | async as list">
         {{ list.length }}
-        <br />
-        <br />Cancelled
+        <br /><br />
+        Cancelled
       </div>
     </div>
   </mat-card-content>
