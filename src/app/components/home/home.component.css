@@ -32,7 +32,7 @@ mat-sidenav {
   margin: 16px;
   margin-left: 30px;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: auto;
 }
 
 mat-sidenav-container {
