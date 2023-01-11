@@ -258,8 +258,9 @@ export class CampaignComponent implements OnInit, OnDestroy {
     zipcodesObject.campaignID = campaignID!;
     return zipcodesObject;
   }
+
   zipcodeToUpdate: ZipCode[] = [];
-  remove(zipCode: ZipCode): void {
+  removeZipcode(zipCode: ZipCode): void {
     if (this.editData) {
       zipCode.campaignID = this.editData.id;
       this.zipcodeToUpdate.push(zipCode);
@@ -375,8 +376,9 @@ export class CampaignComponent implements OnInit, OnDestroy {
       objectToInsert.campaignName = campaignObject.campaignName;
       objectToInsert.dropCreationMode = dropCreationMode.autoMode;
       let dateVolume = new Date(dropDate);
+
       let maxVolume: number =
-        this.getVolume(dateVolume) + campaignObject.firstDropVolume;
+        this.getVolume(dateVolume) + objectToInsert.dropVolume;
       let isHiatusDate =
         this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
       while (isHiatusDate || maxVolume >= 50000) {
@@ -388,7 +390,7 @@ export class CampaignComponent implements OnInit, OnDestroy {
         isHiatusDate =
           this.hiatusDatesService.hiatusDatesArray.includes(dropDate);
         maxVolume =
-          this.getVolume(new Date(dropDate)) + campaignObject.firstDropVolume;
+          this.getVolume(new Date(dropDate)) + objectToInsert.dropVolume;
       }
       objectToInsert.dropDate = formatDate(dropDate, this.datePipe);
       this.drops.push(objectToInsert);
@@ -560,8 +562,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
   }
   updateCampaignSubscription!: Subscription;
   updateCampaign(id: string) {
-    console.log(this.zipcodeToUpdate, 'zip code to update');
-
     const { createdAt, campaignID, campaignNumber, ...campaignDataToUpdate } =
       this.getCampaignObject();
     this.updateCampaignSubscription = this.campaignService

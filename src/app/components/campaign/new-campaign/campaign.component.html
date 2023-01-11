@@ -92,7 +92,7 @@
           <mat-chip-list #chipList aria-label="Zip Codes">
             <mat-chip
               *ngFor="let zipCode of zipCodes"
-              (removed)="remove(zipCode)"
+              (removed)="removeZipcode(zipCode)"
             >
               {{ zipCode.zipNumber }}
               <button matChipRemove>
