@@ -7,14 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Drop } from 'src/app/models/Drop.model';
 import { formatDate } from '../../../utils/Functions/format-date';
 import { CampaignService } from 'src/app/services/campaign/campaign.service';
-import {
-  firstValueFrom,
-  map,
-  Observable,
-  retry,
-  startWith,
-  Subscription,
-} from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { Campaign } from 'src/app/models/Campaign.model';
 import { DropvolumeDatesService } from 'src/app/services/dropvolume-dates/dropvolume-dates.service';
 import { VolumeDates } from 'src/app/models/VolumeDates.model';
@@ -41,14 +34,7 @@ export class NewDropComponent implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     private dropVolumeDateService: DropvolumeDatesService
   ) {}
-  ngOnDestroy(): void {
-    if (this.updateCampaignSubscription) {
-      this.updateCampaignSubscription.unsubscribe();
-    }
-    if (this.volumeSubscription) {
-      this.volumeSubscription.unsubscribe();
-    }
-  }
+
   searchText: any;
   actionButton: string = 'Save';
   dropForm = new FormGroup({
@@ -70,18 +56,18 @@ export class NewDropComponent implements OnInit, OnDestroy {
       option.toLowerCase().includes(filterValue)
     );
   }
-  volumeSubscription!: Subscription;
-  volumeDatesList: VolumeDates[] = [];
+  // volumeSubscription!: Subscription;
+  // volumeDatesList: VolumeDates[] = [];
   ngOnInit(): void {
     this.campaigns$ = this.campaignService.getAllCampaigns();
-    this.volumeDatesList.length = 0;
-    this.volumeSubscription = this.dropVolumeDateService
-      .getAllVolumeDate()
-      .subscribe((res) => {
-        res.forEach((vd) => {
-          this.volumeDatesList.push(vd);
-        });
-      });
+    // this.volumeDatesList.length = 0;
+    // this.volumeSubscription = this.dropVolumeDateService
+    //   .getAllVolumeDate()
+    //   .subscribe((res) => {
+    //     res.forEach((vd) => {
+    //       this.volumeDatesList.push(vd);
+    //     });
+    //   });
     if (this.editMode) {
       this.data = this.editMode;
       this.actionButton = 'Edit';
@@ -288,5 +274,22 @@ export class NewDropComponent implements OnInit, OnDestroy {
         console.log('drop deleted');
         this.dialogRef.close('delete');
       });
+  }
+
+  isChecked: boolean = false;
+
+  updateVolumeDate(dropCompleted: boolean) {
+    this.isChecked = dropCompleted;
+    if (dropCompleted) {
+      this.dropVolumeDateService.removeVolumeByDrop(this.editMode);
+    } else {
+      this.dropVolumeDateService.addVolumeByDrop(this.editMode);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.updateCampaignSubscription) {
+      this.updateCampaignSubscription.unsubscribe();
+    }
   }
 }
