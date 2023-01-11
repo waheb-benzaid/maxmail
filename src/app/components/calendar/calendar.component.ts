@@ -154,7 +154,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
         objectToInsert.start = subDays(startOfDay(new Date(drop.dropDate)), 0);
         objectToInsert.allDay = true;
         objectToInsert.color = this.calendarDropsColors(
-          campaign.campaignStatus
+          campaign.campaignStatus,
+          drop.isDropCompleted
         );
         objectToInsert.campaignName = drop.campaignName;
         objectToInsert.dropNumber = drop.dropNumber;
@@ -175,9 +176,22 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.events = this.eventsToDisplay;
   }
 
-  calendarDropsColors(campaignStatus: string): EventColor {
+  calendarDropsColors(
+    campaignStatus: string,
+    dropCompleted: boolean
+  ): EventColor {
     let color: any;
-    if (campaignStatus === CampaignStatus.ACTIVE) {
+    let completed =
+      campaignStatus === CampaignStatus.COMPLETED ||
+      (dropCompleted &&
+        (campaignStatus === CampaignStatus.ACTIVE ||
+          campaignStatus === CampaignStatus.COMPLETED));
+
+    if (completed) {
+      color = { ...colors['green'] };
+    }
+
+    if (campaignStatus === CampaignStatus.ACTIVE && !dropCompleted) {
       color = { ...colors['blue'] };
     }
 
@@ -187,10 +201,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     if (campaignStatus === CampaignStatus.CANCELLED) {
       color = { ...colors['red'] };
-    }
-
-    if (campaignStatus === CampaignStatus.COMPLETED) {
-      color = { ...colors['green'] };
     }
     return color;
   }
