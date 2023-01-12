@@ -151,9 +151,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.drops.push(campaign.drops as unknown as Drop);
       campaign.drops.forEach((drop) => {
         let objectToInsert = new Object() as MaxmailCalendarEvent;
-        objectToInsert.title = `${drop.accountName} : ${drop.dropVolume} ${
-          drop.isDropCompleted ? '[Completed]' : ''
-        }`;
+        objectToInsert.title = `${drop.accountName} - Volume : ${drop.dropVolume} - Campaign Status : [${campaign.campaignStatus}] -
+        Drop Completed ? [${drop.isDropCompleted}]
+        `;
         objectToInsert.start = subDays(startOfDay(new Date(drop.dropDate)), 0);
         objectToInsert.allDay = true;
         objectToInsert.color = this.calendarDropsColors(
