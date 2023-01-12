@@ -69,6 +69,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     private datePipe: DatePipe,
     public dialog: MatDialog
   ) {}
+  ActivedropsCount = 0;
   isDetailDialog = false;
   volumeDatesList: VolumeDates[] = [];
   getVolume(date: Date): number {
@@ -150,7 +151,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.drops.push(campaign.drops as unknown as Drop);
       campaign.drops.forEach((drop) => {
         let objectToInsert = new Object() as MaxmailCalendarEvent;
-        objectToInsert.title = `${drop.accountName} : ${drop.dropVolume}`;
+        objectToInsert.title = `${drop.accountName} : ${drop.dropVolume} ${
+          drop.isDropCompleted ? '[Completed]' : ''
+        }`;
         objectToInsert.start = subDays(startOfDay(new Date(drop.dropDate)), 0);
         objectToInsert.allDay = true;
         objectToInsert.color = this.calendarDropsColors(
