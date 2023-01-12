@@ -42,12 +42,12 @@ th {
   flex: none;
   order: 0;
   flex-grow: 0;
-  margin: 40px 0 40px 0;
+  margin: 10px 0 15px 0;
 }
 
 .table-container {
   overflow-y: scroll;
-  height: 250px;
+  height: 280px;
   white-space: nowrap;
 }
 
