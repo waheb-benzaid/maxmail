@@ -24,7 +24,10 @@
         <!------------------------------------------------------>
         <mat-form-field appearance="outline">
           <mat-label>Campaign Status</mat-label>
-          <mat-select formControlName="campaignStatus">
+          <mat-select
+            formControlName="campaignStatus"
+            (valueChange)="campaignStatusChanges($event)"
+          >
             <mat-option value="Active">Active</mat-option>
             <mat-option value="Suspended">Suspended</mat-option>
             <mat-option value="Cancelled">Cancelled</mat-option>
@@ -222,6 +225,7 @@
       class="close-button"
       mat-raised-button
       color="warm"
+      (click)="closeForm()"
       mat-dialog-close
     >
       Cancel
