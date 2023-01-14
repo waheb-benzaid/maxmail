@@ -45,6 +45,9 @@ export class DropvolumeDatesService {
   }
 
   updateVolume(date: string, dataToUpdate: any) {
+    console.log(date, 'id');
+    console.log(dataToUpdate, 'dataToUpdate');
+
     const VolumeDatesToUpdate = doc(
       this.firestoreDB,
       `mail_drop_volume_dates`,
@@ -62,6 +65,7 @@ export class DropvolumeDatesService {
   }
 
   removeDropVolumeFromCalendar(campaign: Campaign) {
+    //NOTE: this methode is used when the Campaign status get changed
     let volumeDate: VolumeDates;
     let volumeDates$: Observable<VolumeDates>;
     const deleteCount = 1;
@@ -78,10 +82,29 @@ export class DropvolumeDatesService {
     });
   }
 
-  async removeVolumeByDrop(drop: Drop) {
-    //NOTE: this method will be invoked when drop status is changed
+  addDropVolumeToCalendar(drops: Drop[]) {
+    //NOTE: this methode is used when the Campaign status get changed
     let volumeDate: VolumeDates;
     let volumeDates$: Observable<VolumeDates>;
+    let i = 0;
+    drops.forEach((drop) => {
+      i++;
+      //volumeDates$ =
+      this.getVolumeDateByID(drop.dropDate).subscribe((res) => {
+        const volumeToUpdate = res;
+        volumeToUpdate.volume.push(drop.dropVolume);
+        this.updateVolume(drop.dropDate, volumeToUpdate);
+      });
+      // volumeDate =  firstValueFrom(volumeDates$);
+      // console.log(drop.dropVolume, 'dropVolume from the function');
+      // volumeDate.volume.push(drop.dropVolume);
+    });
+  }
+
+  async removeVolumeByDrop(drop: Drop) {
+    //NOTE: this methode will be invoked when drop status is changed
+    let volumeDate: VolumeDates = new Object() as VolumeDates;
+    let volumeDates$: Observable<VolumeDates> = new Observable();
     const deleteCount = 1;
     volumeDates$ = this.getVolumeDateByID(drop.dropDate);
     volumeDate = await firstValueFrom(volumeDates$);
@@ -96,9 +119,8 @@ export class DropvolumeDatesService {
 
   async addVolumeByDrop(drop: Drop) {
     //NOTE: this method will be invoked when drop status is changed
-    let volumeDate: VolumeDates;
-    let volumeDates$: Observable<VolumeDates>;
-    const deleteCount = 1;
+    let volumeDate: VolumeDates = new Object() as VolumeDates;
+    let volumeDates$: Observable<VolumeDates> = new Observable();
     volumeDates$ = this.getVolumeDateByID(drop.dropDate);
     volumeDate = await firstValueFrom(volumeDates$);
     volumeDate.volume.push(drop.dropVolume);

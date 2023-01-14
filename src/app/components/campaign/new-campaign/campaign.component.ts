@@ -561,6 +561,15 @@ export class CampaignComponent implements OnInit, OnDestroy {
     this.updateCampaign(this.editData.id);
   }
   updateCampaignSubscription!: Subscription;
+
+  statusAfterChange: string = '';
+  campaignStatusChanges(status: string) {
+    //NOTE: the status is needed to add or remove volumes form the calendar when the edit mode is enabled
+    if (this.editData) {
+      this.statusAfterChange = status;
+    }
+  }
+
   updateCampaign(id: string) {
     const { createdAt, campaignID, campaignNumber, ...campaignDataToUpdate } =
       this.getCampaignObject();
@@ -574,11 +583,6 @@ export class CampaignComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(() => {
-        if (this.getCampaignObject().campaignStatus !== CampaignStatus.ACTIVE) {
-          this.dropVolumeDateService.removeDropVolumeFromCalendar(
-            this.getCampaignObject()
-          );
-        }
         if (this.zipcodeToUpdate.length > 0) {
           //FIXME: unsebscribe from all subscriptions
           this.zipcodeToUpdate.forEach((zipcode) => {
@@ -614,6 +618,23 @@ export class CampaignComponent implements OnInit, OnDestroy {
         this.campaignForm.reset();
         this.dialogRef.close('update');
       });
+    campaignDataToUpdate.drops.forEach((drop) => {
+      if (
+        this.statusAfterChange === CampaignStatus.CANCELLED ||
+        this.statusAfterChange === CampaignStatus.SUSPENDED ||
+        this.statusAfterChange === CampaignStatus.COMPLETED
+      ) {
+        this.dropVolumeDateService.removeVolumeByDrop(drop);
+      } else if (this.statusAfterChange === CampaignStatus.ACTIVE) {
+        this.dropVolumeDateService.addVolumeByDrop(drop);
+      }
+    });
+  }
+
+  closeForm() {
+    // if (this.isstatusChanged) {
+    //   window.
+    // }
   }
 
   ngOnDestroy(): void {
