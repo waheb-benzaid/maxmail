@@ -496,10 +496,10 @@ export class CampaignComponent implements OnInit, OnDestroy {
   saveCampaignSubscription!: Subscription;
   addCampaign() {
     if (!this.editData) {
-      // if (!this.campaignForm.valid) {
-      //   alert('some required fields are empty!');
-      //   return;
-      // }
+      if (!this.campaignForm.valid) {
+        alert('some required fields are empty!');
+        return;
+      }
       const { firstDropDate } = this.campaignForm.value;
       let date = new Date(firstDropDate!);
       let day = getDay(date);
